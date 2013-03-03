@@ -7,6 +7,9 @@ Written in Clojure with Noir. Requires Leiningen for easy building and running a
 
 Run 'lein run' to start the app and open http://localhost:8080 in a browser.
 
+For development make sure you run 'lein cljsbuild auto' to regenerate the javascript when 
+changes are made to any clojurescript code.
+
 
 todo
 ====
