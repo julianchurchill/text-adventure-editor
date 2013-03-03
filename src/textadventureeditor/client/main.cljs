@@ -7,21 +7,31 @@
 
 (def editor (canvas/init (.get ($ :#canvas) 0)))
 
+(defn font-style-that-works [ctx color]
+  (set! (.-font ctx) color)
+  ctx)
+
 (defn fill-style-that-works [ctx color]
   (set! (.-fillStyle ctx) color)
   ctx)
 
-(defn fill-style-that-doesnt-work [ctx color]
-  (set! ctx.fillStyle color)
+(defn stroke-style-that-works [ctx color]
+  (set! (.-strokeStyle ctx) color)
+  ctx)
+
+(defn stroke-width-that-works [ctx color]
+  (set! (.-lineWidth ctx) color)
+  ctx)
+
+(defn alpha-that-works [ctx color]
+  (set! (.-globalAlpha ctx) color)
   ctx)
 
 (defn draw-box [ctx me]
   (-> ctx
-;      (canvas/fill-style "#143")
       (fill-style-that-works "143")
-;      (fill-style-that-doesnt-work "143")
-      (canvas/stroke-style "#175")
-      (canvas/stroke-width 2)
+      (stroke-style-that-works "#175")
+      (stroke-width-that-works 2)
       (canvas/rect me)
       (canvas/stroke)))
 
