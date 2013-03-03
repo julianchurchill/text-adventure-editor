@@ -15,7 +15,7 @@
               [{:source-paths ["src/textadventureeditor/client"],
                 :compiler
                 {:output-to "resources/public/js/main.js",
-                 :optimizations :whitespace,
+                 :optimizations :simple,
                  ;need this if optimization == advanced
                  ; also need to include jquery.js in our source
                  ;:externs ["externs/jquery.js"],

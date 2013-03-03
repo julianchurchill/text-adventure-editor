@@ -5,7 +5,7 @@
 
 (defpartial editor []
   [:div#editor
-   [:canvas#canvas {:width 600 :height 650 :tabindex 1}]])
+   [:canvas#canvas {:width 800 :height 650 :tabindex 1}]])
 
 (defpage "/" []
          (common/layout
