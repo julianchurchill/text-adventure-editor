@@ -3,8 +3,6 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [noir "1.3.0-beta3"]
                  [monet "0.1.0-SNAPSHOT"]
-                 ;                           [waltz "0.1.0-SNAPSHOT"]
-                 ;                 					 [fetch "0.1.0-SNAPSHOT"]
                  [jayq "2.3.0"]]
 
   ;; Add lein-cljsbuild plugin
