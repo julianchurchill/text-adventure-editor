@@ -1,4 +1,4 @@
-(ns text-adventure-editor.views.common
+(ns textadventureeditor.views.common
   (:use [noir.core :only [defpartial]]
         [hiccup.page :only [include-css html5]]))
 
