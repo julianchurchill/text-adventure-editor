@@ -13,7 +13,7 @@
 
 (def editor (canvas/init (.get ($ :#canvas) 0)))
 
-(defn draw-box [ctx me]
+(defn draw-editor [ctx me]
   (-> ctx
       (fill-style-that-works "143")
       (stroke-style-that-works "#175")
@@ -24,5 +24,32 @@
 (canvas/add-entity editor :editor
                    (canvas/entity {:x 0 :y 0 :w 800 :h 650}
                                   nil ;;update function
-                                  draw-box))
+                                  draw-editor))
 
+(def locations (atom {}))
+
+(defn make-location [x y]
+  (if-not (@locations [x y])
+    (swap! locations assoc [x y] {:x x :y y :w 40 :h 40 :type :location})
+    (swap! locations dissoc [x y])))
+
+(defn draw-location [ctx location]
+  (-> ctx
+      (fill-style-that-works "222")
+      (stroke-style-that-works "#175")
+      (stroke-width-that-works 2)
+      (canvas/rect location)
+      (canvas/stroke)))
+
+(defn draw-locations [ctx me]
+  (doseq [l (vals @locations)]
+    (draw-location ctx l)))
+
+(canvas/add-entity editor :locations
+                   (canvas/entity {}
+                                  nil ;; update function
+                                  draw-locations))
+
+(make-location 100 100)
+(make-location 300 200)
+(make-location 300 300)
