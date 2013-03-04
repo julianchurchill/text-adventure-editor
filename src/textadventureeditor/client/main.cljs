@@ -33,14 +33,29 @@
 (defn make-location [x y id description]
   (if-not (@locations [x y])
     (swap! locations assoc [x y]
-           {:x x :y y :w 40 :h 40 :type :location :id id :description description})
-    (swap! locations dissoc [x y])))
+           {:x x :y y :w 40 :h 40 :type :location :id id :description description :current false}))
+  (@locations [x y]))
+
+(defn loc-fill-style [location]
+  (if (:current location)
+    "87"
+	  "222"))
+
+(defn loc-stroke-style [location]
+  (if (:current location)
+    "154"
+	  "175"))
+
+(defn loc-stroke-width [location]
+  (if (:current location)
+    5
+  	1))
 
 (defn draw-location [ctx location]
   (-> ctx
-      (fill-style-that-works "222")
-      (stroke-style-that-works "#175")
-      (stroke-width-that-works 2)
+      (fill-style-that-works (loc-fill-style location))
+      (stroke-style-that-works (loc-stroke-style location))
+      (stroke-width-that-works (loc-stroke-width location))
       (canvas/rect location)
       (canvas/stroke)))
 
@@ -70,12 +85,30 @@
         (this-as me
           (set! (.-focused me) false))))
 
-(defn location-at [x y]
-  (first (filter #(geo/in-bounds? % x y) (vals @locations))))
-
 (defn show-location-information [location]
   (set-value "location id" (:id location))
   (set-value "location description" (:description location)))
+
+(defn find-current-location []
+  (first (filter #(:current %) (vals @locations))))
+
+(defn change-location-property [location param value]
+  (swap! locations assoc [(:x location) (:y location)] 
+         (assoc location param value)))
+
+(defn make-location-current [location]
+  (let [currentloc (find-current-location)]
+    (when currentloc
+		  (change-location-property currentloc :current false)))
+  (change-location-property location :current true)
+  (show-location-information location))
+
+(defn make-new-location [x y]
+  (make-location-current 
+   (make-location x y "new id" "new description")))
+
+(defn location-at [x y]
+  (first (filter #(geo/in-bounds? % x y) (vals @locations))))
 
 (defn canvas-mousedown [e]
   (this-as me
@@ -84,10 +117,10 @@
            (when (.-focused me)
              (let [location (location-at x y)]
                (if location
-                 (show-location-information location)
-                 (make-location x y "new id" "new description")))))))
+                 (make-location-current location)
+                 (make-new-location x y)))))))
 
 (bind ($ :#canvas) :mousedown
       canvas-mousedown)
 
-(show-location-information (first (vals @locations)))
+(make-location-current (first (vals @locations)))
