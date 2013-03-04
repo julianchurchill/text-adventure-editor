@@ -1,7 +1,9 @@
 (ns textadventureeditor.client.main
   (:require [monet.canvas :as canvas]
-            [monet.geometry :as geo])
-  (:use [jayq.core :only [$]]
+            [monet.geometry :as geo]
+            [goog.dom :as dom])
+  (:use-macros [cljs.core :only [this-as]])
+  (:use [jayq.core :only [$ bind]]
         [textadventureeditor.client.monetfixes 
          :only [font-style-that-works
                 fill-style-that-works
@@ -54,3 +56,25 @@
 (make-location 100 100 "loc1" "description1")
 (make-location 300 200 "loc2" "description2")
 (make-location 300 300 "loc3" "description3")
+
+(defn set-value [id val]
+  (set! (.-value (dom/getElement id)) val))
+
+(set-value "location id" "new id")
+(set-value "location description" "new description")
+
+(bind ($ :#canvas) :focus
+      (fn [e]
+        (this-as me
+          (set! (.-focused me) true))))
+
+(bind ($ :#canvas) :blur
+      (fn [e]
+        (this-as me
+          (set! (.-focused me) false))))
+
+(bind ($ :#canvas) :mousedown
+      (fn [e]
+        (this-as me
+          (when (.-focused me)
+            (make-location (.-offsetX e) (.-offsetY e) "new loc id" "new loc description")))))
