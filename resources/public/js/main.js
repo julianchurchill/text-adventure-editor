@@ -358,6 +358,13 @@ goog.base = function(a, b, c) {
 goog.scope = function(a) {
   a.call(goog.global)
 };
+goog.debug = {};
+goog.debug.Error = function(a) {
+  Error.captureStackTrace ? Error.captureStackTrace(this, goog.debug.Error) : this.stack = Error().stack || "";
+  a && (this.message = String(a))
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.string = {};
 goog.string.Unicode = {NBSP:"\u00a0"};
 goog.string.startsWith = function(a, b) {
@@ -687,13 +694,6 @@ goog.string.parseInt = function(a) {
   isFinite(a) && (a = String(a));
   return goog.isString(a) ? /^\s*-?0x/i.test(a) ? parseInt(a, 16) : parseInt(a, 10) : NaN
 };
-goog.debug = {};
-goog.debug.Error = function(a) {
-  Error.captureStackTrace ? Error.captureStackTrace(this, goog.debug.Error) : this.stack = Error().stack || "";
-  a && (this.message = String(a))
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.asserts = {};
 goog.asserts.ENABLE_ASSERTS = goog.DEBUG;
 goog.asserts.AssertionError = function(a, b) {
@@ -12694,386 +12694,27 @@ cljs.core.UUID.prototype.cljs$core$IEquiv$_equiv$arity$2 = function(a, b) {
 cljs.core.UUID.prototype.toString = function() {
   return cljs.core.pr_str.call(null, this)
 };
-var monet = {geometry:{}};
-monet.geometry.distance = function(a, b) {
-  var c = (new cljs.core.Keyword("\ufdd0'x")).call(null, b) - (new cljs.core.Keyword("\ufdd0'x")).call(null, a), d = (new cljs.core.Keyword("\ufdd0'y")).call(null, b) - (new cljs.core.Keyword("\ufdd0'y")).call(null, a), e = cljs.core._EQ_.call(null, 0, c) ? c : c / Math.abs.call(null, c), f = cljs.core._EQ_.call(null, 0, d) ? d : d / Math.abs.call(null, d), g = Math.sqrt.call(null, Math.pow.call(null, c, 2) + Math.pow.call(null, d, 2));
-  return cljs.core.ObjMap.fromObject(["\ufdd0'delta", "\ufdd0'dir", "\ufdd0'dist"], {"\ufdd0'delta":cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":c, "\ufdd0'y":d}), "\ufdd0'dir":cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":e, "\ufdd0'y":f}), "\ufdd0'dist":g})
-};
-monet.geometry.bottom_right = function(a) {
-  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'r", null), c = cljs.core._lookup.call(null, b, "\ufdd0'h", null), d = cljs.core._lookup.call(null, b, "\ufdd0'w", null), e = cljs.core._lookup.call(null, b, "\ufdd0'y", null), b = cljs.core._lookup.call(null, b, "\ufdd0'x", null);
-  return cljs.core.truth_(a) ? cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b + a, "\ufdd0'y":e + a}) : cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b + d, "\ufdd0'y":e + c})
-};
-monet.geometry.top_left = function(a) {
-  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'r", null), c = cljs.core._lookup.call(null, b, "\ufdd0'y", null), b = cljs.core._lookup.call(null, b, "\ufdd0'x", null);
-  return cljs.core.truth_(a) ? cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b - a, "\ufdd0'y":c - a}) : cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b, "\ufdd0'y":c})
-};
-monet.geometry.in_radius_QMARK_ = function(a, b, c) {
-  a = monet.geometry.distance.call(null, a, b);
-  a = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a;
-  return cljs.core._lookup.call(null, a, "\ufdd0'dist", null) < c
-};
-monet.geometry.collision_QMARK_ = function(a, b) {
-  var c = monet.geometry.bottom_right.call(null, a), d = monet.geometry.top_left.call(null, a), e = monet.geometry.bottom_right.call(null, b), f = monet.geometry.top_left.call(null, b), g;
-  g = (g = (new cljs.core.Keyword("\ufdd0'y")).call(null, d) < (new cljs.core.Keyword("\ufdd0'y")).call(null, e)) ? (new cljs.core.Keyword("\ufdd0'y")).call(null, f) < (new cljs.core.Keyword("\ufdd0'y")).call(null, c) : g;
-  return cljs.core.truth_(g) ? (d = (new cljs.core.Keyword("\ufdd0'x")).call(null, d) < (new cljs.core.Keyword("\ufdd0'x")).call(null, e)) ? (new cljs.core.Keyword("\ufdd0'x")).call(null, f) < (new cljs.core.Keyword("\ufdd0'x")).call(null, c) : d : g
-};
-monet.geometry.contained_QMARK_ = function(a, b) {
-  var c = monet.geometry.bottom_right.call(null, a), d = monet.geometry.top_left.call(null, a), e = monet.geometry.bottom_right.call(null, b), f = monet.geometry.top_left.call(null, b);
-  var g = (new cljs.core.Keyword("\ufdd0'x")).call(null, d) < (new cljs.core.Keyword("\ufdd0'x")).call(null, f), d = g ? (new cljs.core.Keyword("\ufdd0'y")).call(null, d) < (new cljs.core.Keyword("\ufdd0'y")).call(null, f) : g;
-  return cljs.core.truth_(d) ? (d = (new cljs.core.Keyword("\ufdd0'x")).call(null, c) > (new cljs.core.Keyword("\ufdd0'x")).call(null, e)) ? (new cljs.core.Keyword("\ufdd0'y")).call(null, c) > (new cljs.core.Keyword("\ufdd0'y")).call(null, e) : d : d
-};
-monet.geometry.in_bounds_QMARK_ = function(a, b, c) {
-  var d = monet.geometry.bottom_right.call(null, a), a = monet.geometry.top_left.call(null, a);
-  var e = (new cljs.core.Keyword("\ufdd0'x")).call(null, a) < b, b = e ? b < (new cljs.core.Keyword("\ufdd0'x")).call(null, d) : e;
-  return cljs.core.truth_(b) ? (b = (new cljs.core.Keyword("\ufdd0'y")).call(null, a) < c) ? c < (new cljs.core.Keyword("\ufdd0'y")).call(null, d) : b : b
-};
-monet.core = {};
-monet.core.animation_frame = function() {
-  var a = window.requestAnimationFrame;
-  if(cljs.core.truth_(a)) {
-    return a
-  }
-  a = window.webkitRequestAnimationFrame;
-  if(cljs.core.truth_(a)) {
-    return a
-  }
-  a = window.mozRequestAnimationFrame;
-  if(cljs.core.truth_(a)) {
-    return a
-  }
-  a = window.oRequestAnimationFrame;
-  if(cljs.core.truth_(a)) {
-    return a
-  }
-  a = window.msRequestAnimationFrame;
-  return cljs.core.truth_(a) ? a : function(a) {
-    return setTimeout(a, 17)
-  }
-}();
-monet.canvas = {};
-monet.canvas.get_context = function(a, b) {
-  return a.getContext(cljs.core.name.call(null, b))
-};
-monet.canvas.begin_path = function(a) {
-  a.beginPath();
+var textadventureeditor = {client:{}};
+textadventureeditor.client.monetfixes = {};
+textadventureeditor.client.monetfixes.font_style_that_works = function(a, b) {
+  a.font = b;
   return a
 };
-monet.canvas.close_path = function(a) {
-  a.closePath();
+textadventureeditor.client.monetfixes.fill_style_that_works = function(a, b) {
+  a.fillStyle = b;
   return a
 };
-monet.canvas.fill = function(a) {
-  a.fill();
+textadventureeditor.client.monetfixes.stroke_style_that_works = function(a, b) {
+  a.strokeStyle = b;
   return a
 };
-monet.canvas.stroke = function(a) {
-  a.stroke();
+textadventureeditor.client.monetfixes.stroke_width_that_works = function(a, b) {
+  a.lineWidth = b;
   return a
 };
-monet.canvas.clear_rect = function(a, b) {
-  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'h", null), e = cljs.core._lookup.call(null, c, "\ufdd0'w", null), f = cljs.core._lookup.call(null, c, "\ufdd0'y", null), c = cljs.core._lookup.call(null, c, "\ufdd0'x", null);
-  a.clearRect(c, f, e, d);
+textadventureeditor.client.monetfixes.alpha_that_works = function(a, b) {
+  a.globalAlpha = b;
   return a
-};
-monet.canvas.rect = function(a, b) {
-  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'h", null), e = cljs.core._lookup.call(null, c, "\ufdd0'w", null), f = cljs.core._lookup.call(null, c, "\ufdd0'y", null), c = cljs.core._lookup.call(null, c, "\ufdd0'x", null);
-  monet.canvas.begin_path.call(null, a);
-  a.rect(c, f, e, d);
-  monet.canvas.close_path.call(null, a);
-  monet.canvas.fill.call(null, a);
-  return a
-};
-monet.canvas.circle = function(a, b) {
-  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'r", null), e = cljs.core._lookup.call(null, c, "\ufdd0'y", null), c = cljs.core._lookup.call(null, c, "\ufdd0'x", null);
-  monet.canvas.begin_path.call(null, a);
-  a.arc(c, e, d, 0, 2 * Math.PI, !0);
-  monet.canvas.close_path.call(null, a);
-  monet.canvas.fill.call(null, a);
-  return a
-};
-monet.canvas.text = function(a, b) {
-  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'y", null), e = cljs.core._lookup.call(null, c, "\ufdd0'x", null), c = cljs.core._lookup.call(null, c, "\ufdd0'text", null);
-  a.fillText(c, e, d);
-  return a
-};
-monet.canvas.font_style = function(a, b) {
-  ctxfont = b;
-  return a
-};
-monet.canvas.fill_style = function(a, b) {
-  ctxfillStyle = b;
-  return a
-};
-monet.canvas.stroke_style = function(a, b) {
-  ctxstrokeStyle = b;
-  return a
-};
-monet.canvas.stroke_width = function(a, b) {
-  ctxlineWidth = b;
-  return a
-};
-monet.canvas.move_to = function(a, b, c) {
-  a.moveTo(b, c);
-  return a
-};
-monet.canvas.line_to = function(a, b, c) {
-  a.lineTo(b, c);
-  return a
-};
-monet.canvas.alpha = function(a, b) {
-  ctxglobalAlpha = b;
-  return a
-};
-monet.canvas.save = function(a) {
-  a.save();
-  return a
-};
-monet.canvas.restore = function(a) {
-  a.restore();
-  return a
-};
-monet.canvas.add_entity = function(a, b, c) {
-  return(new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b] = c
-};
-monet.canvas.remove_entity = function(a, b) {
-  return cljs.core.js_delete.call(null, (new cljs.core.Keyword("\ufdd0'entities")).call(null, a), b)
-};
-monet.canvas.get_entity = function(a, b) {
-  return(new cljs.core.Keyword("\ufdd0'value")).call(null, (new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b])
-};
-monet.canvas.update_entity = function() {
-  var a = function(a, b, e, f) {
-    var g = (new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b], e = cljs.core.apply.call(null, e, g, f);
-    return(new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b] = e
-  }, b = function(b, d, e, f) {
-    var g = null;
-    goog.isDef(f) && (g = cljs.core.array_seq(Array.prototype.slice.call(arguments, 3), 0));
-    return a.call(this, b, d, e, g)
-  };
-  b.cljs$lang$maxFixedArity = 3;
-  b.cljs$lang$applyTo = function(b) {
-    var d = cljs.core.first(b), e = cljs.core.first(cljs.core.next(b)), f = cljs.core.first(cljs.core.next(cljs.core.next(b))), b = cljs.core.rest(cljs.core.next(cljs.core.next(b)));
-    return a(d, e, f, b)
-  };
-  b.cljs$lang$arity$variadic = a;
-  return b
-}();
-monet.canvas.clear_BANG_ = function(a) {
-  for(var b = cljs.core.js_keys.call(null, (new cljs.core.Keyword("\ufdd0'entities")).call(null, a)), b = cljs.core.seq.call(null, b);;) {
-    if(b) {
-      var c = cljs.core.first.call(null, b);
-      monet.canvas.remove_entity.call(null, a, c);
-      b = cljs.core.next.call(null, b)
-    }else {
-      return null
-    }
-  }
-};
-monet.canvas.entity = function(a, b, c) {
-  return cljs.core.ObjMap.fromObject(["\ufdd0'value", "\ufdd0'draw", "\ufdd0'update"], {"\ufdd0'value":a, "\ufdd0'draw":c, "\ufdd0'update":b})
-};
-monet.canvas.attr = function(a, b) {
-  return a.getAttribute(b)
-};
-monet.canvas.draw_loop = function draw_loop(b) {
-  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, b = cljs.core._lookup.call(null, c, "\ufdd0'entities", null), d = cljs.core._lookup.call(null, c, "\ufdd0'active", null), e = cljs.core._lookup.call(null, c, "\ufdd0'ctx", null), f = cljs.core._lookup.call(null, c, "\ufdd0'updating?", null), g = cljs.core._lookup.call(null, c, "\ufdd0'canvas", null);
-  monet.canvas.clear_rect.call(null, e, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'w", "\ufdd0'h"], {"\ufdd0'x":0, "\ufdd0'y":0, "\ufdd0'w":monet.canvas.attr.call(null, g, "width"), "\ufdd0'h":monet.canvas.attr.call(null, g, "height")}));
-  if(cljs.core.truth_(cljs.core.deref.call(null, d))) {
-    for(var d = cljs.core.js_keys.call(null, b), g = d.length, h = 0;;) {
-      if(h < g) {
-        var i = d[h], j = b[i], k = cljs.core.seq_QMARK_.call(null, j) ? cljs.core.apply.call(null, cljs.core.hash_map, j) : j, j = k, m = cljs.core._lookup.call(null, k, "\ufdd0'value", null), l = cljs.core._lookup.call(null, k, "\ufdd0'update", null), k = cljs.core._lookup.call(null, k, "\ufdd0'draw", null);
-        if(cljs.core.truth_(function() {
-          var b = l;
-          return cljs.core.truth_(b) ? cljs.core.deref.call(null, f) : b
-        }())) {
-          var n = void 0;
-          try {
-            n = l.call(null, m)
-          }catch(p) {
-            if(cljs.core.instance_QMARK_.call(null, Error, p)) {
-              console.log(p), n = m
-            }else {
-              throw p;
-            }
-          }
-          m = cljs.core.truth_(n) ? n : m;
-          cljs.core.truth_(b[i]) && (b[i] = cljs.core.assoc.call(null, j, "\ufdd0'value", m))
-        }
-        if(cljs.core.truth_(k)) {
-          try {
-            k.call(null, e, (new cljs.core.Keyword("\ufdd0'value")).call(null, b[i]))
-          }catch(q) {
-            if(cljs.core.instance_QMARK_.call(null, Error, q)) {
-              console.log(q)
-            }else {
-              throw q;
-            }
-          }
-        }
-        h += 1
-      }else {
-        break
-      }
-    }
-    return monet.core.animation_frame.call(null, function() {
-      return draw_loop.call(null, c)
-    })
-  }
-  return null
-};
-monet.canvas.monet_canvas = function(a, b) {
-  var c;
-  c = cljs.core.truth_(b) ? b : "2d";
-  c = monet.canvas.get_context.call(null, a, c);
-  return cljs.core.ObjMap.fromObject(["\ufdd0'canvas", "\ufdd0'ctx", "\ufdd0'entities", "\ufdd0'updating?", "\ufdd0'active"], {"\ufdd0'canvas":a, "\ufdd0'ctx":c, "\ufdd0'entities":{}, "\ufdd0'updating?":cljs.core.atom.call(null, !0), "\ufdd0'active":cljs.core.atom.call(null, !0)})
-};
-monet.canvas.init = function() {
-  var a = function(a, b) {
-    var e = cljs.core.nth.call(null, b, 0, null), e = monet.canvas.monet_canvas.call(null, a, e);
-    monet.canvas.draw_loop.call(null, e);
-    return e
-  }, b = function(b, d) {
-    var e = null;
-    goog.isDef(d) && (e = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1), 0));
-    return a.call(this, b, e)
-  };
-  b.cljs$lang$maxFixedArity = 1;
-  b.cljs$lang$applyTo = function(b) {
-    var d = cljs.core.first(b), b = cljs.core.rest(b);
-    return a(d, b)
-  };
-  b.cljs$lang$arity$variadic = a;
-  return b
-}();
-monet.canvas.stop = function(a) {
-  return cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'active")).call(null, a), !1)
-};
-monet.canvas.stop_updating = function(a) {
-  return cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'updating?")).call(null, a), !1)
-};
-monet.canvas.start_updating = function(a) {
-  return cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'updating?")).call(null, a), !0)
-};
-monet.canvas.restart = function(a) {
-  cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'active")).call(null, a), !0);
-  monet.canvas.update_loop.call(null, a);
-  return monet.canvas.draw_loop.call(null, a)
-};
-var clojure = {string:{}};
-clojure.string.seq_reverse = function(a) {
-  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
-};
-clojure.string.reverse = function(a) {
-  return a.split("").reverse().join("")
-};
-clojure.string.replace = function(a, b, c) {
-  if(cljs.core.string_QMARK_.call(null, b)) {
-    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
-  }
-  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
-    return a.replace(RegExp(b.source, "g"), c)
-  }
-  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
-};
-clojure.string.replace_first = function(a, b, c) {
-  return a.replace(b, c)
-};
-clojure.string.join = function() {
-  var a = null, b = function(a) {
-    return cljs.core.apply.call(null, cljs.core.str, a)
-  }, c = function(a, b) {
-    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
-  }, a = function(a, e) {
-    switch(arguments.length) {
-      case 1:
-        return b.call(this, a);
-      case 2:
-        return c.call(this, a, e)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$1 = b;
-  a.cljs$lang$arity$2 = c;
-  return a
-}();
-clojure.string.upper_case = function(a) {
-  return a.toUpperCase()
-};
-clojure.string.lower_case = function(a) {
-  return a.toLowerCase()
-};
-clojure.string.capitalize = function(a) {
-  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
-};
-clojure.string.split = function() {
-  var a = null, b = function(a, b) {
-    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-  }, c = function(a, b, c) {
-    if(1 > c) {
-      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-    }
-    for(var g = cljs.core.PersistentVector.EMPTY;;) {
-      if(cljs.core._EQ_.call(null, c, 1)) {
-        return cljs.core.conj.call(null, g, a)
-      }
-      var h = cljs.core.re_find.call(null, b, a);
-      if(cljs.core.truth_(h)) {
-        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
-      }else {
-        return cljs.core.conj.call(null, g, a)
-      }
-    }
-  }, a = function(a, e, f) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, e);
-      case 3:
-        return c.call(this, a, e, f)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  return a
-}();
-clojure.string.split_lines = function(a) {
-  return clojure.string.split.call(null, a, /\n|\r\n/)
-};
-clojure.string.trim = function(a) {
-  return goog.string.trim(a)
-};
-clojure.string.triml = function(a) {
-  return goog.string.trimLeft(a)
-};
-clojure.string.trimr = function(a) {
-  return goog.string.trimRight(a)
-};
-clojure.string.trim_newline = function(a) {
-  for(var b = a.length;;) {
-    if(0 === b) {
-      return""
-    }
-    var c = cljs.core._lookup.call(null, a, b - 1, null);
-    var d = cljs.core._EQ_.call(null, c, "\n"), c = d ? d : cljs.core._EQ_.call(null, c, "\r");
-    if(c) {
-      b -= 1
-    }else {
-      return a.substring(0, b)
-    }
-  }
-};
-clojure.string.blank_QMARK_ = function(a) {
-  return goog.string.isEmptySafe(a)
-};
-clojure.string.escape = function(a, b) {
-  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
-    if(cljs.core._EQ_.call(null, d, e)) {
-      return c.toString()
-    }
-    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
-    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
-    e += 1
-  }
 };
 cljs.reader = {};
 cljs.reader.PushbackReader = {};
@@ -13498,6 +13139,387 @@ cljs.reader.deregister_tag_parser_BANG_ = function(a) {
   var a = cljs.core.name.call(null, a), b = cljs.core._lookup.call(null, cljs.core.deref.call(null, cljs.reader._STAR_tag_table_STAR_), a, null);
   cljs.core.swap_BANG_.call(null, cljs.reader._STAR_tag_table_STAR_, cljs.core.dissoc, a);
   return b
+};
+var monet = {geometry:{}};
+monet.geometry.distance = function(a, b) {
+  var c = (new cljs.core.Keyword("\ufdd0'x")).call(null, b) - (new cljs.core.Keyword("\ufdd0'x")).call(null, a), d = (new cljs.core.Keyword("\ufdd0'y")).call(null, b) - (new cljs.core.Keyword("\ufdd0'y")).call(null, a), e = cljs.core._EQ_.call(null, 0, c) ? c : c / Math.abs.call(null, c), f = cljs.core._EQ_.call(null, 0, d) ? d : d / Math.abs.call(null, d), g = Math.sqrt.call(null, Math.pow.call(null, c, 2) + Math.pow.call(null, d, 2));
+  return cljs.core.ObjMap.fromObject(["\ufdd0'delta", "\ufdd0'dir", "\ufdd0'dist"], {"\ufdd0'delta":cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":c, "\ufdd0'y":d}), "\ufdd0'dir":cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":e, "\ufdd0'y":f}), "\ufdd0'dist":g})
+};
+monet.geometry.bottom_right = function(a) {
+  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'r", null), c = cljs.core._lookup.call(null, b, "\ufdd0'h", null), d = cljs.core._lookup.call(null, b, "\ufdd0'w", null), e = cljs.core._lookup.call(null, b, "\ufdd0'y", null), b = cljs.core._lookup.call(null, b, "\ufdd0'x", null);
+  return cljs.core.truth_(a) ? cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b + a, "\ufdd0'y":e + a}) : cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b + d, "\ufdd0'y":e + c})
+};
+monet.geometry.top_left = function(a) {
+  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'r", null), c = cljs.core._lookup.call(null, b, "\ufdd0'y", null), b = cljs.core._lookup.call(null, b, "\ufdd0'x", null);
+  return cljs.core.truth_(a) ? cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b - a, "\ufdd0'y":c - a}) : cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":b, "\ufdd0'y":c})
+};
+monet.geometry.in_radius_QMARK_ = function(a, b, c) {
+  a = monet.geometry.distance.call(null, a, b);
+  a = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a;
+  return cljs.core._lookup.call(null, a, "\ufdd0'dist", null) < c
+};
+monet.geometry.collision_QMARK_ = function(a, b) {
+  var c = monet.geometry.bottom_right.call(null, a), d = monet.geometry.top_left.call(null, a), e = monet.geometry.bottom_right.call(null, b), f = monet.geometry.top_left.call(null, b), g;
+  g = (g = (new cljs.core.Keyword("\ufdd0'y")).call(null, d) < (new cljs.core.Keyword("\ufdd0'y")).call(null, e)) ? (new cljs.core.Keyword("\ufdd0'y")).call(null, f) < (new cljs.core.Keyword("\ufdd0'y")).call(null, c) : g;
+  return cljs.core.truth_(g) ? (d = (new cljs.core.Keyword("\ufdd0'x")).call(null, d) < (new cljs.core.Keyword("\ufdd0'x")).call(null, e)) ? (new cljs.core.Keyword("\ufdd0'x")).call(null, f) < (new cljs.core.Keyword("\ufdd0'x")).call(null, c) : d : g
+};
+monet.geometry.contained_QMARK_ = function(a, b) {
+  var c = monet.geometry.bottom_right.call(null, a), d = monet.geometry.top_left.call(null, a), e = monet.geometry.bottom_right.call(null, b), f = monet.geometry.top_left.call(null, b);
+  var g = (new cljs.core.Keyword("\ufdd0'x")).call(null, d) < (new cljs.core.Keyword("\ufdd0'x")).call(null, f), d = g ? (new cljs.core.Keyword("\ufdd0'y")).call(null, d) < (new cljs.core.Keyword("\ufdd0'y")).call(null, f) : g;
+  return cljs.core.truth_(d) ? (d = (new cljs.core.Keyword("\ufdd0'x")).call(null, c) > (new cljs.core.Keyword("\ufdd0'x")).call(null, e)) ? (new cljs.core.Keyword("\ufdd0'y")).call(null, c) > (new cljs.core.Keyword("\ufdd0'y")).call(null, e) : d : d
+};
+monet.geometry.in_bounds_QMARK_ = function(a, b, c) {
+  var d = monet.geometry.bottom_right.call(null, a), a = monet.geometry.top_left.call(null, a);
+  var e = (new cljs.core.Keyword("\ufdd0'x")).call(null, a) < b, b = e ? b < (new cljs.core.Keyword("\ufdd0'x")).call(null, d) : e;
+  return cljs.core.truth_(b) ? (b = (new cljs.core.Keyword("\ufdd0'y")).call(null, a) < c) ? c < (new cljs.core.Keyword("\ufdd0'y")).call(null, d) : b : b
+};
+monet.core = {};
+monet.core.animation_frame = function() {
+  var a = window.requestAnimationFrame;
+  if(cljs.core.truth_(a)) {
+    return a
+  }
+  a = window.webkitRequestAnimationFrame;
+  if(cljs.core.truth_(a)) {
+    return a
+  }
+  a = window.mozRequestAnimationFrame;
+  if(cljs.core.truth_(a)) {
+    return a
+  }
+  a = window.oRequestAnimationFrame;
+  if(cljs.core.truth_(a)) {
+    return a
+  }
+  a = window.msRequestAnimationFrame;
+  return cljs.core.truth_(a) ? a : function(a) {
+    return setTimeout(a, 17)
+  }
+}();
+monet.canvas = {};
+monet.canvas.get_context = function(a, b) {
+  return a.getContext(cljs.core.name.call(null, b))
+};
+monet.canvas.begin_path = function(a) {
+  a.beginPath();
+  return a
+};
+monet.canvas.close_path = function(a) {
+  a.closePath();
+  return a
+};
+monet.canvas.fill = function(a) {
+  a.fill();
+  return a
+};
+monet.canvas.stroke = function(a) {
+  a.stroke();
+  return a
+};
+monet.canvas.clear_rect = function(a, b) {
+  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'h", null), e = cljs.core._lookup.call(null, c, "\ufdd0'w", null), f = cljs.core._lookup.call(null, c, "\ufdd0'y", null), c = cljs.core._lookup.call(null, c, "\ufdd0'x", null);
+  a.clearRect(c, f, e, d);
+  return a
+};
+monet.canvas.rect = function(a, b) {
+  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'h", null), e = cljs.core._lookup.call(null, c, "\ufdd0'w", null), f = cljs.core._lookup.call(null, c, "\ufdd0'y", null), c = cljs.core._lookup.call(null, c, "\ufdd0'x", null);
+  monet.canvas.begin_path.call(null, a);
+  a.rect(c, f, e, d);
+  monet.canvas.close_path.call(null, a);
+  monet.canvas.fill.call(null, a);
+  return a
+};
+monet.canvas.circle = function(a, b) {
+  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'r", null), e = cljs.core._lookup.call(null, c, "\ufdd0'y", null), c = cljs.core._lookup.call(null, c, "\ufdd0'x", null);
+  monet.canvas.begin_path.call(null, a);
+  a.arc(c, e, d, 0, 2 * Math.PI, !0);
+  monet.canvas.close_path.call(null, a);
+  monet.canvas.fill.call(null, a);
+  return a
+};
+monet.canvas.text = function(a, b) {
+  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, d = cljs.core._lookup.call(null, c, "\ufdd0'y", null), e = cljs.core._lookup.call(null, c, "\ufdd0'x", null), c = cljs.core._lookup.call(null, c, "\ufdd0'text", null);
+  a.fillText(c, e, d);
+  return a
+};
+monet.canvas.font_style = function(a, b) {
+  ctxfont = b;
+  return a
+};
+monet.canvas.fill_style = function(a, b) {
+  ctxfillStyle = b;
+  return a
+};
+monet.canvas.stroke_style = function(a, b) {
+  ctxstrokeStyle = b;
+  return a
+};
+monet.canvas.stroke_width = function(a, b) {
+  ctxlineWidth = b;
+  return a
+};
+monet.canvas.move_to = function(a, b, c) {
+  a.moveTo(b, c);
+  return a
+};
+monet.canvas.line_to = function(a, b, c) {
+  a.lineTo(b, c);
+  return a
+};
+monet.canvas.alpha = function(a, b) {
+  ctxglobalAlpha = b;
+  return a
+};
+monet.canvas.save = function(a) {
+  a.save();
+  return a
+};
+monet.canvas.restore = function(a) {
+  a.restore();
+  return a
+};
+monet.canvas.add_entity = function(a, b, c) {
+  return(new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b] = c
+};
+monet.canvas.remove_entity = function(a, b) {
+  return cljs.core.js_delete.call(null, (new cljs.core.Keyword("\ufdd0'entities")).call(null, a), b)
+};
+monet.canvas.get_entity = function(a, b) {
+  return(new cljs.core.Keyword("\ufdd0'value")).call(null, (new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b])
+};
+monet.canvas.update_entity = function() {
+  var a = function(a, b, e, f) {
+    var g = (new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b], e = cljs.core.apply.call(null, e, g, f);
+    return(new cljs.core.Keyword("\ufdd0'entities")).call(null, a)[b] = e
+  }, b = function(b, d, e, f) {
+    var g = null;
+    goog.isDef(f) && (g = cljs.core.array_seq(Array.prototype.slice.call(arguments, 3), 0));
+    return a.call(this, b, d, e, g)
+  };
+  b.cljs$lang$maxFixedArity = 3;
+  b.cljs$lang$applyTo = function(b) {
+    var d = cljs.core.first(b), e = cljs.core.first(cljs.core.next(b)), f = cljs.core.first(cljs.core.next(cljs.core.next(b))), b = cljs.core.rest(cljs.core.next(cljs.core.next(b)));
+    return a(d, e, f, b)
+  };
+  b.cljs$lang$arity$variadic = a;
+  return b
+}();
+monet.canvas.clear_BANG_ = function(a) {
+  for(var b = cljs.core.js_keys.call(null, (new cljs.core.Keyword("\ufdd0'entities")).call(null, a)), b = cljs.core.seq.call(null, b);;) {
+    if(b) {
+      var c = cljs.core.first.call(null, b);
+      monet.canvas.remove_entity.call(null, a, c);
+      b = cljs.core.next.call(null, b)
+    }else {
+      return null
+    }
+  }
+};
+monet.canvas.entity = function(a, b, c) {
+  return cljs.core.ObjMap.fromObject(["\ufdd0'value", "\ufdd0'draw", "\ufdd0'update"], {"\ufdd0'value":a, "\ufdd0'draw":c, "\ufdd0'update":b})
+};
+monet.canvas.attr = function(a, b) {
+  return a.getAttribute(b)
+};
+monet.canvas.draw_loop = function draw_loop(b) {
+  var c = cljs.core.seq_QMARK_.call(null, b) ? cljs.core.apply.call(null, cljs.core.hash_map, b) : b, b = cljs.core._lookup.call(null, c, "\ufdd0'entities", null), d = cljs.core._lookup.call(null, c, "\ufdd0'active", null), e = cljs.core._lookup.call(null, c, "\ufdd0'ctx", null), f = cljs.core._lookup.call(null, c, "\ufdd0'updating?", null), g = cljs.core._lookup.call(null, c, "\ufdd0'canvas", null);
+  monet.canvas.clear_rect.call(null, e, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'w", "\ufdd0'h"], {"\ufdd0'x":0, "\ufdd0'y":0, "\ufdd0'w":monet.canvas.attr.call(null, g, "width"), "\ufdd0'h":monet.canvas.attr.call(null, g, "height")}));
+  if(cljs.core.truth_(cljs.core.deref.call(null, d))) {
+    for(var d = cljs.core.js_keys.call(null, b), g = d.length, h = 0;;) {
+      if(h < g) {
+        var i = d[h], j = b[i], k = cljs.core.seq_QMARK_.call(null, j) ? cljs.core.apply.call(null, cljs.core.hash_map, j) : j, j = k, m = cljs.core._lookup.call(null, k, "\ufdd0'value", null), l = cljs.core._lookup.call(null, k, "\ufdd0'update", null), k = cljs.core._lookup.call(null, k, "\ufdd0'draw", null);
+        if(cljs.core.truth_(function() {
+          var b = l;
+          return cljs.core.truth_(b) ? cljs.core.deref.call(null, f) : b
+        }())) {
+          var n = void 0;
+          try {
+            n = l.call(null, m)
+          }catch(p) {
+            if(cljs.core.instance_QMARK_.call(null, Error, p)) {
+              console.log(p), n = m
+            }else {
+              throw p;
+            }
+          }
+          m = cljs.core.truth_(n) ? n : m;
+          cljs.core.truth_(b[i]) && (b[i] = cljs.core.assoc.call(null, j, "\ufdd0'value", m))
+        }
+        if(cljs.core.truth_(k)) {
+          try {
+            k.call(null, e, (new cljs.core.Keyword("\ufdd0'value")).call(null, b[i]))
+          }catch(q) {
+            if(cljs.core.instance_QMARK_.call(null, Error, q)) {
+              console.log(q)
+            }else {
+              throw q;
+            }
+          }
+        }
+        h += 1
+      }else {
+        break
+      }
+    }
+    return monet.core.animation_frame.call(null, function() {
+      return draw_loop.call(null, c)
+    })
+  }
+  return null
+};
+monet.canvas.monet_canvas = function(a, b) {
+  var c;
+  c = cljs.core.truth_(b) ? b : "2d";
+  c = monet.canvas.get_context.call(null, a, c);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'canvas", "\ufdd0'ctx", "\ufdd0'entities", "\ufdd0'updating?", "\ufdd0'active"], {"\ufdd0'canvas":a, "\ufdd0'ctx":c, "\ufdd0'entities":{}, "\ufdd0'updating?":cljs.core.atom.call(null, !0), "\ufdd0'active":cljs.core.atom.call(null, !0)})
+};
+monet.canvas.init = function() {
+  var a = function(a, b) {
+    var e = cljs.core.nth.call(null, b, 0, null), e = monet.canvas.monet_canvas.call(null, a, e);
+    monet.canvas.draw_loop.call(null, e);
+    return e
+  }, b = function(b, d) {
+    var e = null;
+    goog.isDef(d) && (e = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1), 0));
+    return a.call(this, b, e)
+  };
+  b.cljs$lang$maxFixedArity = 1;
+  b.cljs$lang$applyTo = function(b) {
+    var d = cljs.core.first(b), b = cljs.core.rest(b);
+    return a(d, b)
+  };
+  b.cljs$lang$arity$variadic = a;
+  return b
+}();
+monet.canvas.stop = function(a) {
+  return cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'active")).call(null, a), !1)
+};
+monet.canvas.stop_updating = function(a) {
+  return cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'updating?")).call(null, a), !1)
+};
+monet.canvas.start_updating = function(a) {
+  return cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'updating?")).call(null, a), !0)
+};
+monet.canvas.restart = function(a) {
+  cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'active")).call(null, a), !0);
+  monet.canvas.update_loop.call(null, a);
+  return monet.canvas.draw_loop.call(null, a)
+};
+var clojure = {string:{}};
+clojure.string.seq_reverse = function(a) {
+  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
+};
+clojure.string.reverse = function(a) {
+  return a.split("").reverse().join("")
+};
+clojure.string.replace = function(a, b, c) {
+  if(cljs.core.string_QMARK_.call(null, b)) {
+    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
+  }
+  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
+    return a.replace(RegExp(b.source, "g"), c)
+  }
+  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
+};
+clojure.string.replace_first = function(a, b, c) {
+  return a.replace(b, c)
+};
+clojure.string.join = function() {
+  var a = null, b = function(a) {
+    return cljs.core.apply.call(null, cljs.core.str, a)
+  }, c = function(a, b) {
+    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
+  }, a = function(a, e) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, a);
+      case 2:
+        return c.call(this, a, e)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$1 = b;
+  a.cljs$lang$arity$2 = c;
+  return a
+}();
+clojure.string.upper_case = function(a) {
+  return a.toUpperCase()
+};
+clojure.string.lower_case = function(a) {
+  return a.toLowerCase()
+};
+clojure.string.capitalize = function(a) {
+  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
+};
+clojure.string.split = function() {
+  var a = null, b = function(a, b) {
+    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+  }, c = function(a, b, c) {
+    if(1 > c) {
+      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+    }
+    for(var g = cljs.core.PersistentVector.EMPTY;;) {
+      if(cljs.core._EQ_.call(null, c, 1)) {
+        return cljs.core.conj.call(null, g, a)
+      }
+      var h = cljs.core.re_find.call(null, b, a);
+      if(cljs.core.truth_(h)) {
+        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
+      }else {
+        return cljs.core.conj.call(null, g, a)
+      }
+    }
+  }, a = function(a, e, f) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, a, e);
+      case 3:
+        return c.call(this, a, e, f)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$2 = b;
+  a.cljs$lang$arity$3 = c;
+  return a
+}();
+clojure.string.split_lines = function(a) {
+  return clojure.string.split.call(null, a, /\n|\r\n/)
+};
+clojure.string.trim = function(a) {
+  return goog.string.trim(a)
+};
+clojure.string.triml = function(a) {
+  return goog.string.trimLeft(a)
+};
+clojure.string.trimr = function(a) {
+  return goog.string.trimRight(a)
+};
+clojure.string.trim_newline = function(a) {
+  for(var b = a.length;;) {
+    if(0 === b) {
+      return""
+    }
+    var c = cljs.core._lookup.call(null, a, b - 1, null);
+    var d = cljs.core._EQ_.call(null, c, "\n"), c = d ? d : cljs.core._EQ_.call(null, c, "\r");
+    if(c) {
+      b -= 1
+    }else {
+      return a.substring(0, b)
+    }
+  }
+};
+clojure.string.blank_QMARK_ = function(a) {
+  return goog.string.isEmptySafe(a)
+};
+clojure.string.escape = function(a, b) {
+  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
+    if(cljs.core._EQ_.call(null, d, e)) {
+      return c.toString()
+    }
+    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
+    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
+    e += 1
+  }
 };
 var jayq = {core:{}};
 jayq.core.crate_meta = function(a) {
@@ -14541,31 +14563,10 @@ jayq.core.deferred_m = cljs.core.ObjMap.fromObject(["\ufdd0'return", "\ufdd0'bin
 jayq.core.ajax_m = cljs.core.ObjMap.fromObject(["\ufdd0'return", "\ufdd0'bind", "\ufdd0'zero"], {"\ufdd0'return":cljs.core.identity, "\ufdd0'bind":function(a, b) {
   return jayq.core.done.call(null, jayq.core.ajax.call(null, a), b)
 }, "\ufdd0'zero":cljs.core.identity});
-var textadventureeditor = {client:{}};
 textadventureeditor.client.main = {};
 textadventureeditor.client.main.$body = jayq.core.$.call(null, "\ufdd0'body");
 textadventureeditor.client.main.editor = monet.canvas.init.call(null, jayq.core.$.call(null, "\ufdd0'#canvas").get(0));
-textadventureeditor.client.main.font_style_that_works = function(a, b) {
-  a.font = b;
-  return a
-};
-textadventureeditor.client.main.fill_style_that_works = function(a, b) {
-  a.fillStyle = b;
-  return a
-};
-textadventureeditor.client.main.stroke_style_that_works = function(a, b) {
-  a.strokeStyle = b;
-  return a
-};
-textadventureeditor.client.main.stroke_width_that_works = function(a, b) {
-  a.lineWidth = b;
-  return a
-};
-textadventureeditor.client.main.alpha_that_works = function(a, b) {
-  a.globalAlpha = b;
-  return a
-};
 textadventureeditor.client.main.draw_box = function(a, b) {
-  return monet.canvas.stroke.call(null, monet.canvas.rect.call(null, textadventureeditor.client.main.stroke_width_that_works.call(null, textadventureeditor.client.main.stroke_style_that_works.call(null, textadventureeditor.client.main.fill_style_that_works.call(null, a, "143"), "#175"), 2), b))
+  return monet.canvas.stroke.call(null, monet.canvas.rect.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, "143"), "#175"), 2), b))
 };
 monet.canvas.add_entity.call(null, textadventureeditor.client.main.editor, "\ufdd0'editor", monet.canvas.entity.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'w", "\ufdd0'h"], {"\ufdd0'x":0, "\ufdd0'y":0, "\ufdd0'w":800, "\ufdd0'h":650}), null, textadventureeditor.client.main.draw_box));

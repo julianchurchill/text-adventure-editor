@@ -1,31 +1,17 @@
 (ns textadventureeditor.client.main
   (:require [monet.canvas :as canvas]
             [monet.geometry :as geo])
-  (:use [jayq.core :only [$]]))
+  (:use [jayq.core :only [$]]
+        [textadventureeditor.client.monetfixes 
+         :only [font-style-that-works
+                fill-style-that-works
+                stroke-style-that-works
+                stroke-width-that-works
+                alpha-that-works]]))
 
 (def $body ($ :body))
 
 (def editor (canvas/init (.get ($ :#canvas) 0)))
-
-(defn font-style-that-works [ctx color]
-  (set! (.-font ctx) color)
-  ctx)
-
-(defn fill-style-that-works [ctx color]
-  (set! (.-fillStyle ctx) color)
-  ctx)
-
-(defn stroke-style-that-works [ctx color]
-  (set! (.-strokeStyle ctx) color)
-  ctx)
-
-(defn stroke-width-that-works [ctx color]
-  (set! (.-lineWidth ctx) color)
-  ctx)
-
-(defn alpha-that-works [ctx color]
-  (set! (.-globalAlpha ctx) color)
-  ctx)
 
 (defn draw-box [ctx me]
   (-> ctx
