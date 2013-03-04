@@ -1,7 +1,4 @@
 (ns textadventureeditor.client.monetfixes)
-;  (:require [monet.canvas :as canvas]
-;            [monet.geometry :as geo])
-;  (:use [jayq.core :only [$]]))
 
 (defn font-style-that-works [ctx color]
   (set! (.-font ctx) color)
