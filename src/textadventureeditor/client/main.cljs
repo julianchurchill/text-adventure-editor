@@ -28,9 +28,10 @@
 
 (def locations (atom {}))
 
-(defn make-location [x y]
+(defn make-location [x y id description]
   (if-not (@locations [x y])
-    (swap! locations assoc [x y] {:x x :y y :w 40 :h 40 :type :location})
+    (swap! locations assoc [x y]
+           {:x x :y y :w 40 :h 40 :type :location :id id :description description})
     (swap! locations dissoc [x y])))
 
 (defn draw-location [ctx location]
@@ -50,6 +51,6 @@
                                   nil ;; update function
                                   draw-locations))
 
-(make-location 100 100)
-(make-location 300 200)
-(make-location 300 300)
+(make-location 100 100 "loc1" "description1")
+(make-location 300 200 "loc2" "description2")
+(make-location 300 300 "loc3" "description3")
