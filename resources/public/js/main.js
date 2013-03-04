@@ -15609,14 +15609,28 @@ textadventureeditor.client.main.make_location.call(null, 300, 300, "loc3", "desc
 textadventureeditor.client.main.set_value = function(a, b) {
   return goog.dom.getElement(a).value = b
 };
-textadventureeditor.client.main.set_value.call(null, "location id", "new id");
-textadventureeditor.client.main.set_value.call(null, "location description", "new description");
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'focus", function() {
   return this.focused = !0
 });
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'blur", function() {
   return this.focused = !1
 });
-jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'mousedown", function(a) {
-  return cljs.core.truth_(this.focused) ? textadventureeditor.client.main.make_location.call(null, a.offsetX, a.offsetY, "new loc id", "new loc description") : null
-});
+textadventureeditor.client.main.location_at = function(a, b) {
+  return cljs.core.first.call(null, cljs.core.filter.call(null, function(c) {
+    return monet.geometry.in_bounds_QMARK_.call(null, c, a, b)
+  }, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))))
+};
+textadventureeditor.client.main.show_location_information = function(a) {
+  textadventureeditor.client.main.set_value.call(null, "location id", (new cljs.core.Keyword("\ufdd0'id")).call(null, a));
+  return textadventureeditor.client.main.set_value.call(null, "location description", (new cljs.core.Keyword("\ufdd0'description")).call(null, a))
+};
+textadventureeditor.client.main.canvas_mousedown = function(a) {
+  var b = a.offsetX, a = a.offsetY;
+  if(cljs.core.truth_(this.focused)) {
+    var c = textadventureeditor.client.main.location_at.call(null, b, a);
+    return cljs.core.truth_(c) ? textadventureeditor.client.main.show_location_information.call(null, c) : textadventureeditor.client.main.make_location.call(null, b, a, "new id", "new description")
+  }
+  return null
+};
+jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'mousedown", textadventureeditor.client.main.canvas_mousedown);
+textadventureeditor.client.main.show_location_information.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));

@@ -60,9 +60,6 @@
 (defn set-value [id val]
   (set! (.-value (dom/getElement id)) val))
 
-(set-value "location id" "new id")
-(set-value "location description" "new description")
-
 (bind ($ :#canvas) :focus
       (fn [e]
         (this-as me
@@ -73,8 +70,24 @@
         (this-as me
           (set! (.-focused me) false))))
 
+(defn location-at [x y]
+  (first (filter #(geo/in-bounds? % x y) (vals @locations))))
+
+(defn show-location-information [location]
+  (set-value "location id" (:id location))
+  (set-value "location description" (:description location)))
+
+(defn canvas-mousedown [e]
+  (this-as me
+           (let [x (.-offsetX e)
+                 y (.-offsetY e)]
+           (when (.-focused me)
+             (let [location (location-at x y)]
+               (if location
+                 (show-location-information location)
+                 (make-location x y "new id" "new description")))))))
+
 (bind ($ :#canvas) :mousedown
-      (fn [e]
-        (this-as me
-          (when (.-focused me)
-            (make-location (.-offsetX e) (.-offsetY e) "new loc id" "new loc description")))))
+      canvas-mousedown)
+
+(show-location-information (first (vals @locations)))
