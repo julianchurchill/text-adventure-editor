@@ -2730,23 +2730,23 @@ cljs.core._hash["boolean"] = function(a) {
 cljs.core.IWithMeta["function"] = !0;
 cljs.core._with_meta["function"] = function(a, b) {
   return cljs.core.with_meta.call(null, function() {
-    if(void 0 === cljs.core.t3668) {
-      cljs.core.t3668 = {};
-      cljs.core.t3668 = function(a, b, c) {
+    if(void 0 === cljs.core.t3808) {
+      cljs.core.t3808 = {};
+      cljs.core.t3808 = function(a, b, c) {
         this.meta = a;
         this.f = b;
-        this.meta3669 = c;
+        this.meta3809 = c;
         this.cljs$lang$protocol_mask$partition1$ = 0;
         this.cljs$lang$protocol_mask$partition0$ = 393217
       };
-      cljs.core.t3668.cljs$lang$type = !0;
-      cljs.core.t3668.cljs$lang$ctorPrSeq = function() {
-        return cljs.core.list.call(null, "cljs.core/t3668")
+      cljs.core.t3808.cljs$lang$type = !0;
+      cljs.core.t3808.cljs$lang$ctorPrSeq = function() {
+        return cljs.core.list.call(null, "cljs.core/t3808")
       };
-      cljs.core.t3668.cljs$lang$ctorPrWriter = function(a, b) {
-        return cljs.core._write.call(null, b, "cljs.core/t3668")
+      cljs.core.t3808.cljs$lang$ctorPrWriter = function(a, b) {
+        return cljs.core._write.call(null, b, "cljs.core/t3808")
       };
-      var c = cljs.core.t3668.prototype, d = function(a, b) {
+      var c = cljs.core.t3808.prototype, d = function(a, b) {
         return cljs.core.apply.call(null, a.f, b)
       }, e = function(a, b) {
         var a = this, c = null;
@@ -2760,19 +2760,19 @@ cljs.core._with_meta["function"] = function(a, b) {
       };
       e.cljs$lang$arity$variadic = d;
       c.call = e;
-      cljs.core.t3668.prototype.apply = function(a, b) {
+      cljs.core.t3808.prototype.apply = function(a, b) {
         a = this;
         return a.call.apply(a, [a].concat(b.slice()))
       };
-      cljs.core.t3668.prototype.cljs$core$Fn$ = !0;
-      cljs.core.t3668.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
-        return this.meta3669
+      cljs.core.t3808.prototype.cljs$core$Fn$ = !0;
+      cljs.core.t3808.prototype.cljs$core$IMeta$_meta$arity$1 = function() {
+        return this.meta3809
       };
-      cljs.core.t3668.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
-        return new cljs.core.t3668(this.meta, this.f, b)
+      cljs.core.t3808.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = function(a, b) {
+        return new cljs.core.t3808(this.meta, this.f, b)
       }
     }
-    return new cljs.core.t3668(b, a, null)
+    return new cljs.core.t3808(b, a, null)
   }(), b)
 };
 cljs.core.IMeta["function"] = !0;
@@ -16202,6 +16202,190 @@ monet.canvas.restart = function(a) {
   monet.canvas.update_loop.call(null, a);
   return monet.canvas.draw_loop.call(null, a)
 };
+crate.form = {};
+crate.form._STAR_group_STAR_ = cljs.core.PersistentVector.EMPTY;
+crate.form.make_name = function(a) {
+  return cljs.core.reduce.call(null, function(a, c) {
+    return[cljs.core.str(a), cljs.core.str("["), cljs.core.str(c), cljs.core.str("]")].join("")
+  }, cljs.core.conj.call(null, crate.form._STAR_group_STAR_, crate.util.as_str.call(null, a)))
+};
+crate.form.make_id = function(a) {
+  return cljs.core.reduce.call(null, function(a, c) {
+    return[cljs.core.str(a), cljs.core.str("-"), cljs.core.str(c)].join("")
+  }, cljs.core.conj.call(null, crate.form._STAR_group_STAR_, crate.util.as_str.call(null, a)))
+};
+crate.form.input_field = function(a, b, c) {
+  return cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type", "\ufdd0'name", "\ufdd0'id", "\ufdd0'value"], {"\ufdd0'type":a, "\ufdd0'name":crate.form.make_name.call(null, b), "\ufdd0'id":crate.form.make_id.call(null, b), "\ufdd0'value":c})], !0)
+};
+var func__3081__auto___5176 = function() {
+  var a = null;
+  return a = function(a, c) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.hidden_field.call(null, a, null);
+      case 2:
+        return crate.form.input_field.call(null, "hidden", a, c)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.hidden_field = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5176);
+var func__3081__auto___5178 = function() {
+  var a = null;
+  return a = function(a, c) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.text_field.call(null, a, null);
+      case 2:
+        return crate.form.input_field.call(null, "text", a, c)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.text_field = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5178);
+var func__3081__auto___5180 = function() {
+  var a = null;
+  return a = function(a, c) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.password_field.call(null, a, null);
+      case 2:
+        return crate.form.input_field.call(null, "password", a, c)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.password_field = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5180);
+var func__3081__auto___5182 = function() {
+  var a = null;
+  return a = function(a, c) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.email_field.call(null, a, null);
+      case 2:
+        return crate.form.input_field.call(null, "email", a, c)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.email_field = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5182);
+var func__3081__auto___5184 = function() {
+  var a = null;
+  return a = function(a, c, d) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.check_box.call(null, a, null);
+      case 2:
+        return crate.form.check_box.call(null, a, c, "true");
+      case 3:
+        return cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type", "\ufdd0'name", "\ufdd0'id", "\ufdd0'value", "\ufdd0'checked"], {"\ufdd0'type":"checkbox", "\ufdd0'name":crate.form.make_name.call(null, a), "\ufdd0'id":crate.form.make_id.call(null, a), "\ufdd0'value":d, "\ufdd0'checked":c})], !0)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.check_box = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5184);
+var func__3081__auto___5186 = function() {
+  var a = null;
+  return a = function(a, c, d) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.radio_button.call(null, a, null);
+      case 2:
+        return crate.form.radio_button.call(null, a, c, "true");
+      case 3:
+        return cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type", "\ufdd0'name", "\ufdd0'id", "\ufdd0'value", "\ufdd0'checked"], {"\ufdd0'type":"radio", "\ufdd0'name":crate.form.make_name.call(null, a), "\ufdd0'id":crate.form.make_id.call(null, [cljs.core.str(crate.util.as_str.call(null, a)), cljs.core.str("-"), cljs.core.str(crate.util.as_str.call(null, d))].join("")), "\ufdd0'value":d, "\ufdd0'checked":c})], !0)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.radio_button = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5186);
+var func__3081__auto___5192 = function() {
+  var a = null;
+  return a = function(a, c) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.select_options.call(null, a, null);
+      case 2:
+        return function e(a) {
+          return new cljs.core.LazySeq(null, !1, function() {
+            for(;;) {
+              if(cljs.core.seq.call(null, a)) {
+                var b = cljs.core.first.call(null, a);
+                return cljs.core.cons.call(null, cljs.core.sequential_QMARK_.call(null, b) ? function() {
+                  var a = b, e = cljs.core.nth.call(null, a, 0, null), a = cljs.core.nth.call(null, a, 1, null);
+                  return cljs.core.PersistentVector.fromArray(["\ufdd0'option", cljs.core.ObjMap.fromObject(["\ufdd0'value", "\ufdd0'selected"], {"\ufdd0'value":a, "\ufdd0'selected":cljs.core._EQ_.call(null, a, c)}), e], !0)
+                }() : cljs.core.PersistentVector.fromArray(["\ufdd0'option", cljs.core.ObjMap.fromObject(["\ufdd0'selected"], {"\ufdd0'selected":cljs.core._EQ_.call(null, b, c)}), b], !0), e.call(null, cljs.core.rest.call(null, a)))
+              }
+              return null
+            }
+          }, null)
+        }.call(null, a)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.select_options = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5192);
+var func__3081__auto___5194 = function() {
+  var a = null;
+  return a = function(a, c, d) {
+    switch(arguments.length) {
+      case 2:
+        return crate.form.drop_down.call(null, a, c, null);
+      case 3:
+        return cljs.core.PersistentVector.fromArray(["\ufdd0'select", cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'id"], {"\ufdd0'name":crate.form.make_name.call(null, a), "\ufdd0'id":crate.form.make_id.call(null, a)}), crate.form.select_options.call(null, c, d)], !0)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.drop_down = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5194);
+var func__3081__auto___5196 = function() {
+  var a = null;
+  return a = function(a, c) {
+    switch(arguments.length) {
+      case 1:
+        return crate.form.text_area.call(null, a, null);
+      case 2:
+        return cljs.core.PersistentVector.fromArray(["\ufdd0'textarea", cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'id"], {"\ufdd0'name":crate.form.make_name.call(null, a), "\ufdd0'id":crate.form.make_id.call(null, a)}), crate.util.escape_html.call(null, c)], !0)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  }
+}();
+crate.form.text_area = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5196);
+var func__3081__auto___5198 = function(a) {
+  return crate.form.input_field.call(null, "file", a, null)
+};
+crate.form.file_upload = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5198);
+var func__3081__auto___5199 = function(a, b) {
+  return cljs.core.PersistentVector.fromArray(["\ufdd0'label", cljs.core.ObjMap.fromObject(["\ufdd0'for"], {"\ufdd0'for":crate.form.make_id.call(null, a)}), b], !0)
+};
+crate.form.label = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5199);
+var func__3081__auto___5200 = function(a) {
+  return cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type", "\ufdd0'value"], {"\ufdd0'type":"submit", "\ufdd0'value":a})], !0)
+};
+crate.form.submit_button = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5200);
+var func__3081__auto___5201 = function(a) {
+  return cljs.core.PersistentVector.fromArray(["\ufdd0'input", cljs.core.ObjMap.fromObject(["\ufdd0'type", "\ufdd0'value"], {"\ufdd0'type":"reset", "\ufdd0'value":a})], !0)
+};
+crate.form.reset_button = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5201);
+var func__3081__auto___5204 = function() {
+  var a = function(a, b) {
+    var e = cljs.core.nth.call(null, a, 0, null), f = cljs.core.nth.call(null, a, 1, null), g = cljs.core.name.call(null, e).toUpperCase(), f = crate.util.to_uri.call(null, f);
+    return cljs.core.vec.call(null, cljs.core.concat.call(null, cljs.core.contains_QMARK_.call(null, cljs.core.PersistentHashSet.fromArray(["\ufdd0'get", "\ufdd0'post"]), e) ? cljs.core.PersistentVector.fromArray(["\ufdd0'form", cljs.core.ObjMap.fromObject(["\ufdd0'method", "\ufdd0'action"], {"\ufdd0'method":g, "\ufdd0'action":f})], !0) : cljs.core.PersistentVector.fromArray(["\ufdd0'form", cljs.core.ObjMap.fromObject(["\ufdd0'method", "\ufdd0'action"], {"\ufdd0'method":"POST", "\ufdd0'action":f}), 
+    crate.form.hidden_field.call(null, "_method", g)], !0), b))
+  }, b = function(b, d) {
+    var e = null;
+    goog.isDef(d) && (e = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1), 0));
+    return a.call(this, b, e)
+  };
+  b.cljs$lang$maxFixedArity = 1;
+  b.cljs$lang$applyTo = function(b) {
+    var d = cljs.core.first(b), b = cljs.core.rest(b);
+    return a(d, b)
+  };
+  b.cljs$lang$arity$variadic = a;
+  return b
+}();
+crate.form.form_to = crate.compiler.add_optional_attrs.call(null, func__3081__auto___5204);
 var jayq = {core:{}};
 jayq.core.crate_meta = function(a) {
   return a.prototype._crateGroup
@@ -17253,8 +17437,8 @@ textadventureeditor.client.main.draw_editor = function(a, b) {
 monet.canvas.add_entity.call(null, textadventureeditor.client.main.editor, "\ufdd0'editor", monet.canvas.entity.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'w", "\ufdd0'h"], {"\ufdd0'x":0, "\ufdd0'y":0, "\ufdd0'w":800, "\ufdd0'h":650}), null, textadventureeditor.client.main.draw_editor));
 textadventureeditor.client.main.locations = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY);
 textadventureeditor.client.main.make_location = function(a, b, c, d) {
-  cljs.core.not.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([a, b], !0))) && cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([a, b], !0), cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'w \ufdd0'h \ufdd0'type \ufdd0'id \ufdd0'description \ufdd0'current".split(" "), {"\ufdd0'x":a, "\ufdd0'y":b, "\ufdd0'w":40, "\ufdd0'h":40, "\ufdd0'type":"\ufdd0'location", 
-  "\ufdd0'id":c, "\ufdd0'description":d, "\ufdd0'current":!1}));
+  cljs.core.not.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([a, b], !0))) && cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([a, b], !0), cljs.core.ObjMap.fromObject("\ufdd0'exits \ufdd0'y \ufdd0'current \ufdd0'x \ufdd0'h \ufdd0'type \ufdd0'w \ufdd0'id \ufdd0'description".split(" "), {"\ufdd0'exits":cljs.core.PersistentVector.fromArray([cljs.core.ObjMap.fromObject(["\ufdd0'id", 
+  "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit1", "\ufdd0'label":"north", "\ufdd0'destination":"loc1", "\ufdd0'direction-hint":"NORTH"})], !0), "\ufdd0'y":b, "\ufdd0'current":!1, "\ufdd0'x":a, "\ufdd0'h":40, "\ufdd0'type":"\ufdd0'location", "\ufdd0'w":40, "\ufdd0'id":c, "\ufdd0'description":d}));
   return cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([a, b], !0))
 };
 textadventureeditor.client.main.loc_fill_style = function(a) {
@@ -17305,12 +17489,6 @@ jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'focu
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'blur", function() {
   return this.focused = !1
 });
-textadventureeditor.client.main.loc_id_field_id = "location id";
-textadventureeditor.client.main.loc_description_field_id = "location description";
-textadventureeditor.client.main.show_location_information = function(a) {
-  textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_id_field_id, (new cljs.core.Keyword("\ufdd0'id")).call(null, a));
-  return textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_description_field_id, (new cljs.core.Keyword("\ufdd0'description")).call(null, a))
-};
 textadventureeditor.client.main.find_current_location = function() {
   return cljs.core.first.call(null, cljs.core.filter.call(null, function(a) {
     return(new cljs.core.Keyword("\ufdd0'current")).call(null, a)
@@ -17319,11 +17497,54 @@ textadventureeditor.client.main.find_current_location = function() {
 textadventureeditor.client.main.change_location_property = function(a, b, c) {
   return cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([(new cljs.core.Keyword("\ufdd0'x")).call(null, a), (new cljs.core.Keyword("\ufdd0'y")).call(null, a)], !0), cljs.core.assoc.call(null, a, b, c))
 };
+textadventureeditor.client.main.loc_id_field_id = "location id";
+textadventureeditor.client.main.loc_description_field_id = "location description";
+textadventureeditor.client.main.show_location_information = function(a) {
+  textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_id_field_id, (new cljs.core.Keyword("\ufdd0'id")).call(null, a));
+  return textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_description_field_id, (new cljs.core.Keyword("\ufdd0'description")).call(null, a))
+};
+textadventureeditor.client.main.$exit_properties = jayq.core.$.call(null, "\ufdd0'#exit-properties");
+var group__2982__auto___5056 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+textadventureeditor.client.main.exit_props_field = function(a) {
+  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'value", null), b = cljs.core._lookup.call(null, b, "\ufdd0'name", null), a = crate.core.html.call(null, crate.form.text_field.call(null, b, a));
+  a.setAttribute("crateGroup", group__2982__auto___5056);
+  return a
+};
+textadventureeditor.client.main.exit_props_field.prototype._crateGroup = group__2982__auto___5056;
+textadventureeditor.client.main.exit_id_field_id = "exit id";
+textadventureeditor.client.main.exit_label_field_id = "exit label";
+textadventureeditor.client.main.exit_destination_field_id = "exit destination";
+textadventureeditor.client.main.exit_direction_hint_field_id = "exit direction-hint";
+jayq.core.append.call(null, textadventureeditor.client.main.$exit_properties, textadventureeditor.client.main.exit_props_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":textadventureeditor.client.main.exit_id_field_id, "\ufdd0'value":"default exit id"})));
+jayq.core.append.call(null, textadventureeditor.client.main.$exit_properties, textadventureeditor.client.main.exit_props_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":textadventureeditor.client.main.exit_label_field_id, "\ufdd0'value":"default exit label"})));
+jayq.core.append.call(null, textadventureeditor.client.main.$exit_properties, textadventureeditor.client.main.exit_props_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":textadventureeditor.client.main.exit_destination_field_id, "\ufdd0'value":"default exit destination"})));
+jayq.core.append.call(null, textadventureeditor.client.main.$exit_properties, textadventureeditor.client.main.exit_props_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":textadventureeditor.client.main.exit_direction_hint_field_id, "\ufdd0'value":"default exit direction hint"})));
+var group__2982__auto___5060 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+textadventureeditor.client.main.exit_props_save_button = function(a) {
+  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, "\ufdd0'data-param":a}), 
+  b], !0));
+  a.setAttribute("crateGroup", group__2982__auto___5060);
+  return a
+};
+textadventureeditor.client.main.exit_props_save_button.prototype._crateGroup = group__2982__auto___5060;
+jayq.core.append.call(null, textadventureeditor.client.main.$exit_properties, textadventureeditor.client.main.exit_props_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"save-exit", "\ufdd0'param":""})));
+textadventureeditor.client.main.update_fields_for_exit = function(a) {
+  var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'direction-hint", null), c = cljs.core._lookup.call(null, b, "\ufdd0'destination", null), d = cljs.core._lookup.call(null, b, "\ufdd0'label", null), b = cljs.core._lookup.call(null, b, "\ufdd0'id", null);
+  textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.exit_id_field_id, b);
+  textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.exit_label_field_id, d);
+  textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.exit_destination_field_id, c);
+  return textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.exit_direction_hint_field_id, a)
+};
+textadventureeditor.client.main.show_location_exits = function(a) {
+  a = cljs.core.first.call(null, (new cljs.core.Keyword("\ufdd0'exits")).call(null, a));
+  return textadventureeditor.client.main.update_fields_for_exit.call(null, a)
+};
 textadventureeditor.client.main.make_location_current = function(a) {
   var b = textadventureeditor.client.main.find_current_location.call(null);
   cljs.core.truth_(b) && textadventureeditor.client.main.change_location_property.call(null, b, "\ufdd0'current", !1);
   textadventureeditor.client.main.change_location_property.call(null, a, "\ufdd0'current", !0);
-  return textadventureeditor.client.main.show_location_information.call(null, a)
+  textadventureeditor.client.main.show_location_information.call(null, a);
+  return textadventureeditor.client.main.show_location_exits.call(null, a)
 };
 textadventureeditor.client.main.make_new_location = function(a, b) {
   return textadventureeditor.client.main.make_location_current.call(null, textadventureeditor.client.main.make_location.call(null, a, b, "new id", "new description"))
@@ -17340,15 +17561,15 @@ textadventureeditor.client.main.canvas_mousedown = function(a) {
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'mousedown", textadventureeditor.client.main.canvas_mousedown);
 textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));
 textadventureeditor.client.main.$location_props = jayq.core.$.call(null, "\ufdd0'#location-properties");
-var group__3068__auto___6197 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2982__auto___5069 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_save_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, "\ufdd0'data-param":a}), 
   b], !0));
-  a.setAttribute("crateGroup", group__3068__auto___6197);
+  a.setAttribute("crateGroup", group__2982__auto___5069);
   return a
 };
-textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__3068__auto___6197;
-jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"", "\ufdd0'param":""})));
+textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__2982__auto___5069;
+jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"save-location", "\ufdd0'param":""})));
 textadventureeditor.client.main.handle_locprops_save = function(a) {
   a.preventDefault();
   textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), "\ufdd0'id", textadventureeditor.client.main.get_value.call(null, textadventureeditor.client.main.loc_id_field_id));

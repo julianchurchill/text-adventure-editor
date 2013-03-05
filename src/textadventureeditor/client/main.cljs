@@ -11,7 +11,8 @@
                 fill-style-that-works
                 stroke-style-that-works
                 stroke-width-that-works
-                alpha-that-works]]))
+                alpha-that-works]]
+        [crate.form :only [text-field]]))
 
 (def $body ($ :body))
 
@@ -35,7 +36,8 @@
 (defn make-location [x y id description]
   (if-not (@locations [x y])
     (swap! locations assoc [x y]
-           {:x x :y y :w 40 :h 40 :type :location :id id :description description :current false}))
+           {:x x :y y :w 40 :h 40 :type :location :id id :description description :current false
+            :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}]}))
   (@locations [x y]))
 
 (defn loc-fill-style [location]
@@ -102,13 +104,6 @@
         (this-as me
           (set! (.-focused me) false))))
 
-(def loc-id-field-id "location id")
-(def loc-description-field-id "location description")
-
-(defn show-location-information [location]
-  (set-value loc-id-field-id (:id location))
-  (set-value loc-description-field-id (:description location)))
-
 (defn find-current-location []
   (first (filter #(:current %) (vals @locations))))
 
@@ -116,12 +111,59 @@
   (swap! locations assoc [(:x location) (:y location)] 
          (assoc location param value)))
 
+(def loc-id-field-id "location id")
+(def loc-description-field-id "location description")
+
+(defn show-location-information [location]
+  (set-value loc-id-field-id (:id location))
+  (set-value loc-description-field-id (:description location)))
+
+(def $exit-properties ($ :#exit-properties))
+
+(defpartial exit-props-field [{:keys [name value]}]
+  (text-field name value))
+
+(def exit-id-field-id "exit id")
+(def exit-label-field-id "exit label")
+(def exit-destination-field-id "exit destination")
+(def exit-direction-hint-field-id "exit direction-hint")
+
+(append $exit-properties (exit-props-field {:name exit-id-field-id
+                                            :value "default exit id"}))
+
+(append $exit-properties (exit-props-field {:name exit-label-field-id
+                                            :value "default exit label"}))
+
+(append $exit-properties (exit-props-field {:name exit-destination-field-id
+                                            :value "default exit destination"}))
+
+(append $exit-properties (exit-props-field {:name exit-direction-hint-field-id
+                                            :value "default exit direction hint"}))
+
+(defpartial exit-props-save-button [{:keys [label action param]}]
+  [:a.button {:href "#" :data-action action :data-param param} label])
+
+(append $exit-properties (exit-props-save-button {:label "save"
+                                                  :action "save-exit"
+                                                  :param ""}))
+
+(defn update-fields-for-exit [{:keys [id label destination direction-hint]}]
+  (set-value exit-id-field-id id)
+  (set-value exit-label-field-id label)
+  (set-value exit-destination-field-id destination)
+  (set-value exit-direction-hint-field-id direction-hint))
+
+(defn show-location-exits [location]
+  (let [exit (first (:exits location))]
+    (update-fields-for-exit exit)))
+
 (defn make-location-current [location]
   (let [currentloc (find-current-location)]
     (when currentloc
 		  (change-location-property currentloc :current false)))
   (change-location-property location :current true)
-  (show-location-information location))
+  (show-location-information location)
+  (show-location-exits location))
 
 (defn make-new-location [x y]
   (make-location-current 
@@ -150,7 +192,7 @@
   [:a.button {:href "#" :data-action action :data-param param} label])
 
 (append $location-props (locprops-save-button {:label "save"
-                                               :action ""
+                                               :action "save-location"
                                                :param ""}))
 
 (defn handle-locprops-save [event]

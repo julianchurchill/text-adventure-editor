@@ -19,10 +19,10 @@ Useful links
 todo
 ====
 
-- [FEATURE] Locations have id in the graphic for quick reference
+- [FEATURE] Show all exits in a list with the location properties
+PARTIAL - [FEATURE] Locations have id in the graphic for quick reference. Font should be large, centred and a contrasting colour.
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 - [FEATURE] Enter key to save edited id and description to location
-- [FEATURE] Show all exits in a list with the location properties
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 - [FEATURE] Add exit button to create an exit
 - [FEATURE] Exits list has save button by each exit to save edited properties
