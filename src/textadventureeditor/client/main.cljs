@@ -77,6 +77,9 @@
 (defn set-value [id val]
   (set! (.-value (dom/getElement id)) val))
 
+(defn get-value [id]
+  (.-value (dom/getElement id)))
+
 (bind ($ :#canvas) :focus
       (fn [e]
         (this-as me
@@ -87,9 +90,12 @@
         (this-as me
           (set! (.-focused me) false))))
 
+(def loc-id-field-id "location id")
+(def loc-description-field-id "location description")
+
 (defn show-location-information [location]
-  (set-value "location id" (:id location))
-  (set-value "location description" (:description location)))
+  (set-value loc-id-field-id (:id location))
+  (set-value loc-description-field-id (:description location)))
 
 (defn find-current-location []
   (first (filter #(:current %) (vals @locations))))
@@ -116,11 +122,10 @@
   (this-as me
            (let [x (.-offsetX e)
                  y (.-offsetY e)]
-           (when (.-focused me)
              (let [location (location-at x y)]
                (if location
                  (make-location-current location)
-                 (make-new-location x y)))))))
+                 (make-new-location x y))))))
 
 (bind ($ :#canvas) :mousedown
       canvas-mousedown)
@@ -138,7 +143,8 @@
 
 (defn handle-locprops-save [event]
   (.preventDefault event)
-  (js/alert "clicked!"))
+  (change-location-property (find-current-location) :id (get-value loc-id-field-id))
+  (change-location-property (find-current-location) :description (get-value loc-description-field-id)))
 
 (delegate $body locprops-save-button :click
           handle-locprops-save)

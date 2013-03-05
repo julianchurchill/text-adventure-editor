@@ -17287,15 +17287,20 @@ textadventureeditor.client.main.make_location.call(null, 300, 300, "loc3", "desc
 textadventureeditor.client.main.set_value = function(a, b) {
   return goog.dom.getElement(a).value = b
 };
+textadventureeditor.client.main.get_value = function(a) {
+  return goog.dom.getElement(a).value
+};
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'focus", function() {
   return this.focused = !0
 });
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'blur", function() {
   return this.focused = !1
 });
+textadventureeditor.client.main.loc_id_field_id = "location id";
+textadventureeditor.client.main.loc_description_field_id = "location description";
 textadventureeditor.client.main.show_location_information = function(a) {
-  textadventureeditor.client.main.set_value.call(null, "location id", (new cljs.core.Keyword("\ufdd0'id")).call(null, a));
-  return textadventureeditor.client.main.set_value.call(null, "location description", (new cljs.core.Keyword("\ufdd0'description")).call(null, a))
+  textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_id_field_id, (new cljs.core.Keyword("\ufdd0'id")).call(null, a));
+  return textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_description_field_id, (new cljs.core.Keyword("\ufdd0'description")).call(null, a))
 };
 textadventureeditor.client.main.find_current_location = function() {
   return cljs.core.first.call(null, cljs.core.filter.call(null, function(a) {
@@ -17320,27 +17325,24 @@ textadventureeditor.client.main.location_at = function(a, b) {
   }, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))))
 };
 textadventureeditor.client.main.canvas_mousedown = function(a) {
-  var b = a.offsetX, a = a.offsetY;
-  if(cljs.core.truth_(this.focused)) {
-    var c = textadventureeditor.client.main.location_at.call(null, b, a);
-    return cljs.core.truth_(c) ? textadventureeditor.client.main.make_location_current.call(null, c) : textadventureeditor.client.main.make_new_location.call(null, b, a)
-  }
-  return null
+  var b = a.offsetX, a = a.offsetY, c = textadventureeditor.client.main.location_at.call(null, b, a);
+  return cljs.core.truth_(c) ? textadventureeditor.client.main.make_location_current.call(null, c) : textadventureeditor.client.main.make_new_location.call(null, b, a)
 };
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'mousedown", textadventureeditor.client.main.canvas_mousedown);
 textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));
 textadventureeditor.client.main.$location_props = jayq.core.$.call(null, "\ufdd0'#location-properties");
-var group__3068__auto___7395 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__3068__auto___4589 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_save_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, "\ufdd0'data-param":a}), 
   b], !0));
-  a.setAttribute("crateGroup", group__3068__auto___7395);
+  a.setAttribute("crateGroup", group__3068__auto___4589);
   return a
 };
-textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__3068__auto___7395;
+textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__3068__auto___4589;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"", "\ufdd0'param":""})));
 textadventureeditor.client.main.handle_locprops_save = function(a) {
   a.preventDefault();
-  return alert("clicked!")
+  textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), "\ufdd0'id", textadventureeditor.client.main.get_value.call(null, textadventureeditor.client.main.loc_id_field_id));
+  return textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), "\ufdd0'description", textadventureeditor.client.main.get_value.call(null, textadventureeditor.client.main.loc_description_field_id))
 };
 jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.locprops_save_button, "\ufdd0'click", textadventureeditor.client.main.handle_locprops_save);
