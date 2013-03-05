@@ -2,6 +2,7 @@
   :description "A self-hosted web app editor for my text adventure game"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [noir "1.3.0-beta3"]
+                 [crate "0.2.4"]
                  [monet "0.1.0-SNAPSHOT"]
                  [jayq "2.3.0"]]
 

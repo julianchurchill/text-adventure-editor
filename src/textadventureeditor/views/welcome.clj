@@ -1,21 +1,22 @@
 (ns textadventureeditor.views.welcome
   (:require [textadventureeditor.views.common :as common])
   (:use [noir.core :only [defpage defpartial]]
-        [hiccup.form :only [form-to text-field]]
+        [hiccup.form :only [form-to text-field submit-button]]
         [hiccup.page :only [html5]]))
 
-(defpartial properties [loc]
-  [:div#properties
-   (form-to [:post loc]
-    (text-field "location id" "no id")
-    (text-field "location description" "no description"))])
+(defpartial location-properties []
+  (form-to [:post "/locprops"]
+           [:div#location-properties
+            (text-field "location id" "no id")
+            (text-field "location description" "no description")]))
 
-(defpartial editor [loc]
+(defpartial properties []
   [:div#editor
-   (properties loc)
-   [:canvas#canvas {:width 800 :height 650 :tabindex 1}]])
+   [:div#properties
+    (location-properties)
+    [:canvas#canvas {:width 800 :height 650 :tabindex 1}]]])
 
 (defpage "/" []
          (common/layout
            [:p "Welcome to text-adventure-editor"]
-          (editor "/submit")))
+          (properties)))

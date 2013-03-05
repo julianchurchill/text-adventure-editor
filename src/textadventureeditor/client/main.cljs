@@ -1,9 +1,11 @@
 (ns textadventureeditor.client.main
   (:require [monet.canvas :as canvas]
             [monet.geometry :as geo]
-            [goog.dom :as dom])
-  (:use-macros [cljs.core :only [this-as]])
-  (:use [jayq.core :only [$ bind]]
+            [goog.dom :as dom]
+            [crate.core :as crate])
+  (:use-macros [cljs.core :only [this-as]]
+               [crate.def-macros :only [defpartial]])
+  (:use [jayq.core :only [$ bind append delegate]]
         [textadventureeditor.client.monetfixes 
          :only [font-style-that-works
                 fill-style-that-works
@@ -124,3 +126,19 @@
       canvas-mousedown)
 
 (make-location-current (first (vals @locations)))
+
+(def $location-props ($ :#location-properties))
+
+(defpartial locprops-save-button [{:keys [label action param]}]
+  [:a.button {:href "#" :data-action action :data-param param} label])
+
+(append $location-props (locprops-save-button {:label "save"
+                                               :action ""
+                                               :param ""}))
+
+(defn handle-locprops-save [event]
+  (.preventDefault event)
+  (js/alert "clicked!"))
+
+(delegate $body locprops-save-button :click
+          handle-locprops-save)
