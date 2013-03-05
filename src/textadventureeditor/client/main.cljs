@@ -53,13 +53,25 @@
     5
   	1))
 
+(defn text-color [ctx color]
+  (set! (.-color ctx) color)
+  ctx)
+
+(defn font-size [ctx size]
+  (set! (.-fontSize ctx) size)
+  ctx)
+
 (defn draw-location [ctx location]
   (-> ctx
       (fill-style-that-works (loc-fill-style location))
       (stroke-style-that-works (loc-stroke-style location))
       (stroke-width-that-works (loc-stroke-width location))
       (canvas/rect location)
-      (canvas/stroke)))
+      (canvas/stroke))
+  (-> ctx
+      (fill-style-that-works "222")
+      (font-size "large")
+      (canvas/text {:x (:x location) :y (:y location) :text (:id location)})))
 
 (defn draw-locations [ctx me]
   (doseq [l (vals @locations)]

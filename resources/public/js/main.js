@@ -17266,8 +17266,17 @@ textadventureeditor.client.main.loc_stroke_style = function(a) {
 textadventureeditor.client.main.loc_stroke_width = function(a) {
   return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? 5 : 1
 };
+textadventureeditor.client.main.text_color = function(a, b) {
+  a.color = b;
+  return a
+};
+textadventureeditor.client.main.font_size = function(a, b) {
+  a.fontSize = b;
+  return a
+};
 textadventureeditor.client.main.draw_location = function(a, b) {
-  return monet.canvas.stroke.call(null, monet.canvas.rect.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, textadventureeditor.client.main.loc_fill_style.call(null, b)), textadventureeditor.client.main.loc_stroke_style.call(null, b)), textadventureeditor.client.main.loc_stroke_width.call(null, b)), b))
+  monet.canvas.stroke.call(null, monet.canvas.rect.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, textadventureeditor.client.main.loc_fill_style.call(null, b)), textadventureeditor.client.main.loc_stroke_style.call(null, b)), textadventureeditor.client.main.loc_stroke_width.call(null, b)), b));
+  return monet.canvas.text.call(null, textadventureeditor.client.main.font_size.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, "222"), "large"), cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'text"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, b), "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, b), "\ufdd0'text":(new cljs.core.Keyword("\ufdd0'id")).call(null, b)}))
 };
 textadventureeditor.client.main.draw_locations = function(a) {
   for(var b = cljs.core.seq.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations)));;) {
@@ -17331,14 +17340,14 @@ textadventureeditor.client.main.canvas_mousedown = function(a) {
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'mousedown", textadventureeditor.client.main.canvas_mousedown);
 textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));
 textadventureeditor.client.main.$location_props = jayq.core.$.call(null, "\ufdd0'#location-properties");
-var group__3068__auto___4589 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__3068__auto___6197 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_save_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, "\ufdd0'data-param":a}), 
   b], !0));
-  a.setAttribute("crateGroup", group__3068__auto___4589);
+  a.setAttribute("crateGroup", group__3068__auto___6197);
   return a
 };
-textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__3068__auto___4589;
+textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__3068__auto___6197;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"", "\ufdd0'param":""})));
 textadventureeditor.client.main.handle_locprops_save = function(a) {
   a.preventDefault();
