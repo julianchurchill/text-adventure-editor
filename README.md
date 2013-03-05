@@ -19,14 +19,14 @@ Useful links
 todo
 ====
 
-- [FEATURE] Save button (and enter key) to save edited id and description to location
-- [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 - [FEATURE] Locations have id in the graphic for quick reference
-- [FEATURE] Drag mouse from one location to another to add a two-way exit with defaults
+- [FEATURE] Delete button to remove location from the model (plus confirm dialog)
+- [FEATURE] Enter key to save edited id and description to location
 - [FEATURE] Show all exits in a list with the location properties
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
-- [FEATURE] Hidden exits are dotted lines
+- [FEATURE] Add exit button to create an exit
 - [FEATURE] Exits list has save button by each exit to save edited properties
+- [FEATURE] Hidden exits are dotted lines
 - [FEATURE] Exits list has delete button by each exit to delete from model
 - [FEATURE] Locations have an items list
 - [FEATURE] Item list has save button by each item to save edited properties
@@ -39,5 +39,6 @@ todo
 done
 ====
 
+DONE - [FEATURE] Save button (and enter key) to save edited id and description to location
 DONE - [FEATURE] Click adds new location
 DONE - [FEATURE] Click a location to see editable properties, including name and description
