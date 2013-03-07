@@ -5,7 +5,7 @@
             [crate.core :as crate])
   (:use-macros [cljs.core :only [this-as]]
                [crate.def-macros :only [defpartial]])
-  (:use [jayq.core :only [$ bind append remove delegate]]
+  (:use [jayq.core :only [$ bind append remove delegate children]]
         [textadventureeditor.client.monetfixes 
          :only [font-style-that-works
                 fill-style-that-works
@@ -145,6 +145,24 @@
 	(doall (map remove-fields-for-exit (range 1 (+ max-number-of-exits 1))))
   (doall (map #(add-fields-for-exit %1 %2) (:exits location) (iterate inc 1))))
 
+(defn all-exit-divs []
+  (children $exit-properties))
+
+; returns [[field1 field2] [field1 field2]]
+(defn all-exit-fields []
+  (map #(children [%]) (all-exit-divs)))
+
+(defn get-id-value [fields]
+  (:value (first fields)))
+
+(defn gather-exits-values []
+  ; for each available exit, extract all the values from each field
+  [{:id "trevor"}])
+;  [{:id (get-id-value (first (all-exit-fields)))
+;    :label "north"
+;    :destination "loc1"
+;    :direction-hint "NORTH"}])
+
 ;;;;;;;;;;;;;;;
 ;; Locations ;;
 ;;;;;;;;;;;;;;;
@@ -194,7 +212,7 @@
                [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
                 {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}])
 (make-location 300 200 "loc2" "description2"
-               [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}
+               [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}])
 (make-location 300 300 "loc3" "description3" [])
 
 (make-location-current (first (vals @locations)))
@@ -211,7 +229,8 @@
 (defn handle-locprops-save [event]
   (.preventDefault event)
   (change-location-property (find-current-location) :id (get-value loc-id-field-id))
-  (change-location-property (find-current-location) :description (get-value loc-description-field-id)))
+  (change-location-property (find-current-location) :description (get-value loc-description-field-id))
+  (change-location-property (find-current-location) :exits (gather-exits-values)))
 
 (delegate $body locprops-save-button :click
           handle-locprops-save)
