@@ -33,12 +33,11 @@
 
 (def locations (atom {}))
 
-(defn make-location [x y id description]
+(defn make-location [x y id description exits]
   (if-not (@locations [x y])
     (swap! locations assoc [x y]
            {:x x :y y :w 40 :h 40 :type :location :id id :description description :current false
-            :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
-                    {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}]}))
+            :exits exits}))
   (@locations [x y]))
 
 (defn loc-fill-style [location]
@@ -55,10 +54,6 @@
   (if (:current location)
     5
   	1))
-
-(defn text-color [ctx color]
-  (set! (.-color ctx) color)
-  ctx)
 
 (defn font-size [ctx size]
   (set! (.-fontSize ctx) size)
@@ -85,10 +80,6 @@
                                   nil ;; update function
                                   draw-locations))
 
-(make-location 100 100 "loc1" "description1")
-(make-location 300 200 "loc2" "description2")
-(make-location 300 300 "loc3" "description3")
-
 (defn set-value [id val]
   (set! (.-value (dom/getElement id)) val))
 
@@ -111,17 +102,19 @@
 
 (def $exit-properties ($ :#exit-properties))
 
+(def max-number-of-exits 20)
+
 (def exit-id-field-id "exit-id")
 (def exit-label-field-id "exit-label")
 (def exit-destination-field-id "exit-destination")
 (def exit-direction-hint-field-id "exit-direction-hint")
-(def exit-save-id "save-exit")
+(def exit-delete-id "delete-exit")
 (def exit-div-id "single-exit")
 
 (defpartial exit-props-field [{:keys [name value]}]
   (text-field name value))
 
-(defpartial exit-props-save-button [{:keys [label action param id]}]
+(defpartial exit-props-button [{:keys [label action param id]}]
   [:a.button {:href "#" :data-action action :data-param param :id id} label])
 
 (defpartial exit-div [{:keys [id]}]
@@ -140,15 +133,13 @@
                                               :value destination}))
   (append ($exit-div index) (exit-props-field {:name (str exit-direction-hint-field-id index)
                                               :value direction-hint}))
-  (append ($exit-div index) (exit-props-save-button {:label "save"
-                                                    :action (str exit-save-id index)
-                                                    :param ""
-                                                    :id (str exit-save-id index)})))
+  (append ($exit-div index) (exit-props-button {:label "delete"
+                                                :action (str exit-delete-id index)
+                                                :param ""
+                                                :id (str exit-delete-id index)})))
 
 (defn remove-fields-for-exit [index]
   (remove ($exit-div index)))
-
-(def max-number-of-exits 20)
 
 (defn show-location-exits [location]
 	(doall (map remove-fields-for-exit (range 1 (+ max-number-of-exits 1))))
@@ -158,15 +149,15 @@
 ;; Locations ;;
 ;;;;;;;;;;;;;;;
 
+(def loc-id-field-id "location id")
+(def loc-description-field-id "location description")
+
 (defn find-current-location []
   (first (filter #(:current %) (vals @locations))))
 
 (defn change-location-property [location param value]
   (swap! locations assoc [(:x location) (:y location)] 
          (assoc location param value)))
-
-(def loc-id-field-id "location id")
-(def loc-description-field-id "location description")
 
 (defn show-location-information [location]
   (set-value loc-id-field-id (:id location))
@@ -182,7 +173,7 @@
 
 (defn make-new-location [x y]
   (make-location-current 
-   (make-location x y "new id" "new description")))
+   (make-location x y "new id" "new description" [])))
 
 (defn location-at [x y]
   (first (filter #(geo/in-bounds? % x y) (vals @locations))))
@@ -198,6 +189,13 @@
 
 (bind ($ :#canvas) :mousedown
       canvas-mousedown)
+
+(make-location 100 100 "loc1" "description1"
+               [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
+                {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}])
+(make-location 300 200 "loc2" "description2"
+               [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}
+(make-location 300 300 "loc3" "description3" [])
 
 (make-location-current (first (vals @locations)))
 
