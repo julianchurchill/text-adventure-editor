@@ -19,18 +19,17 @@ Useful links
 todo
 ====
 
-PARTIAL - [FEATURE] Show all exits in a list with the location properties
-  - Text fields aren't removed then re-added when changing locations, so locations with differing
-    numbers of exits won't work yet.
+- [FEATURE] Location save button saves edited exit properties
+- [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
+- [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
+- [FEATURE] Add exit button to create an exit
+- [FEATURE] Exits list has delete button by each exit to delete from model
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 - [FEATURE] Enter key to save edited id and description to location
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
-- [FEATURE] Add exit button to create an exit
-- [FEATURE] Exits list has save button by each exit to save edited properties
 - [FEATURE] Hidden exits are dotted lines
-- [FEATURE] Exits list has delete button by each exit to delete from model
 - [FEATURE] Locations have an items list
 - [FEATURE] Item list has save button by each item to save edited properties
 - [FEATURE] Item list has delete button by each item to delete from model
@@ -42,6 +41,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
-DONE - [FEATURE] Save button (and enter key) to save edited id and description to location
+DONE - [FEATURE] Show all exits in a list with the location properties
+DONE - [FEATURE] Save button to save edited id and description to location
 DONE - [FEATURE] Click adds new location
 DONE - [FEATURE] Click a location to see editable properties, including name and description
