@@ -111,22 +111,24 @@
 
 (def $exit-properties ($ :#exit-properties))
 
-(defpartial exit-props-field [{:keys [name value]}]
-  (text-field name value))
-
 (def exit-id-field-id "exit-id")
 (def exit-label-field-id "exit-label")
 (def exit-destination-field-id "exit-destination")
 (def exit-direction-hint-field-id "exit-direction-hint")
+(def exit-save-id "save-exit")
+(def exit-div-id "single-exit")
 
-(defpartial exit-props-save-button [{:keys [label action param]}]
-  [:a.button {:href "#" :data-action action :data-param param} label])
+(defpartial exit-props-field [{:keys [name value]}]
+  (text-field name value))
 
-(defpartial exit-div [index]
-  [:div {:id (str "single-exit" index)}])
+(defpartial exit-props-save-button [{:keys [label action param id]}]
+  [:a.button {:href "#" :data-action action :data-param param :id id} label])
+
+(defpartial exit-div [{:keys [id]}]
+  [:div {:id id}])
 
 (defn add-fields-for-exit [index]
-  (append $exit-properties (exit-div index))
+  (append $exit-properties (exit-div {:id (str exit-div-id index)}))
   (append $exit-properties (exit-props-field {:name (str exit-id-field-id index)
                                               :value "default exit id"}))
   (append $exit-properties (exit-props-field {:name (str exit-label-field-id index)
@@ -136,25 +138,29 @@
   (append $exit-properties (exit-props-field {:name (str exit-direction-hint-field-id index)
                                               :value "default exit direction hint"}))
   (append $exit-properties (exit-props-save-button {:label "save"
-                                                    :action (str "save-exit" index)
-                                                    :param ""})))
-
-(add-fields-for-exit 1)
-(add-fields-for-exit 2)
-;; test
-;(remove ($ (str exit-id-field-id 1)))
-;(remove ($ :#exit-id1))
+                                                    :action (str exit-save-id index)
+                                                    :param ""
+                                                    :id (str exit-save-id index)})))
 
 (defn update-fields-for-exit [{:keys [id label destination direction-hint]} index]
-  ;; remove all old fields
-;  (remove ($ (str "#" exit-id-field-id index)))
-;	(add-fields-for-exit index)
+	(add-fields-for-exit index)
   (set-value (str exit-id-field-id index) id)
   (set-value (str exit-label-field-id index) label)
   (set-value (str exit-destination-field-id index) destination)
   (set-value (str exit-direction-hint-field-id index) direction-hint))
 
+(defn remove-fields-for-exit [index]
+  (remove ($ (str "#" exit-div-id index)))
+  (remove ($ (str "#" exit-id-field-id index)))
+  (remove ($ (str "#" exit-label-field-id index)))
+  (remove ($ (str "#" exit-destination-field-id index)))
+  (remove ($ (str "#" exit-direction-hint-field-id index)))
+  (remove ($ (str "#" exit-save-id index))))
+
+(def max-number-of-exits 20)
+
 (defn show-location-exits [location]
+	(doall (map remove-fields-for-exit (range 1 (+ max-number-of-exits 1))))
   (doall (map #(update-fields-for-exit %1 %2) (:exits location) (iterate inc 1))))
 
 ;;;;;;;;;;;;;;;
