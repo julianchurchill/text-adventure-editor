@@ -19,7 +19,6 @@ Useful links
 todo
 ====
 
-- [FEATURE] Location save button saves edited exit properties
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
 - [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 - [FEATURE] Add exit button to create an exit
@@ -41,6 +40,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Location save button saves edited exit properties
 DONE - [FEATURE] Show all exits in a list with the location properties
 DONE - [FEATURE] Save button to save edited id and description to location
 DONE - [FEATURE] Click adds new location

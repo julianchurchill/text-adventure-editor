@@ -5,7 +5,7 @@
             [crate.core :as crate])
   (:use-macros [cljs.core :only [this-as]]
                [crate.def-macros :only [defpartial]])
-  (:use [jayq.core :only [$ bind append remove delegate children]]
+  (:use [jayq.core :only [$ bind append remove delegate]]
         [textadventureeditor.client.monetfixes 
          :only [font-style-that-works
                 fill-style-that-works
@@ -111,6 +111,8 @@
 (def exit-delete-id "delete-exit")
 (def exit-div-id "single-exit")
 
+(def exit-count-for-current-location (atom 0))
+
 (defpartial exit-props-field [{:keys [name value]}]
   (text-field name value))
 
@@ -136,32 +138,26 @@
   (append ($exit-div index) (exit-props-button {:label "delete"
                                                 :action (str exit-delete-id index)
                                                 :param ""
-                                                :id (str exit-delete-id index)})))
+                                                :id (str exit-delete-id index)}))
+  (swap! exit-count-for-current-location inc))
 
 (defn remove-fields-for-exit [index]
   (remove ($exit-div index)))
 
 (defn show-location-exits [location]
+  (swap! exit-count-for-current-location (fn [n] 0))
 	(doall (map remove-fields-for-exit (range 1 (+ max-number-of-exits 1))))
   (doall (map #(add-fields-for-exit %1 %2) (:exits location) (iterate inc 1))))
 
-(defn all-exit-divs []
-  (children $exit-properties))
-
-; returns [[field1 field2] [field1 field2]]
-(defn all-exit-fields []
-  (map #(children [%]) (all-exit-divs)))
-
-(defn get-id-value [fields]
-  (:value (first fields)))
+(defn make-exit-from-fields [index]
+  {:id (get-value (str exit-id-field-id index))
+   :label (get-value (str exit-label-field-id index))
+   :destination (get-value (str exit-destination-field-id index))
+   :direction-hint (get-value (str exit-direction-hint-field-id index))})
 
 (defn gather-exits-values []
   ; for each available exit, extract all the values from each field
-  [{:id "trevor"}])
-;  [{:id (get-id-value (first (all-exit-fields)))
-;    :label "north"
-;    :destination "loc1"
-;    :direction-hint "NORTH"}])
+  (doall (map make-exit-from-fields (range 1 (inc @exit-count-for-current-location)))))
 
 ;;;;;;;;;;;;;;;
 ;; Locations ;;
