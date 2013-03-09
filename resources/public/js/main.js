@@ -17528,7 +17528,7 @@ textadventureeditor.client.main.add_fields_for_exit = function(a) {
   jayq.core.append.call(null, textadventureeditor.client.main.$exit_div.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index)), textadventureeditor.client.main.exit_props_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":[cljs.core.str(textadventureeditor.client.main.exit_destination_field_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join(""), "\ufdd0'value":c})));
   jayq.core.append.call(null, textadventureeditor.client.main.$exit_div.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index)), textadventureeditor.client.main.exit_props_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":[cljs.core.str(textadventureeditor.client.main.exit_direction_hint_field_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join(""), "\ufdd0'value":a})));
   return jayq.core.append.call(null, textadventureeditor.client.main.$exit_div.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index)), textadventureeditor.client.main.delete_exit_props_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param", "\ufdd0'id"], {"\ufdd0'label":"delete", "\ufdd0'action":[cljs.core.str(textadventureeditor.client.main.exit_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join(""), 
-  "\ufdd0'param":"" + cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index)), "\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.exit_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join("")})))
+  "\ufdd0'param":cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index), "\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.exit_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join("")})))
 };
 textadventureeditor.client.main.discard_value = function(a, b) {
   return cljs.core.filter.call(null, function(a) {
@@ -17539,12 +17539,15 @@ textadventureeditor.client.main.remove_fields_for_exit = function(a) {
   return jayq.core.remove.call(null, textadventureeditor.client.main.$exit_div.call(null, a))
 };
 textadventureeditor.client.main.handle_delete_exit = function(a) {
-  a.preventDefault();
-  a = a.param;
   textadventureeditor.client.main.remove_fields_for_exit.call(null, a);
   return cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.exit_indices_for_current_location, textadventureeditor.client.main.discard_value, a)
 };
-jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.delete_exit_props_button, "\ufdd0'click", textadventureeditor.client.main.handle_delete_exit);
+jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.delete_exit_props_button, "\ufdd0'click", function(a) {
+  a.preventDefault();
+  a = jayq.core.$.call(null, this);
+  a = jayq.core.data.call(null, a, "\ufdd0'param");
+  return textadventureeditor.client.main.handle_delete_exit.call(null, a)
+});
 textadventureeditor.client.main.show_location_exits = function(a) {
   cljs.core.doall.call(null, cljs.core.map.call(null, textadventureeditor.client.main.remove_fields_for_exit, cljs.core.deref.call(null, textadventureeditor.client.main.exit_indices_for_current_location)));
   cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.exit_indices_for_current_location, function() {

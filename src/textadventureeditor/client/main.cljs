@@ -5,7 +5,7 @@
             [crate.core :as crate])
   (:use-macros [cljs.core :only [this-as]]
                [crate.def-macros :only [defpartial]])
-  (:use [jayq.core :only [$ bind append remove delegate]]
+  (:use [jayq.core :only [$ bind append remove delegate data]]
         [textadventureeditor.client.monetfixes 
          :only [font-style-that-works
                 fill-style-that-works
@@ -144,7 +144,7 @@
   (append ($exit-div @next-available-exit-index)
           (delete-exit-props-button {:label "delete"
                                      :action (str exit-delete-id @next-available-exit-index)
-                                     :param (str @next-available-exit-index)
+                                     :param @next-available-exit-index
                                      :id (str exit-delete-id @next-available-exit-index)})))
 
 (defn discard-value [values value]
@@ -153,16 +153,18 @@
 (defn remove-fields-for-exit [index]
   (remove ($exit-div index)))
 
-;; this does not work for some reason!!!
-(defn handle-delete-exit [event]
-  (.preventDefault event)
-  (let [index (.-param event)]
-    (remove-fields-for-exit index)
-    (swap! exit-indices-for-current-location discard-value index)))
+(defn handle-delete-exit [index]
+  (remove-fields-for-exit index)
+  (swap! exit-indices-for-current-location discard-value index))
 
 (delegate $body delete-exit-props-button :click
-          handle-delete-exit)
-
+          (fn [e]
+            (.preventDefault e)
+            (this-as me 
+                     (let [$me ($ me)
+                           index (data $me :param)]
+                       (handle-delete-exit index)))))
+                    
 (defn show-location-exits [location]
 	(doall (map remove-fields-for-exit @exit-indices-for-current-location))
   (swap! exit-indices-for-current-location (fn [n] []))  
