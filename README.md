@@ -19,7 +19,6 @@ Useful links
 todo
 ====
 
-- [FEATURE] Add exit button to create an exit
 - [FEATURE] Exits list has delete button by each exit to delete from model
 - [FEATURE] Locations have an items list
 - [FEATURE] Item list has save button by each item to save edited properties
@@ -40,6 +39,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Add exit button to create an exit
 DONE - [FEATURE] Location save button saves edited exit properties
 DONE - [FEATURE] Show all exits in a list with the location properties
 DONE - [FEATURE] Save button to save edited id and description to location

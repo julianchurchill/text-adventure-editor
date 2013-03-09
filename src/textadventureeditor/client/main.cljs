@@ -221,6 +221,26 @@
 
 (def $location-props ($ :#location-properties))
 
+(defpartial locprops-add-exit-button [{:keys [label action param]}]
+  [:a.button {:href "#" :data-action action :data-param param} label])
+
+(append $location-props (locprops-add-exit-button {:label "add exit"
+                                                   :action "add-exit"
+                                                   :param ""}))
+
+(defn default-exit []
+  {:id "default id"
+   :label "default label"
+   :destination "default destination"
+   :direction-hint "default direction hint"})
+
+(defn handle-locprops-add-exit [event]
+  (.preventDefault event)
+  (add-fields-for-exit (default-exit)))
+
+(delegate $body locprops-add-exit-button :click
+          handle-locprops-add-exit)
+
 (defpartial locprops-save-button [{:keys [label action param]}]
   [:a.button {:href "#" :data-action action :data-param param} label])
 
