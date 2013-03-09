@@ -113,35 +113,36 @@
 (def next-available-exit-index (atom 0))
 (def exit-indices-for-current-location (atom []))
 
-(defpartial exit-props-field [{:keys [name value]}]
+(defpartial make-text-field [{:keys [name value]}]
   (text-field name value))
 
 (defpartial delete-exit-props-button [{:keys [label action param id]}]
   [:a.button.delete-exit-button {:href "#" :data-action action :data-param param :id id} label])
 
-(defpartial exit-div [{:keys [id]}]
+(defpartial make-div [{:keys [id]}]
   [:div {:id id}])
 
 (defn $exit-div [index]
   ($ (str "#" exit-div-id index)))
 
+(defn add-text-field-to-div [ field-info div next-available-index]
+  (append (div next-available-index)
+          (make-text-field {:name (str (:base-field-id field-info) next-available-index)
+                            :value (:value field-info)})))
+
 (defn add-fields-for-exit [{:keys [id label destination direction-hint]}]
   (swap! next-available-exit-index inc)
   (swap! exit-indices-for-current-location conj @next-available-exit-index)
   (append $exit-properties 
-          (exit-div {:id (str exit-div-id @next-available-exit-index)}))
-  (append ($exit-div @next-available-exit-index)
-          (exit-props-field {:name (str exit-id-field-id @next-available-exit-index)
-                             :value id}))
-  (append ($exit-div @next-available-exit-index)
-          (exit-props-field {:name (str exit-label-field-id @next-available-exit-index)
-                             :value label}))
-  (append ($exit-div @next-available-exit-index)
-          (exit-props-field {:name (str exit-destination-field-id @next-available-exit-index)
-                             :value destination}))
-  (append ($exit-div @next-available-exit-index)
-          (exit-props-field {:name (str exit-direction-hint-field-id @next-available-exit-index)
-                             :value direction-hint}))
+          (make-div {:id (str exit-div-id @next-available-exit-index)}))
+  (add-text-field-to-div {:base-field-id exit-id-field-id :value id}
+                         $exit-div @next-available-exit-index)
+  (add-text-field-to-div {:base-field-id exit-label-field-id :value label}
+                         $exit-div @next-available-exit-index)
+  (add-text-field-to-div {:base-field-id exit-destination-field-id :value destination}
+                         $exit-div @next-available-exit-index)
+  (add-text-field-to-div {:base-field-id exit-direction-hint-field-id :value direction-hint} 
+                         $exit-div @next-available-exit-index)
   (append ($exit-div @next-available-exit-index)
           (delete-exit-props-button {:label "delete"
                                      :action (str exit-delete-id @next-available-exit-index)
@@ -204,59 +205,39 @@
 (def next-available-item-index (atom 0))
 (def item-indices-for-current-location (atom []))
 
-(defpartial item-props-field [{:keys [name value]}]
-  (text-field name value))
-
 (defpartial delete-item-props-button [{:keys [label action param id]}]
   [:a.button.delete-item-button {:href "#" :data-action action :data-param param :id id} label])
-
-(defpartial item-div [{:keys [id]}]
-  [:div {:id id}])
 
 (defn $item-div [index]
   ($ (str "#" item-div-id index)))
 
-;;:items [{:id "item id" :name "item name" :description "item description" 
-;;         :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
-;;         :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
-;;         :use-is-not-repeatable false :use-actions []}]})
 (defn add-fields-for-item [{:keys [id name description countable-noun-prefix mid-sentence-cased-name
                                    is-untakeable can-be-used-with successful-use-message
                                    use-is-not-repeatable use-actions]}]
   (swap! next-available-item-index inc)
   (swap! item-indices-for-current-location conj @next-available-item-index)
   (append $item-properties 
-          (item-div {:id (str item-div-id @next-available-item-index)}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-id-field-id @next-available-item-index)
-                             :value id}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-name-field-id @next-available-item-index)
-                             :value name}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-description-field-id @next-available-item-index)
-                             :value description}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-countable-noun-prefix-field-id @next-available-item-index)
-                             :value countable-noun-prefix}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-mid-sentence-cased-name-field-id @next-available-item-index)
-                             :value mid-sentence-cased-name}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-is-untakeable-field-id @next-available-item-index)
-                             :value is-untakeable}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-can-be-used-with-field-id @next-available-item-index)
-                             :value can-be-used-with}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-successful-use-message-field-id @next-available-item-index)
-                             :value successful-use-message}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-use-is-not-repeatable-field-id @next-available-item-index)
-                             :value use-is-not-repeatable}))
-  (append ($item-div @next-available-item-index)
-          (item-props-field {:name (str item-use-actions-field-id @next-available-item-index)
-                             :value use-actions}))
+          (make-div {:id (str item-div-id @next-available-item-index)}))
+  (add-text-field-to-div {:base-field-id item-id-field-id :value id}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-name-field-id :value name}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-description-field-id :value description}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-countable-noun-prefix-field-id :value countable-noun-prefix}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-mid-sentence-cased-name-field-id :value mid-sentence-cased-name}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-is-untakeable-field-id :value is-untakeable}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-can-be-used-with-field-id :value can-be-used-with}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-successful-use-message-field-id :value successful-use-message}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-use-is-not-repeatable-field-id :value use-is-not-repeatable}
+                         $item-div @next-available-item-index)
+  (add-text-field-to-div {:base-field-id item-use-actions-field-id :value use-actions}
+                         $item-div @next-available-item-index)
   (append ($item-div @next-available-item-index)
           (delete-item-props-button {:label "delete"
                                      :action (str item-delete-id @next-available-item-index)
