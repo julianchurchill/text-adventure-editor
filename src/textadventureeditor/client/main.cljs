@@ -116,8 +116,8 @@
 (defpartial exit-props-field [{:keys [name value]}]
   (text-field name value))
 
-(defpartial exit-props-button [{:keys [label action param id]}]
-  [:a.button {:href "#" :data-action action :data-param param :id id} label])
+(defpartial delete-exit-props-button [{:keys [label action param id]}]
+  [:a.button.delete-exit-button {:href "#" :data-action action :data-param param :id id} label])
 
 (defpartial exit-div [{:keys [id]}]
   [:div {:id id}])
@@ -142,10 +142,10 @@
           (exit-props-field {:name (str exit-direction-hint-field-id @exit-count-for-current-location)
                              :value direction-hint}))
   (append ($exit-div @exit-count-for-current-location)
-          (exit-props-button {:label "delete"
-                              :action (str exit-delete-id @exit-count-for-current-location)
-                              :param ""
-                              :id (str exit-delete-id @exit-count-for-current-location)})))
+          (delete-exit-props-button {:label "delete"
+                                     :action (str exit-delete-id @exit-count-for-current-location)
+                                     :param ""
+                                     :id (str exit-delete-id @exit-count-for-current-location)})))
 
 (defn remove-fields-for-exit [index]
   (remove ($exit-div index)))
@@ -222,7 +222,7 @@
 (def $location-props ($ :#location-properties))
 
 (defpartial locprops-add-exit-button [{:keys [label action param]}]
-  [:a.button {:href "#" :data-action action :data-param param} label])
+  [:a.button.add-exit-button {:href "#" :data-action action :data-param param} label])
 
 (append $location-props (locprops-add-exit-button {:label "add exit"
                                                    :action "add-exit"
@@ -242,7 +242,7 @@
           handle-locprops-add-exit)
 
 (defpartial locprops-save-button [{:keys [label action param]}]
-  [:a.button {:href "#" :data-action action :data-param param} label])
+  [:a.button.save-button {:href "#" :data-action action :data-param param} label])
 
 (append $location-props (locprops-save-button {:label "save"
                                                :action "save-location"
