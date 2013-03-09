@@ -125,21 +125,27 @@
 (defn $exit-div [index]
   ($ (str "#" exit-div-id index)))
 
-(defn add-fields-for-exit [{:keys [id label destination direction-hint]} index]
-  (append $exit-properties (exit-div {:id (str exit-div-id index)}))
-  (append ($exit-div index) (exit-props-field {:name (str exit-id-field-id index)
-                                              :value id}))
-  (append ($exit-div index) (exit-props-field {:name (str exit-label-field-id index)
-                                              :value label}))
-  (append ($exit-div index) (exit-props-field {:name (str exit-destination-field-id index)
-                                              :value destination}))
-  (append ($exit-div index) (exit-props-field {:name (str exit-direction-hint-field-id index)
-                                              :value direction-hint}))
-  (append ($exit-div index) (exit-props-button {:label "delete"
-                                                :action (str exit-delete-id index)
-                                                :param ""
-                                                :id (str exit-delete-id index)}))
-  (swap! exit-count-for-current-location inc))
+(defn add-fields-for-exit [{:keys [id label destination direction-hint]}]
+  (swap! exit-count-for-current-location inc)
+  (append $exit-properties 
+          (exit-div {:id (str exit-div-id @exit-count-for-current-location)}))
+  (append ($exit-div @exit-count-for-current-location)
+          (exit-props-field {:name (str exit-id-field-id @exit-count-for-current-location)
+                             :value id}))
+  (append ($exit-div @exit-count-for-current-location)
+          (exit-props-field {:name (str exit-label-field-id @exit-count-for-current-location)
+                             :value label}))
+  (append ($exit-div @exit-count-for-current-location)
+          (exit-props-field {:name (str exit-destination-field-id @exit-count-for-current-location)
+                             :value destination}))
+  (append ($exit-div @exit-count-for-current-location)
+          (exit-props-field {:name (str exit-direction-hint-field-id @exit-count-for-current-location)
+                             :value direction-hint}))
+  (append ($exit-div @exit-count-for-current-location)
+          (exit-props-button {:label "delete"
+                              :action (str exit-delete-id @exit-count-for-current-location)
+                              :param ""
+                              :id (str exit-delete-id @exit-count-for-current-location)})))
 
 (defn remove-fields-for-exit [index]
   (remove ($exit-div index)))
@@ -147,7 +153,7 @@
 (defn show-location-exits [location]
   (swap! exit-count-for-current-location (fn [n] 0))
 	(doall (map remove-fields-for-exit (range 1 (+ max-number-of-exits 1))))
-  (doall (map #(add-fields-for-exit %1 %2) (:exits location) (iterate inc 1))))
+  (doall (map #(add-fields-for-exit %) (:exits location))))
 
 (defn make-exit-from-fields [index]
   {:id (get-value (str exit-id-field-id index))
