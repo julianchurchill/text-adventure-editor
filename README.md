@@ -19,10 +19,12 @@ Useful links
 todo
 ====
 
-- [FEATURE] Exits list has delete button by each exit to delete from model
 - [FEATURE] Locations have an items list
-- [FEATURE] Item list has save button by each item to save edited properties
+- [FEATURE] Location save button saves items list
 - [FEATURE] Item list has delete button by each item to delete from model
+- [FEATURE] Items have item actions list
+- [FEATURE] Items have 'add item action' button
+- [FEATURE] Items have 'delete' button for each item action
 - [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
 - [FEATURE] Import button to load a model in a text file
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
@@ -39,6 +41,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Exits list has delete button by each exit to delete from model
 DONE - [FEATURE] Add exit button to create an exit
 DONE - [FEATURE] Location save button saves edited exit properties
 DONE - [FEATURE] Show all exits in a list with the location properties
