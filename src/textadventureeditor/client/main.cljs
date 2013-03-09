@@ -144,11 +144,24 @@
   (append ($exit-div @next-available-exit-index)
           (delete-exit-props-button {:label "delete"
                                      :action (str exit-delete-id @next-available-exit-index)
-                                     :param ""
+                                     :param (str @next-available-exit-index)
                                      :id (str exit-delete-id @next-available-exit-index)})))
+
+(defn discard-value [values value]
+  (filter #(not (= value %)) values))
 
 (defn remove-fields-for-exit [index]
   (remove ($exit-div index)))
+
+;; this does not work for some reason!!!
+(defn handle-delete-exit [event]
+  (.preventDefault event)
+  (let [index (.-param event)]
+    (remove-fields-for-exit index)
+    (swap! exit-indices-for-current-location discard-value index)))
+
+(delegate $body delete-exit-props-button :click
+          handle-delete-exit)
 
 (defn show-location-exits [location]
 	(doall (map remove-fields-for-exit @exit-indices-for-current-location))
