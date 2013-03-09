@@ -19,21 +19,21 @@ Useful links
 todo
 ====
 
-- [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
-- [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 - [FEATURE] Add exit button to create an exit
 - [FEATURE] Exits list has delete button by each exit to delete from model
+- [FEATURE] Locations have an items list
+- [FEATURE] Item list has save button by each item to save edited properties
+- [FEATURE] Item list has delete button by each item to delete from model
+- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
+- [FEATURE] Import button to load a model in a text file
+- [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
+- [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 - [FEATURE] Enter key to save edited id and description to location
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 - [FEATURE] Hidden exits are dotted lines
-- [FEATURE] Locations have an items list
-- [FEATURE] Item list has save button by each item to save edited properties
-- [FEATURE] Item list has delete button by each item to delete from model
-- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
-- [FEATURE] Import button to load a model in a text file
 - [FEATURE] Locations are draggable 
 - [FEATURE] Loading a model from a text file lays out locations so they can all be seen
 
