@@ -102,8 +102,6 @@
 
 (def $exit-properties ($ :#exit-properties))
 
-(def max-number-of-exits 20)
-
 (def exit-id-field-id "exit-id")
 (def exit-label-field-id "exit-label")
 (def exit-destination-field-id "exit-destination")
@@ -111,8 +109,8 @@
 (def exit-delete-id "delete-exit")
 (def exit-div-id "single-exit")
 
-(def exit-indices-for-current-location (atom []))
 (def next-available-exit-index (atom 0))
+(def exit-indices-for-current-location (atom []))
 
 (defpartial exit-props-field [{:keys [name value]}]
   (text-field name value))
@@ -153,9 +151,9 @@
   (remove ($exit-div index)))
 
 (defn show-location-exits [location]
+	(doall (map remove-fields-for-exit @exit-indices-for-current-location))
   (swap! exit-indices-for-current-location (fn [n] []))  
   (swap! next-available-exit-index (fn [n] 0))
-	(doall (map remove-fields-for-exit (range 1 (+ max-number-of-exits 1))))
   (doall (map #(add-fields-for-exit %) (:exits location))))
 
 (defn make-exit-from-fields [index]
