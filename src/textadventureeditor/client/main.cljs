@@ -165,7 +165,7 @@
                      (let [$me ($ me)
                            index (data $me :param)]
                        (handle-delete-exit index)))))
-                    
+
 (defn show-location-exits [location]
 	(doall (map remove-fields-for-exit @exit-indices-for-current-location))
   (swap! exit-indices-for-current-location (fn [n] []))  
@@ -181,6 +181,70 @@
 (defn gather-exits-values []
   ; for each available exit, extract all the values from each field
   (doall (map make-exit-from-fields @exit-indices-for-current-location)))
+
+;;;;;;;;;;;
+;; Items ;;
+;;;;;;;;;;;
+
+(def $item-properties ($ :#item-properties))
+
+(def item-id-field-id "item-id")
+(def item-name-field-id "item-name")
+(def item-description-field-id "item-description")
+(def item-countable-noun-prefix-field-id "item-countable-noun-prefix")
+(def item-delete-id "delete-item")
+(def item-div-id "single-item")
+
+(def next-available-item-index (atom 0))
+(def item-indices-for-current-location (atom []))
+
+(defpartial item-props-field [{:keys [name value]}]
+  (text-field name value))
+
+(defpartial delete-item-props-button [{:keys [label action param id]}]
+  [:a.button.delete-item-button {:href "#" :data-action action :data-param param :id id} label])
+
+(defpartial item-div [{:keys [id]}]
+  [:div {:id id}])
+
+(defn $item-div [index]
+  ($ (str "#" item-div-id index)))
+
+;;:items [{:id "item id" :name "item name" :description "item description" 
+;;         :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
+;;         :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
+;;         :use-is-not-repeatable false :use-actions []}]})
+(defn add-fields-for-item [{:keys [id name description countable-noun-prefix]}]
+  (swap! next-available-item-index inc)
+  (swap! item-indices-for-current-location conj @next-available-item-index)
+  (append $item-properties 
+          (item-div {:id (str item-div-id @next-available-item-index)}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-id-field-id @next-available-item-index)
+                             :value id}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-name-field-id @next-available-item-index)
+                             :value name}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-description-field-id @next-available-item-index)
+                             :value description}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-countable-noun-prefix-field-id @next-available-item-index)
+                             :value countable-noun-prefix}))
+  (append ($item-div @next-available-item-index)
+          (delete-item-props-button {:label "delete"
+                                     :action (str item-delete-id @next-available-item-index)
+                                     :param @next-available-item-index
+                                     :id (str item-delete-id @next-available-item-index)})))
+
+(defn remove-fields-for-item [index]
+  (remove ($item-div index)))
+
+(defn show-location-items [location]
+	(doall (map remove-fields-for-item @item-indices-for-current-location))
+  (swap! item-indices-for-current-location (fn [n] []))  
+  (swap! next-available-item-index (fn [n] 0))
+  (doall (map #(add-fields-for-item %) (:items location))))
 
 ;;;;;;;;;;;;;;;
 ;; Locations ;;
@@ -206,7 +270,8 @@
 		  (change-location-property currentloc :current false)))
   (change-location-property location :current true)
   (show-location-information location)
-  (show-location-exits location))
+  (show-location-exits location)
+  (show-location-items location))
 
 (defn make-new-location [x y]
   (make-location-current 
@@ -230,8 +295,9 @@
 (make-location {:x 100 :y 100 :id "loc1" :description "description1"
                 :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
                         {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}]
-                :items [{:id "" :name "" :description "" :countable-noun-prefix "a" :mid-sentence-cased-name ""
-                         :is-untakeable false :can-be-used-with "" :successful-use-message ""
+                :items [{:id "item id" :name "item name" :description "item description" 
+                         :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
+                         :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
                          :use-is-not-repeatable false :use-actions []}]})
 (make-location {:x 300 :y 200 :id "loc2" :description "description2"
                 :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}]

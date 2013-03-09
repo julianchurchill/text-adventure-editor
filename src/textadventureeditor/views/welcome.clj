@@ -12,11 +12,15 @@
 (defpartial exit-properties []
   [:div#exit-properties])
 
+(defpartial item-properties []
+  [:div#item-properties])
+
 (defpartial properties []
   [:div#editor
    [:div#properties
     (location-properties)
-    (exit-properties)]
+    (exit-properties)
+    (item-properties)]
    [:canvas#canvas {:width 800 :height 650 :tabindex 1}]])
 
 (defpage "/" []
