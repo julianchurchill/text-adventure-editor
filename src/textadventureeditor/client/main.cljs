@@ -192,6 +192,12 @@
 (def item-name-field-id "item-name")
 (def item-description-field-id "item-description")
 (def item-countable-noun-prefix-field-id "item-countable-noun-prefix")
+(def item-mid-sentence-cased-name-field-id "item-mid-sentence-cased-name")
+(def item-is-untakeable-field-id "item-is-untakeable")
+(def item-can-be-used-with-field-id "item-can-be-used-with")
+(def item-successful-use-message-field-id "item-successful-use-message")
+(def item-use-is-not-repeatable-field-id "item-use-is-not-repeatable")
+(def item-use-actions-field-id "item-use-actions")
 (def item-delete-id "delete-item")
 (def item-div-id "single-item")
 
@@ -214,7 +220,9 @@
 ;;         :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
 ;;         :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
 ;;         :use-is-not-repeatable false :use-actions []}]})
-(defn add-fields-for-item [{:keys [id name description countable-noun-prefix]}]
+(defn add-fields-for-item [{:keys [id name description countable-noun-prefix mid-sentence-cased-name
+                                   is-untakeable can-be-used-with successful-use-message
+                                   use-is-not-repeatable use-actions]}]
   (swap! next-available-item-index inc)
   (swap! item-indices-for-current-location conj @next-available-item-index)
   (append $item-properties 
@@ -231,6 +239,24 @@
   (append ($item-div @next-available-item-index)
           (item-props-field {:name (str item-countable-noun-prefix-field-id @next-available-item-index)
                              :value countable-noun-prefix}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-mid-sentence-cased-name-field-id @next-available-item-index)
+                             :value mid-sentence-cased-name}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-is-untakeable-field-id @next-available-item-index)
+                             :value is-untakeable}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-can-be-used-with-field-id @next-available-item-index)
+                             :value can-be-used-with}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-successful-use-message-field-id @next-available-item-index)
+                             :value successful-use-message}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-use-is-not-repeatable-field-id @next-available-item-index)
+                             :value use-is-not-repeatable}))
+  (append ($item-div @next-available-item-index)
+          (item-props-field {:name (str item-use-actions-field-id @next-available-item-index)
+                             :value use-actions}))
   (append ($item-div @next-available-item-index)
           (delete-item-props-button {:label "delete"
                                      :action (str item-delete-id @next-available-item-index)
