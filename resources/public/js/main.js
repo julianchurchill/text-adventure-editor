@@ -17436,10 +17436,10 @@ textadventureeditor.client.main.draw_editor = function(a, b) {
 };
 monet.canvas.add_entity.call(null, textadventureeditor.client.main.editor, "\ufdd0'editor", monet.canvas.entity.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'w", "\ufdd0'h"], {"\ufdd0'x":0, "\ufdd0'y":0, "\ufdd0'w":800, "\ufdd0'h":650}), null, textadventureeditor.client.main.draw_editor));
 textadventureeditor.client.main.locations = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY);
-textadventureeditor.client.main.make_location = function(a, b, c, d, e) {
-  cljs.core.not.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([a, b], !0))) && cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([a, b], !0), cljs.core.ObjMap.fromObject("\ufdd0'exits \ufdd0'y \ufdd0'current \ufdd0'x \ufdd0'h \ufdd0'type \ufdd0'w \ufdd0'id \ufdd0'description".split(" "), {"\ufdd0'exits":e, "\ufdd0'y":b, "\ufdd0'current":!1, 
-  "\ufdd0'x":a, "\ufdd0'h":40, "\ufdd0'type":"\ufdd0'location", "\ufdd0'w":40, "\ufdd0'id":c, "\ufdd0'description":d}));
-  return cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([a, b], !0))
+textadventureeditor.client.main.make_location = function(a) {
+  var b = (new cljs.core.Keyword("\ufdd0'x")).call(null, a), c = (new cljs.core.Keyword("\ufdd0'y")).call(null, a);
+  cljs.core.not.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([b, c], !0))) && cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([b, c], !0), cljs.core.conj.call(null, a, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'type", "\ufdd0'current"], {"\ufdd0'w":40, "\ufdd0'h":40, "\ufdd0'type":"\ufdd0'location", "\ufdd0'current":!1})));
+  return cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([b, c], !0))
 };
 textadventureeditor.client.main.loc_fill_style = function(a) {
   return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? "87" : "222"
@@ -17589,7 +17589,7 @@ textadventureeditor.client.main.make_location_current = function(a) {
   return textadventureeditor.client.main.show_location_exits.call(null, a)
 };
 textadventureeditor.client.main.make_new_location = function(a, b) {
-  return textadventureeditor.client.main.make_location_current.call(null, textadventureeditor.client.main.make_location.call(null, a, b, "new id", "new description", cljs.core.PersistentVector.EMPTY))
+  return textadventureeditor.client.main.make_location_current.call(null, textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":a, "\ufdd0'y":b, "\ufdd0'id":"new id", "\ufdd0'description":"new description", "\ufdd0'exits":cljs.core.PersistentVector.EMPTY, "\ufdd0'items":cljs.core.PersistentVector.EMPTY})))
 };
 textadventureeditor.client.main.location_at = function(a, b) {
   return cljs.core.first.call(null, cljs.core.filter.call(null, function(c) {
@@ -17601,10 +17601,11 @@ textadventureeditor.client.main.canvas_mousedown = function(a) {
   return cljs.core.truth_(c) ? textadventureeditor.client.main.make_location_current.call(null, c) : textadventureeditor.client.main.make_new_location.call(null, b, a)
 };
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'mousedown", textadventureeditor.client.main.canvas_mousedown);
-textadventureeditor.client.main.make_location.call(null, 100, 100, "loc1", "description1", cljs.core.PersistentVector.fromArray([cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit1", "\ufdd0'label":"north", "\ufdd0'destination":"loc1", "\ufdd0'direction-hint":"NORTH"}), cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit2", "\ufdd0'label":"east", "\ufdd0'destination":"loc2", 
-"\ufdd0'direction-hint":"EAST"})], !0));
-textadventureeditor.client.main.make_location.call(null, 300, 200, "loc2", "description2", cljs.core.PersistentVector.fromArray([cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit1", "\ufdd0'label":"south", "\ufdd0'destination":"loc1", "\ufdd0'direction-hint":"SOUTH"})], !0));
-textadventureeditor.client.main.make_location.call(null, 300, 300, "loc3", "description3", cljs.core.PersistentVector.EMPTY);
+textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":100, "\ufdd0'y":100, "\ufdd0'id":"loc1", "\ufdd0'description":"description1", "\ufdd0'exits":cljs.core.PersistentVector.fromArray([cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit1", "\ufdd0'label":"north", "\ufdd0'destination":"loc1", "\ufdd0'direction-hint":"NORTH"}), 
+cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit2", "\ufdd0'label":"east", "\ufdd0'destination":"loc2", "\ufdd0'direction-hint":"EAST"})], !0), "\ufdd0'items":cljs.core.PersistentVector.EMPTY}));
+textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":300, "\ufdd0'y":200, "\ufdd0'id":"loc2", "\ufdd0'description":"description2", "\ufdd0'exits":cljs.core.PersistentVector.fromArray([cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"exit1", "\ufdd0'label":"south", "\ufdd0'destination":"loc1", "\ufdd0'direction-hint":"SOUTH"})], 
+!0), "\ufdd0'items":cljs.core.PersistentVector.EMPTY}));
+textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":300, "\ufdd0'y":300, "\ufdd0'id":"loc3", "\ufdd0'description":"description3", "\ufdd0'exits":cljs.core.PersistentVector.EMPTY, "\ufdd0'items":cljs.core.PersistentVector.EMPTY}));
 textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));
 textadventureeditor.client.main.$location_props = jayq.core.$.call(null, "\ufdd0'#location-properties");
 var group__2982__auto___3812 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);

@@ -33,13 +33,14 @@
 
 (def locations (atom {}))
 
-(defn make-location [x y id description exits]
-  (if-not (@locations [x y])
-    (swap! locations assoc [x y]
-           {:x x :y y :w 40 :h 40 :type :location :id id :description description :current false
-            :exits exits}))
-  (@locations [x y]))
-
+(defn make-location [values]
+  (let [x (:x values)
+        y (:y values)]
+    (if-not (@locations [x y])
+      (swap! locations assoc [x y]
+             (conj values {:w 40 :h 40 :type :location :current false})))
+    (@locations [x y])))
+  
 (defn loc-fill-style [location]
   (if (:current location)
     "87"
@@ -209,7 +210,7 @@
 
 (defn make-new-location [x y]
   (make-location-current 
-   (make-location x y "new id" "new description" [])))
+   (make-location {:x x :y y :id "new id" :description "new description" :exits [] :items []})))
 
 (defn location-at [x y]
   (first (filter #(geo/in-bounds? % x y) (vals @locations))))
@@ -226,12 +227,16 @@
 (bind ($ :#canvas) :mousedown
       canvas-mousedown)
 
-(make-location 100 100 "loc1" "description1"
-               [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
-                {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}])
-(make-location 300 200 "loc2" "description2"
-               [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}])
-(make-location 300 300 "loc3" "description3" [])
+(make-location {:x 100 :y 100 :id "loc1" :description "description1"
+                :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
+                        {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}]
+                :items [{:id "" :name "" :description "" :countable-noun-prefix "a" :mid-sentence-cased-name ""
+                         :is-untakeable false :can-be-used-with "" :successful-use-message ""
+                         :use-is-not-repeatable false :use-actions []}]})
+(make-location {:x 300 :y 200 :id "loc2" :description "description2"
+                :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}]
+                :items []})
+(make-location {:x 300 :y 300 :id "loc3" :description "description3" :exits [] :items []})
 
 (make-location-current (first (vals @locations)))
 
