@@ -120,6 +120,20 @@
   (reduce into (doall (map #(assoc {} % (get-value (str (:field-id (% fields-info)) index)))
                 (keys fields-info)))))
 
+(defn show-location-sub-properties [location property]
+  (let [div-func (:div-func property)
+        indices-atom (:indices-atom property)
+        next-index-atom (:next-index-atom property)
+        field-adding-func (:field-adding-func property)
+        location-property (:location-property property)]
+    (doall (map #(remove (div-func %)) @indices-atom))  ; remove all divs for sub-property
+    (swap! indices-atom (fn [n] []))                    ; reset indices
+    (swap! next-index-atom (fn [n] 0))                  ; reset next index
+    (doall (map #(field-adding-func %) (location-property location))))) ; convert location property into populated fields
+
+(defn gather-values-for-sub-property [property]
+  (doall (map #(make-map-from-fields % (:fields-info property)) @(:indices-atom property))))
+
 ;;;;;;;;;;;
 ;; Exits ;;
 ;;;;;;;;;;;
@@ -160,6 +174,14 @@
                                      :param @next-available-exit-index
                                      :id (str exit-delete-id @next-available-exit-index)})))
 
+(def exits-sub-property
+    {:div-func $exit-div
+     :indices-atom exit-indices-for-current-location
+     :next-index-atom next-available-exit-index
+     :field-adding-func add-fields-for-exit
+     :location-property :exits
+     :fields-info exit-fields-info})
+
 (defn handle-delete-exit [index]
   (remove ($exit-div index))
   (swap! exit-indices-for-current-location discard-value index))
@@ -171,16 +193,6 @@
                      (let [$me ($ me)
                            index (data $me :param)]
                        (handle-delete-exit index)))))
-
-(defn show-location-exits [location]
-	(doall (map #(remove ($exit-div %)) @exit-indices-for-current-location))
-  (swap! exit-indices-for-current-location (fn [n] []))  
-  (swap! next-available-exit-index (fn [n] 0))
-  (doall (map #(add-fields-for-exit %) (:exits location))))
-
-(defn gather-exits-values []
-  ; for each available exit, extract all the values from each field
-  (doall (map #(make-map-from-fields % exit-fields-info) @exit-indices-for-current-location)))
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -228,6 +240,14 @@
                                      :param @next-available-item-index
                                      :id (str item-delete-id @next-available-item-index)})))
 
+(def items-sub-property
+    {:div-func $item-div
+     :indices-atom item-indices-for-current-location
+     :next-index-atom next-available-item-index
+     :field-adding-func add-fields-for-item
+     :location-property :items
+     :fields-info item-fields-info})
+
 (defn handle-delete-item [index]
   (remove ($item-div index))
   (swap! item-indices-for-current-location discard-value index))
@@ -239,16 +259,6 @@
                      (let [$me ($ me)
                            index (data $me :param)]
                        (handle-delete-item index)))))
-
-(defn show-location-items [location]
-	(doall (map #(remove ($item-div %)) @item-indices-for-current-location))
-  (swap! item-indices-for-current-location (fn [n] []))  
-  (swap! next-available-item-index (fn [n] 0))
-  (doall (map #(add-fields-for-item %) (:items location))))
-
-(defn gather-items-values []
-  ; for each available item, extract all the values from each field
-  (doall (map #(make-map-from-fields % item-fields-info) @item-indices-for-current-location)))
 
 ;;;;;;;;;;;;;;;
 ;; Locations ;;
@@ -274,8 +284,8 @@
 		  (change-location-property currentloc :current false)))
   (change-location-property location :current true)
   (show-location-information location)
-  (show-location-exits location)
-  (show-location-items location))
+  (show-location-sub-properties location exits-sub-property)
+  (show-location-sub-properties location items-sub-property))
 
 (defn make-new-location [x y]
   (make-location-current 
@@ -366,5 +376,9 @@
             (.preventDefault event)
             (change-location-property (find-current-location) :id (get-value loc-id-field-id))
             (change-location-property (find-current-location) :description (get-value loc-description-field-id))
-            (change-location-property (find-current-location) :exits (gather-exits-values))
-            (change-location-property (find-current-location) :items (gather-items-values))))
+            (change-location-property (find-current-location) 
+                                      :exits
+                                      (gather-values-for-sub-property exits-sub-property))
+            (change-location-property (find-current-location)
+                                      :items
+                                      (gather-values-for-sub-property items-sub-property))))
