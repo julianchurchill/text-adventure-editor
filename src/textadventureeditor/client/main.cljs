@@ -315,12 +315,34 @@
    :destination "default destination"
    :direction-hint "default direction hint"})
 
-(defn handle-locprops-add-exit [event]
-  (.preventDefault event)
-  (add-fields-for-exit (default-exit)))
-
 (delegate $body locprops-add-exit-button :click
-          handle-locprops-add-exit)
+          (fn [event]
+            (.preventDefault event)
+            (add-fields-for-exit (default-exit))))
+
+(defpartial locprops-add-item-button [{:keys [label action param]}]
+  [:a.button.add-item-button {:href "#" :data-action action :data-param param} label])
+
+(append $location-props (locprops-add-item-button {:label "add item"
+                                                   :action "add-item"
+                                                   :param ""}))
+
+(defn default-item []
+  {:id "item id"
+   :name "item name"
+   :description "item description"
+   :countable-noun-prefix "a"
+   :mid-sentence-cased-name "item name cased name"
+   :is-untakeable false
+   :can-be-used-with "nothing"
+   :successful-use-message "success!"
+   :use-is-not-repeatable false
+   :use-actions []})
+
+(delegate $body locprops-add-item-button :click
+          (fn [event]
+            (.preventDefault event)
+            (add-fields-for-item (default-item))))
 
 (defpartial locprops-save-button [{:keys [label action param]}]
   [:a.button.save-button {:href "#" :data-action action :data-param param} label])
@@ -329,11 +351,9 @@
                                                :action "save-location"
                                                :param ""}))
 
-(defn handle-locprops-save [event]
-  (.preventDefault event)
-  (change-location-property (find-current-location) :id (get-value loc-id-field-id))
-  (change-location-property (find-current-location) :description (get-value loc-description-field-id))
-  (change-location-property (find-current-location) :exits (gather-exits-values)))
-
 (delegate $body locprops-save-button :click
-          handle-locprops-save)
+          (fn [event]
+            (.preventDefault event)
+            (change-location-property (find-current-location) :id (get-value loc-id-field-id))
+            (change-location-property (find-current-location) :description (get-value loc-description-field-id))
+            (change-location-property (find-current-location) :exits (gather-exits-values))))

@@ -13,6 +13,7 @@ a { text-decoration:none; }
 
 .button.save-button { background:#669966; }
 
+.button.add-item-button { background:#666699; }
 .button.add-exit-button { background:#666699; }
 
 .button.delete-exit-button { background:#996666; }
