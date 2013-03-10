@@ -97,6 +97,10 @@
         (this-as me
           (set! (.-focused me) false))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sub property (e.g. items, exits) handling functions ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defpartial make-text-field [{:keys [name value]}]
   (text-field name value))
 
@@ -133,6 +137,16 @@
 
 (defn gather-values-for-sub-property [property]
   (doall (map #(make-map-from-fields % (:fields-info property)) @(:indices-atom property))))
+
+(defn add-delete-handler-for-location-sub-property [property]
+  (delegate $body (:delete-button-partial-func property) :click
+            (fn [e]
+              (.preventDefault e)
+              (this-as me 
+                       (let [$me ($ me)
+                             index (data $me :param)]
+                         (remove ((:div-func property) index))
+                         (swap! (:indices-atom property) discard-value index))))))
 
 ;;;;;;;;;;;
 ;; Exits ;;
@@ -180,19 +194,10 @@
      :next-index-atom next-available-exit-index
      :field-adding-func add-fields-for-exit
      :location-property :exits
-     :fields-info exit-fields-info})
+     :fields-info exit-fields-info
+     :delete-button-partial-func delete-exit-props-button})
 
-(defn handle-delete-exit [index]
-  (remove ($exit-div index))
-  (swap! exit-indices-for-current-location discard-value index))
-
-(delegate $body delete-exit-props-button :click
-          (fn [e]
-            (.preventDefault e)
-            (this-as me 
-                     (let [$me ($ me)
-                           index (data $me :param)]
-                       (handle-delete-exit index)))))
+(add-delete-handler-for-location-sub-property exits-sub-property)
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -246,19 +251,10 @@
      :next-index-atom next-available-item-index
      :field-adding-func add-fields-for-item
      :location-property :items
-     :fields-info item-fields-info})
+     :fields-info item-fields-info
+     :delete-button-partial-func delete-item-props-button})
 
-(defn handle-delete-item [index]
-  (remove ($item-div index))
-  (swap! item-indices-for-current-location discard-value index))
-
-(delegate $body delete-item-props-button :click
-          (fn [e]
-            (.preventDefault e)
-            (this-as me 
-                     (let [$me ($ me)
-                           index (data $me :param)]
-                       (handle-delete-item index)))))
+(add-delete-handler-for-location-sub-property items-sub-property)
 
 ;;;;;;;;;;;;;;;
 ;; Locations ;;

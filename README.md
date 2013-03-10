@@ -19,23 +19,22 @@ Useful links
 todo
 ====
 
-- [REFACTOR] Items and exits have very similar code for handling saving, setting up fields, deleting
 - [FEATURE] Items have item actions list
 - [FEATURE] Items have 'add item action' button
 - [FEATURE] Items have 'delete' button for each item action
-- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
-- [FEATURE] Import button to load a model in a text file
-- [FEATURE] Order of fields is variable - make field maps ordered
-- [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
-- [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.
-- [FEATURE] Delete button to remove location from the model (plus confirm dialog)
-- [FEATURE] Enter key to save edited id and description to location
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
-- [FEATURE] Hidden exits are dotted lines
-- [FEATURE] Locations are draggable 
+- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
+- [FEATURE] Import button to load a model in a text file
 - [FEATURE] Loading a model from a text file lays out locations so they can all be seen
+- [FEATURE] Delete button to remove location from the model (plus confirm dialog)
+- [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
+- [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
+- [FEATURE] Order of fields is variable - make field maps ordered
+- [FEATURE] Hidden exits are dotted lines
+- [FEATURE] Enter key to save edited id and description to location
+- [FEATURE] Locations are draggable 
 
 done
 ====
