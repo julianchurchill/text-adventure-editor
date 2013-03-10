@@ -1,12 +1,14 @@
 (ns textadventureeditor.views.welcome
   (:require [textadventureeditor.views.common :as common])
   (:use [noir.core :only [defpage defpartial]]
-        [hiccup.form :only [text-field]]
+        [hiccup.form :only [text-field label]]
         [hiccup.page :only [html5]]))
 
 (defpartial location-properties []
   [:div#location-properties
+   (label "location-id-label" "location id")
    (text-field "location id" "no id")
+   (label "location-description-label" "location description")
    (text-field "location description" "no description")])
 
 (defpartial exit-properties []
