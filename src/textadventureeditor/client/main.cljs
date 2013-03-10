@@ -97,6 +97,29 @@
         (this-as me
           (set! (.-focused me) false))))
 
+(defpartial make-text-field [{:keys [name value]}]
+  (text-field name value))
+
+(defpartial make-div [{:keys [id]}]
+  [:div {:id id}])
+
+(defpartial make-label [{:keys [name value]}]
+  (label name value))
+
+; Add a label and a text field to a div
+(defn extract-text-field-and-label [field-info value div next-available-index]
+  (append div (make-label {:name (str (:field-id field-info) "-label" next-available-index)
+                           :value (:label field-info)}))
+  (append div (make-text-field {:name (str (:field-id field-info) next-available-index)
+                                :value value})))
+
+(defn discard-value [values value]
+  (filter #(not (= value %)) values))
+
+(defn make-map-from-fields [index fields-info]
+  (reduce into (doall (map #(assoc {} % (get-value (str (:field-id (% fields-info)) index)))
+                (keys fields-info)))))
+
 ;;;;;;;;;;;
 ;; Exits ;;
 ;;;;;;;;;;;
@@ -115,33 +138,11 @@
 (def next-available-exit-index (atom 0))
 (def exit-indices-for-current-location (atom []))
 
-(defpartial make-text-field [{:keys [name value]}]
-  (text-field name value))
-
 (defpartial delete-exit-props-button [{:keys [label action param id]}]
   [:a.button.delete-exit-button {:href "#" :data-action action :data-param param :id id} label])
 
-(defpartial make-div [{:keys [id]}]
-  [:div {:id id}])
-
-(defpartial make-label [{:keys [name value]}]
-  (label name value))
-
 (defn $exit-div [index]
   ($ (str "#" exit-div-id index)))
-
-(defn add-text-field-to-div [field-info div next-available-index]
-  (append (div next-available-index)
-          (make-text-field {:name (str (:base-field-id field-info) next-available-index)
-                            :value (:value field-info)})))
-
-(defn extract-text-field-and-label [field-info value div next-available-index]
-  (append (div next-available-index)
-          (make-label {:name (str (:field-id field-info) "-label" next-available-index)
-                       :value (:label field-info)}))
-  (add-text-field-to-div {:base-field-id (:field-id field-info) 
-                          :value value}
-                         div next-available-index))
 
 (defn add-fields-for-exit [values]
   (swap! next-available-exit-index inc)
@@ -150,7 +151,7 @@
           (make-div {:id (str exit-div-id @next-available-exit-index)}))
   (doall (map #(extract-text-field-and-label (% exit-fields-info)
                                              (% values)
-                                             $exit-div
+                                             ($exit-div @next-available-exit-index)
                                              @next-available-exit-index)
               (keys values)))
   (append ($exit-div @next-available-exit-index)
@@ -158,9 +159,6 @@
                                      :action (str exit-delete-id @next-available-exit-index)
                                      :param @next-available-exit-index
                                      :id (str exit-delete-id @next-available-exit-index)})))
-
-(defn discard-value [values value]
-  (filter #(not (= value %)) values))
 
 (defn handle-delete-exit [index]
   (remove ($exit-div index))
@@ -179,10 +177,6 @@
   (swap! exit-indices-for-current-location (fn [n] []))  
   (swap! next-available-exit-index (fn [n] 0))
   (doall (map #(add-fields-for-exit %) (:exits location))))
-
-(defn make-map-from-fields [index fields-info]
-  (reduce into (doall (map #(assoc {} % (get-value (str (:field-id (% fields-info)) index)))
-                (keys fields-info)))))
 
 (defn gather-exits-values []
   ; for each available exit, extract all the values from each field
@@ -225,7 +219,7 @@
           (make-div {:id (str item-div-id @next-available-item-index)}))
   (doall (map #(extract-text-field-and-label (% item-fields-info)
                                              (% values)
-                                             $item-div
+                                             ($item-div @next-available-item-index)
                                              @next-available-item-index)
               (keys values)))
   (append ($item-div @next-available-item-index)
