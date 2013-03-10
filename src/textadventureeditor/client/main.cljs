@@ -132,8 +132,8 @@
           (make-text-field {:name (str (:base-field-id field-info) next-available-index)
                             :value (:value field-info)})))
 
-(defn extract-text-field [key value div next-available-index field-ids]
-  (add-text-field-to-div {:base-field-id (key field-ids) :value value}
+(defn extract-text-field [field-id value div next-available-index]
+  (add-text-field-to-div {:base-field-id field-id :value value}
                          div next-available-index))
 
 (defn add-fields-for-exit [values]
@@ -141,7 +141,7 @@
   (swap! exit-indices-for-current-location conj @next-available-exit-index)
   (append $exit-properties 
           (make-div {:id (str exit-div-id @next-available-exit-index)}))
-  (doall (map #(extract-text-field % (% values) $exit-div @next-available-exit-index exit-field-ids)
+  (doall (map #(extract-text-field (% exit-field-ids) (% values) $exit-div @next-available-exit-index)
               (keys values)))
   (append ($exit-div @next-available-exit-index)
           (delete-exit-props-button {:label "delete"
@@ -213,7 +213,7 @@
   (swap! item-indices-for-current-location conj @next-available-item-index)
   (append $item-properties 
           (make-div {:id (str item-div-id @next-available-item-index)}))
-  (doall (map #(extract-text-field % (% values) $item-div @next-available-item-index item-field-ids)
+  (doall (map #(extract-text-field (% item-field-ids) (% values) $item-div @next-available-item-index)
                (keys values)))
   (append ($item-div @next-available-item-index)
           (delete-item-props-button {:label "delete"

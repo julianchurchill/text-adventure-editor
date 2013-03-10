@@ -17518,15 +17518,15 @@ textadventureeditor.client.main.$exit_div = function(a) {
 textadventureeditor.client.main.add_text_field_to_div = function(a, b, c) {
   return jayq.core.append.call(null, b.call(null, c), textadventureeditor.client.main.make_text_field.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":[cljs.core.str((new cljs.core.Keyword("\ufdd0'base-field-id")).call(null, a)), cljs.core.str(c)].join(""), "\ufdd0'value":(new cljs.core.Keyword("\ufdd0'value")).call(null, a)})))
 };
-textadventureeditor.client.main.extract_text_field = function(a, b, c, d, e) {
-  return textadventureeditor.client.main.add_text_field_to_div.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'base-field-id", "\ufdd0'value"], {"\ufdd0'base-field-id":a.call(null, e), "\ufdd0'value":b}), c, d)
+textadventureeditor.client.main.extract_text_field = function(a, b, c, d) {
+  return textadventureeditor.client.main.add_text_field_to_div.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'base-field-id", "\ufdd0'value"], {"\ufdd0'base-field-id":a, "\ufdd0'value":b}), c, d)
 };
 textadventureeditor.client.main.add_fields_for_exit = function(a) {
   cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.next_available_exit_index, cljs.core.inc);
   cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.exit_indices_for_current_location, cljs.core.conj, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index));
   jayq.core.append.call(null, textadventureeditor.client.main.$exit_properties, textadventureeditor.client.main.make_div.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'id"], {"\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.exit_div_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join("")})));
   cljs.core.doall.call(null, cljs.core.map.call(null, function(b) {
-    return textadventureeditor.client.main.extract_text_field.call(null, b, b.call(null, a), textadventureeditor.client.main.$exit_div, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index), textadventureeditor.client.main.exit_field_ids)
+    return textadventureeditor.client.main.extract_text_field.call(null, b.call(null, textadventureeditor.client.main.exit_field_ids), b.call(null, a), textadventureeditor.client.main.$exit_div, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))
   }, cljs.core.keys.call(null, a)));
   return jayq.core.append.call(null, textadventureeditor.client.main.$exit_div.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index)), textadventureeditor.client.main.delete_exit_props_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param", "\ufdd0'id"], {"\ufdd0'label":"delete", "\ufdd0'action":[cljs.core.str(textadventureeditor.client.main.exit_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join(""), 
   "\ufdd0'param":cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index), "\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.exit_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_exit_index))].join("")})))
@@ -17593,7 +17593,7 @@ textadventureeditor.client.main.add_fields_for_item = function(a) {
   cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.item_indices_for_current_location, cljs.core.conj, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index));
   jayq.core.append.call(null, textadventureeditor.client.main.$item_properties, textadventureeditor.client.main.make_div.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'id"], {"\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.item_div_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index))].join("")})));
   cljs.core.doall.call(null, cljs.core.map.call(null, function(b) {
-    return textadventureeditor.client.main.extract_text_field.call(null, b, b.call(null, a), textadventureeditor.client.main.$item_div, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index), textadventureeditor.client.main.item_field_ids)
+    return textadventureeditor.client.main.extract_text_field.call(null, b.call(null, textadventureeditor.client.main.item_field_ids), b.call(null, a), textadventureeditor.client.main.$item_div, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index))
   }, cljs.core.keys.call(null, a)));
   return jayq.core.append.call(null, textadventureeditor.client.main.$item_div.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index)), textadventureeditor.client.main.delete_item_props_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param", "\ufdd0'id"], {"\ufdd0'label":"delete", "\ufdd0'action":[cljs.core.str(textadventureeditor.client.main.item_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index))].join(""), 
   "\ufdd0'param":cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index), "\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.item_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index))].join("")})))
