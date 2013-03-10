@@ -19,7 +19,7 @@ Useful links
 todo
 ====
 
-- [FEATURE] Order of fields is variable - make field maps ordered and add label for each field
+- [FEATURE] Add label for each field
 PARTIAL - [FEATURE] Locations have an items list
 - [FEATURE] Location save button saves items list
 - [FEATURE] Item list has delete button by each item to delete from model
@@ -28,6 +28,7 @@ PARTIAL - [FEATURE] Locations have an items list
 - [FEATURE] Items have 'delete' button for each item action
 - [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
 - [FEATURE] Import button to load a model in a text file
+- [FEATURE] Order of fields is variable - make field maps ordered
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
 - [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
