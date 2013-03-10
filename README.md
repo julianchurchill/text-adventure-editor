@@ -19,7 +19,8 @@ Useful links
 todo
 ====
 
-- [FEATURE] Locations have an items list
+- [FEATURE] Order of fields is variable - make field maps ordered and add label for each field
+PARTIAL - [FEATURE] Locations have an items list
 - [FEATURE] Location save button saves items list
 - [FEATURE] Item list has delete button by each item to delete from model
 - [FEATURE] Items have item actions list

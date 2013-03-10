@@ -103,10 +103,12 @@
 
 (def $exit-properties ($ :#exit-properties))
 
-(def exit-id-field-id "exit-id")
-(def exit-label-field-id "exit-label")
-(def exit-destination-field-id "exit-destination")
-(def exit-direction-hint-field-id "exit-direction-hint")
+(def exit-field-ids
+  {:id "exit-id"
+   :label "exit-label"
+   :destination "exit-destination"
+   :direction-hint "exit-direction-hint"})
+
 (def exit-delete-id "delete-exit")
 (def exit-div-id "single-exit")
 
@@ -125,24 +127,22 @@
 (defn $exit-div [index]
   ($ (str "#" exit-div-id index)))
 
-(defn add-text-field-to-div [ field-info div next-available-index]
+(defn add-text-field-to-div [field-info div next-available-index]
   (append (div next-available-index)
           (make-text-field {:name (str (:base-field-id field-info) next-available-index)
                             :value (:value field-info)})))
 
-(defn add-fields-for-exit [{:keys [id label destination direction-hint]}]
+(defn extract-text-field [key value div next-available-index field-ids]
+  (add-text-field-to-div {:base-field-id (key field-ids) :value value}
+                         div next-available-index))
+
+(defn add-fields-for-exit [values]
   (swap! next-available-exit-index inc)
   (swap! exit-indices-for-current-location conj @next-available-exit-index)
   (append $exit-properties 
           (make-div {:id (str exit-div-id @next-available-exit-index)}))
-  (add-text-field-to-div {:base-field-id exit-id-field-id :value id}
-                         $exit-div @next-available-exit-index)
-  (add-text-field-to-div {:base-field-id exit-label-field-id :value label}
-                         $exit-div @next-available-exit-index)
-  (add-text-field-to-div {:base-field-id exit-destination-field-id :value destination}
-                         $exit-div @next-available-exit-index)
-  (add-text-field-to-div {:base-field-id exit-direction-hint-field-id :value direction-hint} 
-                         $exit-div @next-available-exit-index)
+  (doall (map #(extract-text-field % (% values) $exit-div @next-available-exit-index exit-field-ids)
+              (keys values)))
   (append ($exit-div @next-available-exit-index)
           (delete-exit-props-button {:label "delete"
                                      :action (str exit-delete-id @next-available-exit-index)
@@ -173,15 +173,13 @@
   (swap! next-available-exit-index (fn [n] 0))
   (doall (map #(add-fields-for-exit %) (:exits location))))
 
-(defn make-exit-from-fields [index]
-  {:id (get-value (str exit-id-field-id index))
-   :label (get-value (str exit-label-field-id index))
-   :destination (get-value (str exit-destination-field-id index))
-   :direction-hint (get-value (str exit-direction-hint-field-id index))})
+(defn make-map-from-fields [index field-ids]
+  (reduce into (doall (map #(assoc {} % (get-value (str (% field-ids) index)))
+                (keys field-ids)))))
 
 (defn gather-exits-values []
   ; for each available exit, extract all the values from each field
-  (doall (map make-exit-from-fields @exit-indices-for-current-location)))
+  (doall (map #(make-map-from-fields % exit-field-ids) @exit-indices-for-current-location)))
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -189,16 +187,18 @@
 
 (def $item-properties ($ :#item-properties))
 
-(def item-id-field-id "item-id")
-(def item-name-field-id "item-name")
-(def item-description-field-id "item-description")
-(def item-countable-noun-prefix-field-id "item-countable-noun-prefix")
-(def item-mid-sentence-cased-name-field-id "item-mid-sentence-cased-name")
-(def item-is-untakeable-field-id "item-is-untakeable")
-(def item-can-be-used-with-field-id "item-can-be-used-with")
-(def item-successful-use-message-field-id "item-successful-use-message")
-(def item-use-is-not-repeatable-field-id "item-use-is-not-repeatable")
-(def item-use-actions-field-id "item-use-actions")
+(def item-field-ids
+  {:id "item-id"
+   :name "item-name"
+   :description "item-description"
+   :countable-noun-prefix "item-countable-noun-prefix"
+   :mid-sentence-cased-name "item-mid-sentence-cased-name"
+   :is-untakeable "item-is-untakeable"
+   :can-be-used-with "item-can-be-used-with"
+   :successful-use-message "item-successful-use-message"
+   :use-is-not-repeatable "item-use-is-not-repeatable"
+   :use-actions "item-use-actions"})
+
 (def item-delete-id "delete-item")
 (def item-div-id "single-item")
 
@@ -211,33 +211,13 @@
 (defn $item-div [index]
   ($ (str "#" item-div-id index)))
 
-(defn add-fields-for-item [{:keys [id name description countable-noun-prefix mid-sentence-cased-name
-                                   is-untakeable can-be-used-with successful-use-message
-                                   use-is-not-repeatable use-actions]}]
+(defn add-fields-for-item [values]
   (swap! next-available-item-index inc)
   (swap! item-indices-for-current-location conj @next-available-item-index)
   (append $item-properties 
           (make-div {:id (str item-div-id @next-available-item-index)}))
-  (add-text-field-to-div {:base-field-id item-id-field-id :value id}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-name-field-id :value name}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-description-field-id :value description}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-countable-noun-prefix-field-id :value countable-noun-prefix}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-mid-sentence-cased-name-field-id :value mid-sentence-cased-name}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-is-untakeable-field-id :value is-untakeable}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-can-be-used-with-field-id :value can-be-used-with}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-successful-use-message-field-id :value successful-use-message}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-use-is-not-repeatable-field-id :value use-is-not-repeatable}
-                         $item-div @next-available-item-index)
-  (add-text-field-to-div {:base-field-id item-use-actions-field-id :value use-actions}
-                         $item-div @next-available-item-index)
+  (doall (map #(extract-text-field % (% values) $item-div @next-available-item-index item-field-ids)
+               (keys values)))
   (append ($item-div @next-available-item-index)
           (delete-item-props-button {:label "delete"
                                      :action (str item-delete-id @next-available-item-index)
