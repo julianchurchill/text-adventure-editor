@@ -19,7 +19,6 @@ Useful links
 todo
 ====
 
-- [FEATURE] Location save button saves items list
 - [FEATURE] Item list has delete button by each item to delete from model
 - [FEATURE] Items have item actions list
 - [FEATURE] Items have 'add item action' button
@@ -41,6 +40,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Location save button saves items list
 DONE - [FEATURE] Locations have an 'add item' button
 DONE - [FEATURE] Add labels for location, item and exit fields
 DONE - [FEATURE] Locations have an items list

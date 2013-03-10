@@ -240,6 +240,10 @@
   (swap! next-available-item-index (fn [n] 0))
   (doall (map #(add-fields-for-item %) (:items location))))
 
+(defn gather-items-values []
+  ; for each available item, extract all the values from each field
+  (doall (map #(make-map-from-fields % item-fields-info) @item-indices-for-current-location)))
+
 ;;;;;;;;;;;;;;;
 ;; Locations ;;
 ;;;;;;;;;;;;;;;
@@ -356,4 +360,5 @@
             (.preventDefault event)
             (change-location-property (find-current-location) :id (get-value loc-id-field-id))
             (change-location-property (find-current-location) :description (get-value loc-description-field-id))
-            (change-location-property (find-current-location) :exits (gather-exits-values))))
+            (change-location-property (find-current-location) :exits (gather-exits-values))
+            (change-location-property (find-current-location) :items (gather-items-values))))
