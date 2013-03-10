@@ -17609,6 +17609,16 @@ textadventureeditor.client.main.add_fields_for_item = function(a) {
   return jayq.core.append.call(null, textadventureeditor.client.main.$item_div.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index)), textadventureeditor.client.main.delete_item_props_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param", "\ufdd0'id"], {"\ufdd0'label":"delete", "\ufdd0'action":[cljs.core.str(textadventureeditor.client.main.item_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index))].join(""), 
   "\ufdd0'param":cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index), "\ufdd0'id":[cljs.core.str(textadventureeditor.client.main.item_delete_id), cljs.core.str(cljs.core.deref.call(null, textadventureeditor.client.main.next_available_item_index))].join("")})))
 };
+textadventureeditor.client.main.handle_delete_item = function(a) {
+  jayq.core.remove.call(null, textadventureeditor.client.main.$item_div.call(null, a));
+  return cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.item_indices_for_current_location, textadventureeditor.client.main.discard_value, a)
+};
+jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.delete_item_props_button, "\ufdd0'click", function(a) {
+  a.preventDefault();
+  a = jayq.core.$.call(null, this);
+  a = jayq.core.data.call(null, a, "\ufdd0'param");
+  return textadventureeditor.client.main.handle_delete_item.call(null, a)
+});
 textadventureeditor.client.main.show_location_items = function(a) {
   cljs.core.doall.call(null, cljs.core.map.call(null, function(a) {
     return jayq.core.remove.call(null, textadventureeditor.client.main.$item_div.call(null, a))

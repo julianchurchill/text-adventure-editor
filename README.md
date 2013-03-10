@@ -19,7 +19,7 @@ Useful links
 todo
 ====
 
-- [FEATURE] Item list has delete button by each item to delete from model
+- [REFACTOR] Items and exits have very similar code for handling saving, setting up fields, deleting
 - [FEATURE] Items have item actions list
 - [FEATURE] Items have 'add item action' button
 - [FEATURE] Items have 'delete' button for each item action
@@ -40,6 +40,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Item list has delete button by each item to delete from model
 DONE - [FEATURE] Location save button saves items list
 DONE - [FEATURE] Locations have an 'add item' button
 DONE - [FEATURE] Add labels for location, item and exit fields

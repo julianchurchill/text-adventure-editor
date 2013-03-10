@@ -234,6 +234,18 @@
                                      :param @next-available-item-index
                                      :id (str item-delete-id @next-available-item-index)})))
 
+(defn handle-delete-item [index]
+  (remove ($item-div index))
+  (swap! item-indices-for-current-location discard-value index))
+
+(delegate $body delete-item-props-button :click
+          (fn [e]
+            (.preventDefault e)
+            (this-as me 
+                     (let [$me ($ me)
+                           index (data $me :param)]
+                       (handle-delete-item index)))))
+
 (defn show-location-items [location]
 	(doall (map #(remove ($item-div %)) @item-indices-for-current-location))
   (swap! item-indices-for-current-location (fn [n] []))  
