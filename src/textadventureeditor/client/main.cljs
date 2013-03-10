@@ -152,11 +152,8 @@
 (defn discard-value [values value]
   (filter #(not (= value %)) values))
 
-(defn remove-fields-for-exit [index]
-  (remove ($exit-div index)))
-
 (defn handle-delete-exit [index]
-  (remove-fields-for-exit index)
+  (remove ($exit-div index))
   (swap! exit-indices-for-current-location discard-value index))
 
 (delegate $body delete-exit-props-button :click
@@ -168,7 +165,7 @@
                        (handle-delete-exit index)))))
 
 (defn show-location-exits [location]
-	(doall (map remove-fields-for-exit @exit-indices-for-current-location))
+	(doall (map #(remove ($exit-div %)) @exit-indices-for-current-location))
   (swap! exit-indices-for-current-location (fn [n] []))  
   (swap! next-available-exit-index (fn [n] 0))
   (doall (map #(add-fields-for-exit %) (:exits location))))
@@ -224,11 +221,8 @@
                                      :param @next-available-item-index
                                      :id (str item-delete-id @next-available-item-index)})))
 
-(defn remove-fields-for-item [index]
-  (remove ($item-div index)))
-
 (defn show-location-items [location]
-	(doall (map remove-fields-for-item @item-indices-for-current-location))
+	(doall (map #(remove ($item-div %)) @item-indices-for-current-location))
   (swap! item-indices-for-current-location (fn [n] []))  
   (swap! next-available-item-index (fn [n] 0))
   (doall (map #(add-fields-for-item %) (:items location))))
