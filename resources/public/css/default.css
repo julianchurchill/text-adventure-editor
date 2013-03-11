@@ -18,3 +18,13 @@ a { text-decoration:none; }
 
 .button.delete-item-button { background:#996666; }
 .button.delete-exit-button { background:#996666; }
+
+#exit-properties DIV {
+  margin-top: 1px;
+  border: 1px solid red;
+}
+
+#item-properties DIV {
+  margin-top: 1px;
+  border: 1px solid blue;
+}
