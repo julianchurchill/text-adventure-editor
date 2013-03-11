@@ -39,6 +39,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Item is untakeable and item use is not repeatable should be check boxes
 DONE - [FEATURE] Item list has delete button by each item to delete from model
 DONE - [FEATURE] Location save button saves items list
 DONE - [FEATURE] Locations have an 'add item' button
