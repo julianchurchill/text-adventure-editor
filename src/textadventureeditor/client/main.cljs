@@ -236,11 +236,18 @@
    :use-is-not-repeatable {:field-id "item-use-is-not-repeatable" :label "item use is not repeatable" :type :checkbox}
    :use-actions {:field-id "item-use-actions" :label "item use actions" :type :textfield}})
 
+(def item-action-fields-info
+  {:action {:field-id "item-action-action-id" :label "item action action" :type :textfield}
+   :param {:field-id "item-action-param" :label "item action param" :type :textfield}})
+
 (def item-delete-id "delete-item")
 (def item-div-id "single-item")
+(def item-action-div-id "single-item-action")
 
 (def next-available-item-index (atom 0))
 (def item-indices-for-current-location (atom []))
+(def next-available-item-action-index (atom 0))
+(def item-action-indices-for-current-location (atom []))
 
 (defpartial delete-item-props-button [{:keys [label action param id]}]
   [:a.button.delete-item-button {:href "#" :data-action action :data-param param :id id} label])
@@ -248,21 +255,40 @@
 (defn $item-div [index]
   ($ (str "#" item-div-id index)))
 
+(defn $item-action-div [index]
+  ($ (str "#" item-action-div-id index)))
+
+(defn add-fields-for-item-action [parent-div action]
+  (swap! next-available-item-action-index inc)
+  (swap! item-action-indices-for-current-location conj @next-available-item-action-index)
+  (append parent-div
+          (make-div {:id (str item-action-div-id @next-available-item-action-index)}))
+  (doall (map #(extract-field-and-label (% item-action-fields-info)
+                                        (% action)
+                                        ($item-action-div @next-available-item-action-index)
+                                        @next-available-item-action-index)
+              (keys action))))
+
+(defn add-item-actions [parent-div actions]
+  (doall (map #(add-fields-for-item-action parent-div %) actions)))
+
 (defn add-fields-for-item [values]
   (swap! next-available-item-index inc)
   (swap! item-indices-for-current-location conj @next-available-item-index)
   (append $item-properties 
           (make-div {:id (str item-div-id @next-available-item-index)}))
-  (doall (map #(extract-field-and-label (% item-fields-info)
-                                        (% values)
-                                        ($item-div @next-available-item-index)
-                                        @next-available-item-index)
-              (keys values)))
-  (append ($item-div @next-available-item-index)
-          (delete-item-props-button {:label "delete"
-                                     :action (str item-delete-id @next-available-item-index)
-                                     :param @next-available-item-index
-                                     :id (str item-delete-id @next-available-item-index)})))
+  (let [item-div-elem ($item-div @next-available-item-index)]
+    (doall (map #(extract-field-and-label (% item-fields-info)
+                                          (% values)
+                                          item-div-elem
+                                          @next-available-item-index)
+                (keys values)))
+    (append item-div-elem
+            (delete-item-props-button {:label "delete"
+                                       :action (str item-delete-id @next-available-item-index)
+                                       :param @next-available-item-index
+                                       :id (str item-delete-id @next-available-item-index)}))
+    (add-item-actions item-div-elem (:use-actions values))))
 
 (def items-sub-property
     {:div-func $item-div
@@ -327,7 +353,10 @@
                 :items [{:id "item id" :name "item name" :description "item description" 
                          :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
                          :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
-                         :use-is-not-repeatable false :use-actions []}]})
+                         :use-is-not-repeatable false
+                         :use-actions [{:action :change-item-description :param "It is unlocked."}
+                                       {:action :change-item-name :param "unlocked door"}
+                                       {:action :make-exit-visible :param "clocktowerdoor"}]}]})
 (make-location {:x 300 :y 200 :id "loc2" :description "description2"
                 :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}]
                 :items []})

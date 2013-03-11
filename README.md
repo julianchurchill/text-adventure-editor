@@ -19,7 +19,7 @@ Useful links
 todo
 ====
 
-- [FEATURE] Items have item actions list
+PARTIAL - [FEATURE] Items have item actions list
 - [FEATURE] Items have 'add item action' button
 - [FEATURE] Items have 'delete' button for each item action
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
