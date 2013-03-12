@@ -20,6 +20,7 @@ todo
 ====
 
 PARTIAL - [FEATURE] Items have item actions list
+- [FEATURE] Item actions get saved when the save button is pressed
 - [FEATURE] Items have 'add item action' button
 - [FEATURE] Items have 'delete' button for each item action
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.

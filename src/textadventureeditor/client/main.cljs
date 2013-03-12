@@ -196,11 +196,12 @@
   (swap! exit-indices-for-current-location conj @next-available-exit-index)
   (append $exit-properties 
           (make-div {:id (str exit-div-id @next-available-exit-index)}))
-  (doall (map #(extract-field-and-label (% exit-fields-info)
-                                        (% values)
-                                        ($exit-div @next-available-exit-index)
-                                        @next-available-exit-index)
-              (keys values)))
+  (let [values-with-matching-fields (select-keys values (keys exit-fields-info))]
+    (doall (map #(extract-field-and-label (% exit-fields-info)
+                                          (% values)
+                                          ($exit-div @next-available-exit-index)
+                                          @next-available-exit-index)
+                (keys values-with-matching-fields))))
   (append ($exit-div @next-available-exit-index)
           (delete-exit-props-button {:label "delete"
                                      :action (str exit-delete-id @next-available-exit-index)
@@ -233,8 +234,8 @@
    :is-untakeable {:field-id "item-is-untakeable" :label "item is untakeable" :type :checkbox}
    :can-be-used-with {:field-id "item-can-be-used-with" :label "item can be used with" :type :textfield}
    :successful-use-message {:field-id "item-successful-use-message" :label "item successful use message" :type :textfield}
-   :use-is-not-repeatable {:field-id "item-use-is-not-repeatable" :label "item use is not repeatable" :type :checkbox}
-   :use-actions {:field-id "item-use-actions" :label "item use actions" :type :textfield}})
+   :use-is-not-repeatable {:field-id "item-use-is-not-repeatable" :label "item use is not repeatable" :type :checkbox}})
+;   :use-actions {:field-id "item-use-actions" :label "item use actions" :type :textfield}})
 
 (def item-action-fields-info
   {:action {:field-id "item-action-action-id" :label "item action action" :type :textfield}
@@ -263,11 +264,12 @@
   (swap! item-action-indices-for-current-location conj @next-available-item-action-index)
   (append parent-div
           (make-div {:id (str item-action-div-id @next-available-item-action-index)}))
-  (doall (map #(extract-field-and-label (% item-action-fields-info)
-                                        (% action)
-                                        ($item-action-div @next-available-item-action-index)
-                                        @next-available-item-action-index)
-              (keys action))))
+  (let [values-with-matching-fields (select-keys action (keys item-action-fields-info))]
+    (doall (map #(extract-field-and-label (% item-action-fields-info)
+                                          (% action)
+                                          ($item-action-div @next-available-item-action-index)
+                                          @next-available-item-action-index)
+                (keys values-with-matching-fields)))))
 
 (defn add-item-actions [parent-div actions]
   (doall (map #(add-fields-for-item-action parent-div %) actions)))
@@ -278,11 +280,12 @@
   (append $item-properties 
           (make-div {:id (str item-div-id @next-available-item-index)}))
   (let [item-div-elem ($item-div @next-available-item-index)]
-    (doall (map #(extract-field-and-label (% item-fields-info)
-                                          (% values)
-                                          item-div-elem
-                                          @next-available-item-index)
-                (keys values)))
+    (let [values-with-matching-fields (select-keys values (keys item-fields-info))]
+      (doall (map #(extract-field-and-label (% item-fields-info)
+                                            (% values)
+                                            item-div-elem
+                                            @next-available-item-index)
+                  (keys values-with-matching-fields))))
     (append item-div-elem
             (delete-item-props-button {:label "delete"
                                        :action (str item-delete-id @next-available-item-index)
