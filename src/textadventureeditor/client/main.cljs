@@ -143,16 +143,40 @@
   (reduce into (doall (map #(retrieve-value-from-field % (% fields-info) index)
                            (keys fields-info)))))
 
+(defn add-property-fields [property values]
+  (let [div-func (:div-func property)
+        indices-atom (:indices-atom property)
+        next-index-atom (:next-index-atom property)
+        location-property (:location-property property)
+        fields-info (:fields-info property)
+        parent-div (:parent-div property)
+        div-base-id (:div-base-id property)]
+    (swap! next-index-atom inc)
+    (swap! indices-atom conj @next-index-atom)
+    (append parent-div
+            (make-div {:id (str div-base-id @next-index-atom)}))
+    (let [div-elem (div-func @next-index-atom)]
+      (let [values-with-matching-fields (select-keys values (keys fields-info))]
+        (doall (map #(extract-field-and-label (% fields-info)
+                                              (% values)
+                                              div-elem
+                                              @next-index-atom)
+                    (keys values-with-matching-fields)))))))
+
+(defn add-all-property-fields [property values]
+  (add-property-fields property values)
+  ((:extra-field-adding-func property) values))
+
 (defn show-location-sub-properties [location property]
   (let [div-func (:div-func property)
         indices-atom (:indices-atom property)
         next-index-atom (:next-index-atom property)
-        field-adding-func (:field-adding-func property)
         location-property (:location-property property)]
     (doall (map #(remove (div-func %)) @indices-atom))  ; remove all divs for sub-property
     (swap! indices-atom (fn [n] []))                    ; reset indices
     (swap! next-index-atom (fn [n] 0))                  ; reset next index
-    (doall (map #(field-adding-func %) (location-property location))))) ; convert location property into populated fields
+    (doall (map #(add-all-property-fields property %)
+                (location-property location))))) ; convert location property into populated fields
 
 (defn gather-values-for-sub-property [property]
   (doall (map #(make-map-from-fields % (:fields-info property)) @(:indices-atom property))))
@@ -191,33 +215,59 @@
 (defn $exit-div [index]
   ($ (str "#" exit-div-id index)))
 
-(defn add-fields-for-exit [values]
-  (swap! next-available-exit-index inc)
-  (swap! exit-indices-for-current-location conj @next-available-exit-index)
-  (append $exit-properties 
-          (make-div {:id (str exit-div-id @next-available-exit-index)}))
-  (let [values-with-matching-fields (select-keys values (keys exit-fields-info))]
-    (doall (map #(extract-field-and-label (% exit-fields-info)
-                                          (% values)
-                                          ($exit-div @next-available-exit-index)
-                                          @next-available-exit-index)
-                (keys values-with-matching-fields))))
-  (append ($exit-div @next-available-exit-index)
-          (delete-exit-props-button {:label "delete"
-                                     :action (str exit-delete-id @next-available-exit-index)
-                                     :param @next-available-exit-index
-                                     :id (str exit-delete-id @next-available-exit-index)})))
+(defn add-extra-fields-for-exit [values]
+  (let [exit-div-elem ($exit-div @next-available-exit-index)]
+    (append exit-div-elem
+            (delete-exit-props-button {:label "delete"
+                                       :action (str exit-delete-id @next-available-exit-index)
+                                       :param @next-available-exit-index
+                                       :id (str exit-delete-id @next-available-exit-index)}))))
 
 (def exits-sub-property
     {:div-func $exit-div
      :indices-atom exit-indices-for-current-location
      :next-index-atom next-available-exit-index
-     :field-adding-func add-fields-for-exit
+     :extra-field-adding-func add-extra-fields-for-exit
      :location-property :exits
      :fields-info exit-fields-info
-     :delete-button-partial-func delete-exit-props-button})
+     :delete-button-partial-func delete-exit-props-button
+     :parent-div $exit-properties
+     :div-base-id exit-div-id})
 
 (add-delete-handler-for-location-sub-property exits-sub-property)
+
+;;;;;;;;;;;;;;;;;;
+;; Item actions ;;
+;;;;;;;;;;;;;;;;;;
+
+(def item-action-fields-info
+  {:action {:field-id "item-action-action-id" :label "item action action" :type :textfield}
+   :param {:field-id "item-action-param" :label "item action param" :type :textfield}})
+
+(def item-action-div-id "single-item-action")
+
+(def next-available-item-action-index (atom 0))
+(def item-action-indices-for-current-location (atom []))
+
+(defn $item-action-div [index]
+  ($ (str "#" item-action-div-id index)))
+
+(defn add-extra-fields-for-item-action [property action]
+  (add-property-fields property action))
+
+(defn add-item-actions [property actions]
+  (doall (map #((:extra-field-adding-func property) property %) actions)))
+
+(def item-actions-sub-property
+    {:div-func $item-action-div
+     :indices-atom item-action-indices-for-current-location
+     :next-index-atom next-available-item-action-index
+     :extra-field-adding-func add-extra-fields-for-item-action
+;     :location-property :use-actions
+     :fields-info item-action-fields-info
+;     :delete-button-partial-func delete-item-action-props-button
+;     :parent-div $item-action-properties
+     :div-base-id item-action-div-id})
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -235,20 +285,12 @@
    :can-be-used-with {:field-id "item-can-be-used-with" :label "item can be used with" :type :textfield}
    :successful-use-message {:field-id "item-successful-use-message" :label "item successful use message" :type :textfield}
    :use-is-not-repeatable {:field-id "item-use-is-not-repeatable" :label "item use is not repeatable" :type :checkbox}})
-;   :use-actions {:field-id "item-use-actions" :label "item use actions" :type :textfield}})
-
-(def item-action-fields-info
-  {:action {:field-id "item-action-action-id" :label "item action action" :type :textfield}
-   :param {:field-id "item-action-param" :label "item action param" :type :textfield}})
 
 (def item-delete-id "delete-item")
 (def item-div-id "single-item")
-(def item-action-div-id "single-item-action")
 
 (def next-available-item-index (atom 0))
 (def item-indices-for-current-location (atom []))
-(def next-available-item-action-index (atom 0))
-(def item-action-indices-for-current-location (atom []))
 
 (defpartial delete-item-props-button [{:keys [label action param id]}]
   [:a.button.delete-item-button {:href "#" :data-action action :data-param param :id id} label])
@@ -256,51 +298,26 @@
 (defn $item-div [index]
   ($ (str "#" item-div-id index)))
 
-(defn $item-action-div [index]
-  ($ (str "#" item-action-div-id index)))
-
-(defn add-fields-for-item-action [parent-div action]
-  (swap! next-available-item-action-index inc)
-  (swap! item-action-indices-for-current-location conj @next-available-item-action-index)
-  (append parent-div
-          (make-div {:id (str item-action-div-id @next-available-item-action-index)}))
-  (let [values-with-matching-fields (select-keys action (keys item-action-fields-info))]
-    (doall (map #(extract-field-and-label (% item-action-fields-info)
-                                          (% action)
-                                          ($item-action-div @next-available-item-action-index)
-                                          @next-available-item-action-index)
-                (keys values-with-matching-fields)))))
-
-(defn add-item-actions [parent-div actions]
-  (doall (map #(add-fields-for-item-action parent-div %) actions)))
-
-(defn add-fields-for-item [values]
-  (swap! next-available-item-index inc)
-  (swap! item-indices-for-current-location conj @next-available-item-index)
-  (append $item-properties 
-          (make-div {:id (str item-div-id @next-available-item-index)}))
+(defn add-extra-fields-for-item [values]
   (let [item-div-elem ($item-div @next-available-item-index)]
-    (let [values-with-matching-fields (select-keys values (keys item-fields-info))]
-      (doall (map #(extract-field-and-label (% item-fields-info)
-                                            (% values)
-                                            item-div-elem
-                                            @next-available-item-index)
-                  (keys values-with-matching-fields))))
     (append item-div-elem
             (delete-item-props-button {:label "delete"
                                        :action (str item-delete-id @next-available-item-index)
                                        :param @next-available-item-index
                                        :id (str item-delete-id @next-available-item-index)}))
-    (add-item-actions item-div-elem (:use-actions values))))
+    (add-item-actions (assoc item-actions-sub-property :parent-div item-div-elem)
+                      (:use-actions values))))
 
 (def items-sub-property
     {:div-func $item-div
      :indices-atom item-indices-for-current-location
      :next-index-atom next-available-item-index
-     :field-adding-func add-fields-for-item
+     :extra-field-adding-func add-extra-fields-for-item
      :location-property :items
      :fields-info item-fields-info
-     :delete-button-partial-func delete-item-props-button})
+     :delete-button-partial-func delete-item-props-button
+     :parent-div $item-properties
+     :div-base-id item-div-id})
 
 (add-delete-handler-for-location-sub-property items-sub-property)
 
@@ -385,7 +402,7 @@
 (delegate $body locprops-add-exit-button :click
           (fn [event]
             (.preventDefault event)
-            (add-fields-for-exit (default-exit))))
+            (add-all-property-fields exits-sub-property (default-exit))))
 
 (defpartial locprops-add-item-button [{:keys [label action param]}]
   [:a.button.add-item-button {:href "#" :data-action action :data-param param} label])
@@ -409,7 +426,7 @@
 (delegate $body locprops-add-item-button :click
           (fn [event]
             (.preventDefault event)
-            (add-fields-for-item (default-item))))
+            (add-all-property-fields items-sub-property (default-item))))
 
 (defpartial locprops-save-button [{:keys [label action param]}]
   [:a.button.save-button {:href "#" :data-action action :data-param param} label])

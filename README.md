@@ -19,6 +19,8 @@ Useful links
 todo
 ====
 
+[REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
+ and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 PARTIAL - [FEATURE] Items have item actions list
 - [FEATURE] Item actions get saved when the save button is pressed
 - [FEATURE] Items have 'add item action' button
