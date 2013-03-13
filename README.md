@@ -19,11 +19,10 @@ Useful links
 todo
 ====
 
-[REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
- and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
-PARTIAL - [FEATURE] Items have item actions list
 - [FEATURE] Item actions get saved when the save button is pressed
 - [FEATURE] Items have 'add item action' button
+[REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
+ and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 - [FEATURE] Items have 'delete' button for each item action
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.
@@ -42,6 +41,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Items have item actions list
 DONE - [FEATURE] Item is untakeable and item use is not repeatable should be check boxes
 DONE - [FEATURE] Item list has delete button by each item to delete from model
 DONE - [FEATURE] Location save button saves items list

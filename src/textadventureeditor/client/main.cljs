@@ -223,6 +223,9 @@
                                        :param @next-available-exit-index
                                        :id (str exit-delete-id @next-available-exit-index)}))))
 
+(defn gather-exit-values [property]
+  (gather-values-for-sub-property property))
+
 (def exits-sub-property
     {:div-func $exit-div
      :indices-atom exit-indices-for-current-location
@@ -232,7 +235,8 @@
      :fields-info exit-fields-info
      :delete-button-partial-func delete-exit-props-button
      :parent-div $exit-properties
-     :div-base-id exit-div-id})
+     :div-base-id exit-div-id
+     :value-gatherer-func gather-exit-values})
 
 (add-delete-handler-for-location-sub-property exits-sub-property)
 
@@ -258,6 +262,9 @@
 (defn add-item-actions [property actions]
   (doall (map #((:extra-field-adding-func property) property %) actions)))
 
+(defn gather-item-action-values [property]
+  (gather-values-for-sub-property property))
+
 (def item-actions-sub-property
     {:div-func $item-action-div
      :indices-atom item-action-indices-for-current-location
@@ -267,7 +274,8 @@
      :fields-info item-action-fields-info
 ;     :delete-button-partial-func delete-item-action-props-button
 ;     :parent-div $item-action-properties
-     :div-base-id item-action-div-id})
+     :div-base-id item-action-div-id
+     :value-gatherer-func gather-item-action-values})
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -308,6 +316,9 @@
     (add-item-actions (assoc item-actions-sub-property :parent-div item-div-elem)
                       (:use-actions values))))
 
+(defn gather-item-values [property]
+  (gather-values-for-sub-property property))
+
 (def items-sub-property
     {:div-func $item-div
      :indices-atom item-indices-for-current-location
@@ -317,7 +328,8 @@
      :fields-info item-fields-info
      :delete-button-partial-func delete-item-props-button
      :parent-div $item-properties
-     :div-base-id item-div-id})
+     :div-base-id item-div-id
+     :value-gatherer-func gather-item-values})
 
 (add-delete-handler-for-location-sub-property items-sub-property)
 
@@ -441,8 +453,8 @@
             (change-location-property (find-current-location) :id (get-value loc-id-field-id))
             (change-location-property (find-current-location) :description (get-value loc-description-field-id))
             (change-location-property (find-current-location) 
-                                      :exits
-                                      (gather-values-for-sub-property exits-sub-property))
+                                      (:location-property exits-sub-property)
+                                      ((:value-gatherer-func exits-sub-property) exits-sub-property))
             (change-location-property (find-current-location)
-                                      :items
-                                      (gather-values-for-sub-property items-sub-property))))
+                                      (:location-property items-sub-property)
+                                      ((:value-gatherer-func items-sub-property) items-sub-property))))
