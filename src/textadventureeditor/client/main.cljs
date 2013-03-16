@@ -188,11 +188,11 @@
   (let [values (make-map-from-fields index (:fields-info property))]
     (add-nested-values-to-property-values property index values)))
 
-;(defn gather-values-for-sub-property [property div-ids]
-;  (doall (map #(gather-each-value property %) div-ids)))
-
-(defn gather-values-for-sub-property [property]
-  (doall (map #(gather-each-value property %) @(:indices-atom property))))
+(defn gather-values-for-sub-property
+  ([property]
+   (gather-values-for-sub-property property @(:indices-atom property)))
+  ([property div-ids]
+   (doall (map #(gather-each-value property %) div-ids))))
 
 (defn add-delete-handler-for-location-sub-property [property]
   (delegate $body (:delete-button-partial-func property) :click

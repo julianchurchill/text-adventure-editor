@@ -17592,11 +17592,26 @@ textadventureeditor.client.main.gather_each_value = function(a, b) {
   var c = textadventureeditor.client.main.make_map_from_fields.call(null, b, (new cljs.core.Keyword("\ufdd0'fields-info")).call(null, a));
   return textadventureeditor.client.main.add_nested_values_to_property_values.call(null, a, b, c)
 };
-textadventureeditor.client.main.gather_values_for_sub_property = function(a) {
-  return cljs.core.doall.call(null, cljs.core.map.call(null, function(b) {
-    return textadventureeditor.client.main.gather_each_value.call(null, a, b)
-  }, cljs.core.deref.call(null, (new cljs.core.Keyword("\ufdd0'indices-atom")).call(null, a))))
-};
+textadventureeditor.client.main.gather_values_for_sub_property = function() {
+  var a = null, b = function(b) {
+    return a.call(null, b, cljs.core.deref.call(null, (new cljs.core.Keyword("\ufdd0'indices-atom")).call(null, b)))
+  }, c = function(a, b) {
+    return cljs.core.doall.call(null, cljs.core.map.call(null, function(b) {
+      return textadventureeditor.client.main.gather_each_value.call(null, a, b)
+    }, b))
+  }, a = function(a, e) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, a);
+      case 2:
+        return c.call(this, a, e)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$1 = b;
+  a.cljs$lang$arity$2 = c;
+  return a
+}();
 textadventureeditor.client.main.add_delete_handler_for_location_sub_property = function(a) {
   return jayq.core.delegate.call(null, textadventureeditor.client.main.$body, (new cljs.core.Keyword("\ufdd0'delete-button-partial-func")).call(null, a), "\ufdd0'click", function(b) {
     b.preventDefault();
@@ -17687,11 +17702,11 @@ textadventureeditor.client.main.add_extra_fields_for_item = function(a) {
 textadventureeditor.client.main.gather_item_values = function(a) {
   return textadventureeditor.client.main.gather_values_for_sub_property.call(null, a)
 };
-textadventureeditor.client.main.gather_item_nested_values = function() {
+textadventureeditor.client.main.gather_item_action_values = function() {
   return cljs.core.PersistentVector.fromArray([cljs.core.ObjMap.fromObject(["\ufdd0'action", "\ufdd0'param"], {"\ufdd0'action":"\ufdd0'dummy-action", "\ufdd0'param":"dummy action param"})], !0)
 };
 textadventureeditor.client.main.items_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'value-gatherer-func \ufdd0'delete-button-partial-func \ufdd0'fields-info \ufdd0'indices-atom \ufdd0'div-base-id \ufdd0'gather-nested-values \ufdd0'div-func \ufdd0'location-property \ufdd0'parent-div \ufdd0'next-index-atom \ufdd0'nested-values-key \ufdd0'extra-field-adding-func".split(" "), {"\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_item_values, "\ufdd0'delete-button-partial-func":textadventureeditor.client.main.delete_item_props_button, 
-"\ufdd0'fields-info":textadventureeditor.client.main.item_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.item_indices_for_current_location, "\ufdd0'div-base-id":textadventureeditor.client.main.item_div_id, "\ufdd0'gather-nested-values":textadventureeditor.client.main.gather_item_nested_values, "\ufdd0'div-func":textadventureeditor.client.main.$item_div, "\ufdd0'location-property":"\ufdd0'items", "\ufdd0'parent-div":textadventureeditor.client.main.$item_properties, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_item_index, 
+"\ufdd0'fields-info":textadventureeditor.client.main.item_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.item_indices_for_current_location, "\ufdd0'div-base-id":textadventureeditor.client.main.item_div_id, "\ufdd0'gather-nested-values":textadventureeditor.client.main.gather_item_action_values, "\ufdd0'div-func":textadventureeditor.client.main.$item_div, "\ufdd0'location-property":"\ufdd0'items", "\ufdd0'parent-div":textadventureeditor.client.main.$item_properties, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_item_index, 
 "\ufdd0'nested-values-key":"\ufdd0'use-actions", "\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_item});
 textadventureeditor.client.main.add_delete_handler_for_location_sub_property.call(null, textadventureeditor.client.main.items_sub_property);
 textadventureeditor.client.main.loc_id_field_id = "location id";
