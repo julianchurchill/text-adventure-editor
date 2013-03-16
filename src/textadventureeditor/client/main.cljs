@@ -163,16 +163,21 @@
   (add-property-fields property values)
   ((:extra-field-adding-func property) values))
 
-(defn show-location-sub-properties [location property]
+(defn reset-property [property]
   (let [div-func (:div-func property)
         indices-atom (:indices-atom property)
-        next-index-atom (:next-index-atom property)
-        location-property (:location-property property)]
+        next-index-atom (:next-index-atom property)]
     (doall (map #(remove (div-func %)) @indices-atom))  ; remove all divs for sub-property
     (swap! indices-atom (fn [n] []))                    ; reset indices
-    (swap! next-index-atom (fn [n] 0))                  ; reset next index
-    (doall (map #(add-all-property-fields property %)
-                (location-property location))))) ; convert location property into populated fields
+    (swap! next-index-atom (fn [n] 0)))                 ; reset next index
+  (let [reset-func (:reset-nested-properties property)]
+    (if (not (= nil reset-func))
+      (reset-func property))))
+
+(defn show-location-sub-properties [location property]
+  (reset-property property)
+  (doall (map #(add-all-property-fields property %)
+              ((:location-property property) location)))) ; convert location property into populated fields
 
 (defn make-map-from-fields [index fields-info]
   (reduce into (doall (map #(retrieve-value-from-field % (% fields-info) index)
@@ -251,7 +256,8 @@
      :div-base-id exit-div-id
      :value-gatherer-func gather-exit-values
      :gather-nested-values nil
-     :nested-values-key nil})
+     :nested-values-key nil
+     :reset-nested-properties nil})
 
 (add-delete-handler-for-location-sub-property exits-sub-property)
 
@@ -290,7 +296,8 @@
      :div-base-id item-action-div-id
      :value-gatherer-func gather-item-action-values
      :gather-nested-values nil
-     :nested-values-key nil})
+     :nested-values-key nil
+     :reset-nested-properties nil})
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -343,9 +350,16 @@
 ;    (union children-ids all-nested-ids)))
 
 (defn gather-item-action-values [property parent-div]
-;  (gather-values-for-sub-property item-actions-sub-property 
-;                                  (child-ids-for-div parent-div item-actions-sub-property)))  
-  [{:action :dummy-action :param "dummy action param"}])
+  ;; step 1
+;  [{:action :dummy-action :param "dummy action param"}])
+  ;; step 2
+  (gather-values-for-sub-property item-actions-sub-property))
+  ;; step 3
+;  (gather-values-for-sub-property item-actions-sub-property
+;                                  (child-ids-for-div parent-div item-actions-sub-property)))
+
+(defn reset-item-action-property []
+  (reset-property item-actions-sub-property))
 
 (def items-sub-property
     {:div-func $item-div
@@ -359,7 +373,8 @@
      :div-base-id item-div-id
      :value-gatherer-func gather-item-values
      :gather-nested-values gather-item-action-values
-     :nested-values-key :use-actions})
+     :nested-values-key :use-actions
+     :reset-nested-properties reset-item-action-property})
 
 (add-delete-handler-for-location-sub-property items-sub-property)
 
