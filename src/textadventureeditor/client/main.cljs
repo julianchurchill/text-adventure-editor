@@ -139,10 +139,6 @@
   (let [id (str (:field-id field-info) index)]
     (assoc {} value-key (get-field-value id field-info))))
 
-(defn make-map-from-fields [index fields-info]
-  (reduce into (doall (map #(retrieve-value-from-field % (% fields-info) index)
-                           (keys fields-info)))))
-
 (defn add-property-fields [property values]
   (let [div-func (:div-func property)
         indices-atom (:indices-atom property)
@@ -178,8 +174,27 @@
     (doall (map #(add-all-property-fields property %)
                 (location-property location))))) ; convert location property into populated fields
 
+(defn make-map-from-fields [index fields-info]
+  (reduce into (doall (map #(retrieve-value-from-field % (% fields-info) index)
+                           (keys fields-info)))))
+
+(defn add-nested-values-to-property-values [property index values]
+  (if (= nil (:gather-nested-values property))
+    values
+    values))
+;  if :gather-nested-values != nil    
+;        nested-values ((:gather-nested-values property) property (:div-func property index))]
+;    (assoc values (:nested-values-key property) nested-values)))
+
+(defn gather-each-value [property index]
+  (let [values (make-map-from-fields index (:fields-info property))]
+    (add-nested-values-to-property-values property index values)))
+
+;(defn gather-values-for-sub-property [property div-ids]
+;  (doall (map #(gather-each-value property %) div-ids)))
+
 (defn gather-values-for-sub-property [property]
-  (doall (map #(make-map-from-fields % (:fields-info property)) @(:indices-atom property))))
+  (doall (map #(gather-each-value property %) @(:indices-atom property))))
 
 (defn add-delete-handler-for-location-sub-property [property]
   (delegate $body (:delete-button-partial-func property) :click
@@ -236,7 +251,9 @@
      :delete-button-partial-func delete-exit-props-button
      :parent-div $exit-properties
      :div-base-id exit-div-id
-     :value-gatherer-func gather-exit-values})
+     :value-gatherer-func gather-exit-values
+     :gather-nested-values nil
+     :nested-values-key nil})
 
 (add-delete-handler-for-location-sub-property exits-sub-property)
 
@@ -275,7 +292,9 @@
 ;     :delete-button-partial-func delete-item-action-props-button
 ;     :parent-div $item-action-properties
      :div-base-id item-action-div-id
-     :value-gatherer-func gather-item-action-values})
+     :value-gatherer-func gather-item-action-values
+     :gather-nested-values nil
+     :nested-values-key nil})
 
 ;;;;;;;;;;;
 ;; Items ;;
@@ -319,6 +338,19 @@
 (defn gather-item-values [property]
   (gather-values-for-sub-property property))
 
+;(defn child-ids-for-div [parent-div nested-property]
+;  (let [children (children parent-div)
+;        children-ids (doall (map #(get-value "id" %) children))
+;        nested-base-id (:base-id nested-property)
+;        all-nested-indices @(:indices nested-property)
+;        all-nested-ids (doall (map #(str nested-base-id %) all-nested-indices))]
+;    (union children-ids all-nested-ids)))
+
+(defn gather-item-nested-values [property parent-div]
+;  (gather-values-for-sub-property item-actions-sub-property 
+;                                  (child-ids-for-div parent-div item-actions-sub-property)))  
+  {})
+
 (def items-sub-property
     {:div-func $item-div
      :indices-atom item-indices-for-current-location
@@ -329,7 +361,9 @@
      :delete-button-partial-func delete-item-props-button
      :parent-div $item-properties
      :div-base-id item-div-id
-     :value-gatherer-func gather-item-values})
+     :value-gatherer-func gather-item-values
+     :gather-nested-values gather-item-nested-values
+     :nested-values-key :use-actions})
 
 (add-delete-handler-for-location-sub-property items-sub-property)
 

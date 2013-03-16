@@ -17545,11 +17545,6 @@ textadventureeditor.client.main.retrieve_value_from_field = function(a, b, c) {
   c = [cljs.core.str((new cljs.core.Keyword("\ufdd0'field-id")).call(null, b)), cljs.core.str(c)].join("");
   return cljs.core.assoc.call(null, cljs.core.ObjMap.EMPTY, a, textadventureeditor.client.main.get_field_value.call(null, c, b))
 };
-textadventureeditor.client.main.make_map_from_fields = function(a, b) {
-  return cljs.core.reduce.call(null, cljs.core.into, cljs.core.doall.call(null, cljs.core.map.call(null, function(c) {
-    return textadventureeditor.client.main.retrieve_value_from_field.call(null, c, c.call(null, b), a)
-  }, cljs.core.keys.call(null, b))))
-};
 textadventureeditor.client.main.add_property_fields = function(a, b) {
   var c = (new cljs.core.Keyword("\ufdd0'div-func")).call(null, a), d = (new cljs.core.Keyword("\ufdd0'indices-atom")).call(null, a), e = (new cljs.core.Keyword("\ufdd0'next-index-atom")).call(null, a);
   (new cljs.core.Keyword("\ufdd0'location-property")).call(null, a);
@@ -17581,9 +17576,22 @@ textadventureeditor.client.main.show_location_sub_properties = function(a, b) {
     return textadventureeditor.client.main.add_all_property_fields.call(null, b, a)
   }, f.call(null, a)))
 };
+textadventureeditor.client.main.make_map_from_fields = function(a, b) {
+  return cljs.core.reduce.call(null, cljs.core.into, cljs.core.doall.call(null, cljs.core.map.call(null, function(c) {
+    return textadventureeditor.client.main.retrieve_value_from_field.call(null, c, c.call(null, b), a)
+  }, cljs.core.keys.call(null, b))))
+};
+textadventureeditor.client.main.add_nested_values_to_property_values = function(a, b, c) {
+  cljs.core._EQ_.call(null, null, (new cljs.core.Keyword("\ufdd0'gather-nested-values")).call(null, a));
+  return c
+};
+textadventureeditor.client.main.gather_each_value = function(a, b) {
+  var c = textadventureeditor.client.main.make_map_from_fields.call(null, b, (new cljs.core.Keyword("\ufdd0'fields-info")).call(null, a));
+  return textadventureeditor.client.main.add_nested_values_to_property_values.call(null, a, b, c)
+};
 textadventureeditor.client.main.gather_values_for_sub_property = function(a) {
   return cljs.core.doall.call(null, cljs.core.map.call(null, function(b) {
-    return textadventureeditor.client.main.make_map_from_fields.call(null, b, (new cljs.core.Keyword("\ufdd0'fields-info")).call(null, a))
+    return textadventureeditor.client.main.gather_each_value.call(null, a, b)
   }, cljs.core.deref.call(null, (new cljs.core.Keyword("\ufdd0'indices-atom")).call(null, a))))
 };
 textadventureeditor.client.main.add_delete_handler_for_location_sub_property = function(a) {
@@ -17621,8 +17629,9 @@ textadventureeditor.client.main.add_extra_fields_for_exit = function() {
 textadventureeditor.client.main.gather_exit_values = function(a) {
   return textadventureeditor.client.main.gather_values_for_sub_property.call(null, a)
 };
-textadventureeditor.client.main.exits_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'value-gatherer-func \ufdd0'delete-button-partial-func \ufdd0'fields-info \ufdd0'indices-atom \ufdd0'div-base-id \ufdd0'div-func \ufdd0'location-property \ufdd0'parent-div \ufdd0'next-index-atom \ufdd0'extra-field-adding-func".split(" "), {"\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_exit_values, "\ufdd0'delete-button-partial-func":textadventureeditor.client.main.delete_exit_props_button, 
-"\ufdd0'fields-info":textadventureeditor.client.main.exit_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.exit_indices_for_current_location, "\ufdd0'div-base-id":textadventureeditor.client.main.exit_div_id, "\ufdd0'div-func":textadventureeditor.client.main.$exit_div, "\ufdd0'location-property":"\ufdd0'exits", "\ufdd0'parent-div":textadventureeditor.client.main.$exit_properties, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_exit_index, "\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_exit});
+textadventureeditor.client.main.exits_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'value-gatherer-func \ufdd0'delete-button-partial-func \ufdd0'fields-info \ufdd0'indices-atom \ufdd0'div-base-id \ufdd0'gather-nested-values \ufdd0'div-func \ufdd0'location-property \ufdd0'parent-div \ufdd0'next-index-atom \ufdd0'nested-values-key \ufdd0'extra-field-adding-func".split(" "), {"\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_exit_values, "\ufdd0'delete-button-partial-func":textadventureeditor.client.main.delete_exit_props_button, 
+"\ufdd0'fields-info":textadventureeditor.client.main.exit_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.exit_indices_for_current_location, "\ufdd0'div-base-id":textadventureeditor.client.main.exit_div_id, "\ufdd0'gather-nested-values":null, "\ufdd0'div-func":textadventureeditor.client.main.$exit_div, "\ufdd0'location-property":"\ufdd0'exits", "\ufdd0'parent-div":textadventureeditor.client.main.$exit_properties, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_exit_index, 
+"\ufdd0'nested-values-key":null, "\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_exit});
 textadventureeditor.client.main.add_delete_handler_for_location_sub_property.call(null, textadventureeditor.client.main.exits_sub_property);
 textadventureeditor.client.main.item_action_fields_info = cljs.core.ObjMap.fromObject(["\ufdd0'action", "\ufdd0'param"], {"\ufdd0'action":cljs.core.ObjMap.fromObject(["\ufdd0'field-id", "\ufdd0'label", "\ufdd0'type"], {"\ufdd0'field-id":"item-action-action-id", "\ufdd0'label":"item action action", "\ufdd0'type":"\ufdd0'textfield"}), "\ufdd0'param":cljs.core.ObjMap.fromObject(["\ufdd0'field-id", "\ufdd0'label", "\ufdd0'type"], {"\ufdd0'field-id":"item-action-param", "\ufdd0'label":"item action param", 
 "\ufdd0'type":"\ufdd0'textfield"})});
@@ -17643,8 +17652,8 @@ textadventureeditor.client.main.add_item_actions = function(a, b) {
 textadventureeditor.client.main.gather_item_action_values = function(a) {
   return textadventureeditor.client.main.gather_values_for_sub_property.call(null, a)
 };
-textadventureeditor.client.main.item_actions_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'div-func \ufdd0'indices-atom \ufdd0'next-index-atom \ufdd0'extra-field-adding-func \ufdd0'fields-info \ufdd0'div-base-id \ufdd0'value-gatherer-func".split(" "), {"\ufdd0'div-func":textadventureeditor.client.main.$item_action_div, "\ufdd0'indices-atom":textadventureeditor.client.main.item_action_indices_for_current_location, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_item_action_index, 
-"\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_item_action, "\ufdd0'fields-info":textadventureeditor.client.main.item_action_fields_info, "\ufdd0'div-base-id":textadventureeditor.client.main.item_action_div_id, "\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_item_action_values});
+textadventureeditor.client.main.item_actions_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'value-gatherer-func \ufdd0'fields-info \ufdd0'indices-atom \ufdd0'div-base-id \ufdd0'gather-nested-values \ufdd0'div-func \ufdd0'next-index-atom \ufdd0'nested-values-key \ufdd0'extra-field-adding-func".split(" "), {"\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_item_action_values, "\ufdd0'fields-info":textadventureeditor.client.main.item_action_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.item_action_indices_for_current_location, 
+"\ufdd0'div-base-id":textadventureeditor.client.main.item_action_div_id, "\ufdd0'gather-nested-values":null, "\ufdd0'div-func":textadventureeditor.client.main.$item_action_div, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_item_action_index, "\ufdd0'nested-values-key":null, "\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_item_action});
 textadventureeditor.client.main.$item_properties = jayq.core.$.call(null, "\ufdd0'#item-properties");
 textadventureeditor.client.main.item_fields_info = cljs.core.ObjMap.fromObject("\ufdd0'countable-noun-prefix \ufdd0'mid-sentence-cased-name \ufdd0'can-be-used-with \ufdd0'name \ufdd0'successful-use-message \ufdd0'use-is-not-repeatable \ufdd0'id \ufdd0'description \ufdd0'is-untakeable".split(" "), {"\ufdd0'countable-noun-prefix":cljs.core.ObjMap.fromObject(["\ufdd0'field-id", "\ufdd0'label", "\ufdd0'type"], {"\ufdd0'field-id":"item-countable-noun-prefix", "\ufdd0'label":"item countable noun prefix", 
 "\ufdd0'type":"\ufdd0'textfield"}), "\ufdd0'mid-sentence-cased-name":cljs.core.ObjMap.fromObject(["\ufdd0'field-id", "\ufdd0'label", "\ufdd0'type"], {"\ufdd0'field-id":"item-mid-sentence-cased-name", "\ufdd0'label":"item mid sentence cased name", "\ufdd0'type":"\ufdd0'textfield"}), "\ufdd0'can-be-used-with":cljs.core.ObjMap.fromObject(["\ufdd0'field-id", "\ufdd0'label", "\ufdd0'type"], {"\ufdd0'field-id":"item-can-be-used-with", "\ufdd0'label":"item can be used with", "\ufdd0'type":"\ufdd0'textfield"}), 
@@ -17675,8 +17684,12 @@ textadventureeditor.client.main.add_extra_fields_for_item = function(a) {
 textadventureeditor.client.main.gather_item_values = function(a) {
   return textadventureeditor.client.main.gather_values_for_sub_property.call(null, a)
 };
-textadventureeditor.client.main.items_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'value-gatherer-func \ufdd0'delete-button-partial-func \ufdd0'fields-info \ufdd0'indices-atom \ufdd0'div-base-id \ufdd0'div-func \ufdd0'location-property \ufdd0'parent-div \ufdd0'next-index-atom \ufdd0'extra-field-adding-func".split(" "), {"\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_item_values, "\ufdd0'delete-button-partial-func":textadventureeditor.client.main.delete_item_props_button, 
-"\ufdd0'fields-info":textadventureeditor.client.main.item_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.item_indices_for_current_location, "\ufdd0'div-base-id":textadventureeditor.client.main.item_div_id, "\ufdd0'div-func":textadventureeditor.client.main.$item_div, "\ufdd0'location-property":"\ufdd0'items", "\ufdd0'parent-div":textadventureeditor.client.main.$item_properties, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_item_index, "\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_item});
+textadventureeditor.client.main.gather_item_nested_values = function() {
+  return cljs.core.ObjMap.EMPTY
+};
+textadventureeditor.client.main.items_sub_property = cljs.core.ObjMap.fromObject("\ufdd0'value-gatherer-func \ufdd0'delete-button-partial-func \ufdd0'fields-info \ufdd0'indices-atom \ufdd0'div-base-id \ufdd0'gather-nested-values \ufdd0'div-func \ufdd0'location-property \ufdd0'parent-div \ufdd0'next-index-atom \ufdd0'nested-values-key \ufdd0'extra-field-adding-func".split(" "), {"\ufdd0'value-gatherer-func":textadventureeditor.client.main.gather_item_values, "\ufdd0'delete-button-partial-func":textadventureeditor.client.main.delete_item_props_button, 
+"\ufdd0'fields-info":textadventureeditor.client.main.item_fields_info, "\ufdd0'indices-atom":textadventureeditor.client.main.item_indices_for_current_location, "\ufdd0'div-base-id":textadventureeditor.client.main.item_div_id, "\ufdd0'gather-nested-values":textadventureeditor.client.main.gather_item_nested_values, "\ufdd0'div-func":textadventureeditor.client.main.$item_div, "\ufdd0'location-property":"\ufdd0'items", "\ufdd0'parent-div":textadventureeditor.client.main.$item_properties, "\ufdd0'next-index-atom":textadventureeditor.client.main.next_available_item_index, 
+"\ufdd0'nested-values-key":"\ufdd0'use-actions", "\ufdd0'extra-field-adding-func":textadventureeditor.client.main.add_extra_fields_for_item});
 textadventureeditor.client.main.add_delete_handler_for_location_sub_property.call(null, textadventureeditor.client.main.items_sub_property);
 textadventureeditor.client.main.loc_id_field_id = "location id";
 textadventureeditor.client.main.loc_description_field_id = "location description";
