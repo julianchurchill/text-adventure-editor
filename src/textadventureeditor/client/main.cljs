@@ -181,10 +181,8 @@
 (defn add-nested-values-to-property-values [property index values]
   (if (= nil (:gather-nested-values property))
     values
-    values))
-;  if :gather-nested-values != nil    
-;        nested-values ((:gather-nested-values property) property (:div-func property index))]
-;    (assoc values (:nested-values-key property) nested-values)))
+    (let [nested-values ((:gather-nested-values property) property (:div-func property index))]
+      (assoc values (:nested-values-key property) nested-values))))
 
 (defn gather-each-value [property index]
   (let [values (make-map-from-fields index (:fields-info property))]
@@ -287,10 +285,8 @@
      :indices-atom item-action-indices-for-current-location
      :next-index-atom next-available-item-action-index
      :extra-field-adding-func add-extra-fields-for-item-action
-;     :location-property :use-actions
      :fields-info item-action-fields-info
 ;     :delete-button-partial-func delete-item-action-props-button
-;     :parent-div $item-action-properties
      :div-base-id item-action-div-id
      :value-gatherer-func gather-item-action-values
      :gather-nested-values nil
@@ -346,10 +342,10 @@
 ;        all-nested-ids (doall (map #(str nested-base-id %) all-nested-indices))]
 ;    (union children-ids all-nested-ids)))
 
-(defn gather-item-nested-values [property parent-div]
+(defn gather-item-action-values [property parent-div]
 ;  (gather-values-for-sub-property item-actions-sub-property 
 ;                                  (child-ids-for-div parent-div item-actions-sub-property)))  
-  {})
+  [{:action :dummy-action :param "dummy action param"}])
 
 (def items-sub-property
     {:div-func $item-div
@@ -362,7 +358,7 @@
      :parent-div $item-properties
      :div-base-id item-div-id
      :value-gatherer-func gather-item-values
-     :gather-nested-values gather-item-nested-values
+     :gather-nested-values gather-item-action-values
      :nested-values-key :use-actions})
 
 (add-delete-handler-for-location-sub-property items-sub-property)
