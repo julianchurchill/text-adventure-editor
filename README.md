@@ -19,28 +19,29 @@ Useful links
 todo
 ====
 
-- [FEATURE] Item actions get saved when the save button is pressed
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 - [FEATURE] Items have 'delete' button for each item action
+- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
+- [FEATURE] Import button to load a model in a text file
+- [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
-- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
-- [FEATURE] Import button to load a model in a text file
-- [FEATURE] Loading a model from a text file lays out locations so they can all be seen
-- [FEATURE] Delete button to remove location from the model (plus confirm dialog)
+- [FEATURE] Loading a model from a text file lays out locations so they can all be seen - perhaps enforce a grid
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
 - [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 - [FEATURE] Order of fields is variable - make field maps ordered
 - [FEATURE] Hidden exits are dotted lines
-- [FEATURE] Enter key to save edited id and description to location
+- [FEATURE] Enter key to save edits
 - [FEATURE] Locations are draggable 
+- [FEATURE] Make pretty!
 
 done
 ====
 
+DONE - [FEATURE] Item actions get saved when the save button is pressed
 DONE - [FEATURE] Items have item actions list
 DONE - [FEATURE] Item is untakeable and item use is not repeatable should be check boxes
 DONE - [FEATURE] Item list has delete button by each item to delete from model

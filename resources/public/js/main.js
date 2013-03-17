@@ -17476,6 +17476,9 @@ textadventureeditor.client.main.set_value = function(a, b) {
 textadventureeditor.client.main.get_value = function(a) {
   return goog.dom.getElement(a).value
 };
+textadventureeditor.client.main.get_id = function(a) {
+  return goog.dom.getElement(a).id
+};
 textadventureeditor.client.main.get_checked = function(a) {
   return goog.dom.getElement(a).checked
 };
@@ -17590,7 +17593,7 @@ textadventureeditor.client.main.add_nested_values_to_property_values = function(
   if(cljs.core._EQ_.call(null, null, (new cljs.core.Keyword("\ufdd0'gather-nested-values")).call(null, a))) {
     return c
   }
-  b = (new cljs.core.Keyword("\ufdd0'gather-nested-values")).call(null, a).call(null, a, (new cljs.core.Keyword("\ufdd0'div-func")).call(null, a, b));
+  b = (new cljs.core.Keyword("\ufdd0'gather-nested-values")).call(null, a).call(null, a, (new cljs.core.Keyword("\ufdd0'div-func")).call(null, a).call(null, b));
   return cljs.core.assoc.call(null, c, (new cljs.core.Keyword("\ufdd0'nested-values-key")).call(null, a), b)
 };
 textadventureeditor.client.main.gather_each_value = function(a, b) {
@@ -17707,8 +17710,20 @@ textadventureeditor.client.main.add_extra_fields_for_item = function(a) {
 textadventureeditor.client.main.gather_item_values = function(a) {
   return textadventureeditor.client.main.gather_values_for_sub_property.call(null, a)
 };
-textadventureeditor.client.main.gather_item_action_values = function() {
-  return textadventureeditor.client.main.gather_values_for_sub_property.call(null, textadventureeditor.client.main.item_actions_sub_property)
+textadventureeditor.client.main.child_ids_for_div = function(a, b) {
+  var c = jayq.core.children.call(null, a), c = cljs.core.doall.call(null, cljs.core.map.call(null, function(a) {
+    return textadventureeditor.client.main.get_id.call(null, a)
+  }, c)), d = (new cljs.core.Keyword("\ufdd0'div-base-id")).call(null, b), e = cljs.core.deref.call(null, (new cljs.core.Keyword("\ufdd0'indices-atom")).call(null, b)), f = cljs.core.doall.call(null, cljs.core.map.call(null, function(a) {
+    return[cljs.core.str(d), cljs.core.str(a)].join("")
+  }, e)), g = cljs.core.reduce.call(null, cljs.core.into, cljs.core.doall.call(null, cljs.core.map.call(null, function(a) {
+    return cljs.core.PersistentArrayMap.fromArrays([cljs.core.keyword.call(null, [cljs.core.str(d), cljs.core.str(a)].join(""))], [a])
+  }, e))), c = clojure.set.intersection.call(null, cljs.core.set.call(null, c), cljs.core.set.call(null, f));
+  return cljs.core.doall.call(null, cljs.core.map.call(null, function(a) {
+    return cljs.core.keyword.call(null, a).call(null, g)
+  }, c))
+};
+textadventureeditor.client.main.gather_item_action_values = function(a, b) {
+  return textadventureeditor.client.main.gather_values_for_sub_property.call(null, textadventureeditor.client.main.item_actions_sub_property, textadventureeditor.client.main.child_ids_for_div.call(null, b, textadventureeditor.client.main.item_actions_sub_property))
 };
 textadventureeditor.client.main.reset_item_action_property = function() {
   return textadventureeditor.client.main.reset_property.call(null, textadventureeditor.client.main.item_actions_sub_property)
@@ -17761,14 +17776,14 @@ textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromOb
 textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":300, "\ufdd0'y":300, "\ufdd0'id":"loc3", "\ufdd0'description":"description3", "\ufdd0'exits":cljs.core.PersistentVector.EMPTY, "\ufdd0'items":cljs.core.PersistentVector.EMPTY}));
 textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));
 textadventureeditor.client.main.$location_props = jayq.core.$.call(null, "\ufdd0'#location-properties");
-var group__2982__auto___3833 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2982__auto___3836 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_add_exit_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.add-exit-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, 
   "\ufdd0'data-param":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3833);
+  a.setAttribute("crateGroup", group__2982__auto___3836);
   return a
 };
-textadventureeditor.client.main.locprops_add_exit_button.prototype._crateGroup = group__2982__auto___3833;
+textadventureeditor.client.main.locprops_add_exit_button.prototype._crateGroup = group__2982__auto___3836;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_add_exit_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"add exit", "\ufdd0'action":"add-exit", "\ufdd0'param":""})));
 textadventureeditor.client.main.default_exit = function() {
   return cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"default id", "\ufdd0'label":"default label", "\ufdd0'destination":"default destination", "\ufdd0'direction-hint":"default direction hint"})
@@ -17777,14 +17792,14 @@ jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventu
   a.preventDefault();
   return textadventureeditor.client.main.add_all_property_fields.call(null, textadventureeditor.client.main.exits_sub_property, textadventureeditor.client.main.default_exit.call(null))
 });
-var group__2982__auto___3837 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2982__auto___3840 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_add_item_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.add-item-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, 
   "\ufdd0'data-param":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3837);
+  a.setAttribute("crateGroup", group__2982__auto___3840);
   return a
 };
-textadventureeditor.client.main.locprops_add_item_button.prototype._crateGroup = group__2982__auto___3837;
+textadventureeditor.client.main.locprops_add_item_button.prototype._crateGroup = group__2982__auto___3840;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_add_item_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"add item", "\ufdd0'action":"add-item", "\ufdd0'param":""})));
 textadventureeditor.client.main.default_item = function() {
   return cljs.core.ObjMap.fromObject("\ufdd0'countable-noun-prefix \ufdd0'mid-sentence-cased-name \ufdd0'can-be-used-with \ufdd0'name \ufdd0'use-actions \ufdd0'successful-use-message \ufdd0'use-is-not-repeatable \ufdd0'id \ufdd0'description \ufdd0'is-untakeable".split(" "), {"\ufdd0'countable-noun-prefix":"a", "\ufdd0'mid-sentence-cased-name":"item name cased name", "\ufdd0'can-be-used-with":"nothing", "\ufdd0'name":"item name", "\ufdd0'use-actions":cljs.core.PersistentVector.EMPTY, "\ufdd0'successful-use-message":"success!", 
@@ -17794,14 +17809,14 @@ jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventu
   a.preventDefault();
   return textadventureeditor.client.main.add_all_property_fields.call(null, textadventureeditor.client.main.items_sub_property, textadventureeditor.client.main.default_item.call(null))
 });
-var group__2982__auto___3841 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2982__auto___3844 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_save_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.save-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, 
   "\ufdd0'data-param":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3841);
+  a.setAttribute("crateGroup", group__2982__auto___3844);
   return a
 };
-textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__2982__auto___3841;
+textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__2982__auto___3844;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"save-location", "\ufdd0'param":""})));
 jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.locprops_save_button, "\ufdd0'click", function(a) {
   a.preventDefault();

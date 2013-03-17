@@ -5,7 +5,7 @@
             [crate.core :as crate])
   (:use-macros [cljs.core :only [this-as]]
                [crate.def-macros :only [defpartial]])
-  (:use [jayq.core :only [$ bind append remove delegate data]]
+  (:use [jayq.core :only [$ bind append remove delegate data children]]
         [textadventureeditor.client.monetfixes 
          :only [font-style-that-works
                 fill-style-that-works
@@ -81,14 +81,17 @@
                                   nil ;; update function
                                   draw-locations))
 
-(defn set-value [id val]
-  (set! (.-value (dom/getElement id)) val))
+(defn set-value [selector val]
+  (set! (.-value (dom/getElement selector)) val))
 
-(defn get-value [id]
-  (.-value (dom/getElement id)))
+(defn get-value [selector]
+  (.-value (dom/getElement selector)))
 
-(defn get-checked [id]
-  (.-checked (dom/getElement id)))
+(defn get-id [selector]
+  (.-id (dom/getElement selector)))
+
+(defn get-checked [selector]
+  (.-checked (dom/getElement selector)))
 
 (bind ($ :#canvas) :focus
       (fn [e]
@@ -186,7 +189,7 @@
 (defn add-nested-values-to-property-values [property index values]
   (if (= nil (:gather-nested-values property))
     values
-    (let [nested-values ((:gather-nested-values property) property (:div-func property index))]
+    (let [nested-values ((:gather-nested-values property) property ((:div-func property) index))]
       (assoc values (:nested-values-key property) nested-values))))
 
 (defn gather-each-value [property index]
@@ -341,22 +344,21 @@
 (defn gather-item-values [property]
   (gather-values-for-sub-property property))
 
-;(defn child-ids-for-div [parent-div nested-property]
-;  (let [children (children parent-div)
-;        children-ids (doall (map #(get-value "id" %) children))
-;        nested-base-id (:base-id nested-property)
-;        all-nested-indices @(:indices nested-property)
-;        all-nested-ids (doall (map #(str nested-base-id %) all-nested-indices))]
-;    (union children-ids all-nested-ids)))
+(defn child-ids-for-div [parent-div nested-property]
+  (let [children (children parent-div)
+        children-ids (doall (map #(get-id %) children))
+        nested-base-id (:div-base-id nested-property)
+        all-nested-indices @(:indices-atom nested-property)
+        all-nested-ids (doall (map #(str nested-base-id %) all-nested-indices))
+        all-nested-ids-with-indices (reduce into
+                                            (doall (map (fn [n] {(keyword (str nested-base-id n)) n}) 
+                                                        all-nested-indices)))
+        found-ids (clojure.set/intersection (set children-ids) (set all-nested-ids))]
+    (doall (map #((keyword %) all-nested-ids-with-indices) found-ids))))
 
 (defn gather-item-action-values [property parent-div]
-  ;; step 1
-;  [{:action :dummy-action :param "dummy action param"}])
-  ;; step 2
-  (gather-values-for-sub-property item-actions-sub-property))
-  ;; step 3
-;  (gather-values-for-sub-property item-actions-sub-property
-;                                  (child-ids-for-div parent-div item-actions-sub-property)))
+  (gather-values-for-sub-property item-actions-sub-property
+                                  (child-ids-for-div parent-div item-actions-sub-property)))
 
 (defn reset-item-action-property []
   (reset-property item-actions-sub-property))
