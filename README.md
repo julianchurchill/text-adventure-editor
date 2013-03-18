@@ -19,7 +19,6 @@ Useful links
 todo
 ====
 
-- [FEATURE] Exit properties is missing a check box for visibility
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
@@ -41,6 +40,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Exit properties is missing a check box for visibility
 DONE - [FEATURE] Text area to show serialised text that is readable by the text adventure game
 DONE - [FEATURE] Item actions get saved when the save button is pressed
 DONE - [FEATURE] Items have item actions list

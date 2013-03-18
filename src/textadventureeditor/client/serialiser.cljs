@@ -37,7 +37,8 @@
        "exit label:" (:label exit) "\n"
        "exit destination:" (:destination exit) "\n"
        "exit direction hint:" (:direction-hint exit) "\n"
-;       (if (:not-visible exit) (str "exit is not visible:\n"))
+       (if (:is-not-visible exit)
+         (str "exit is not visible:\n"))
        "exit id:" (:id exit) "\n"))
 
 (defn serialise-exits [exits]

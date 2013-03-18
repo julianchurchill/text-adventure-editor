@@ -224,7 +224,8 @@
   {:id {:field-id "exit-id" :label "exit id" :type :textfield}
    :label {:field-id "exit-label" :label "exit label" :type :textfield}
    :destination {:field-id "exit-destination" :label "exit destination" :type :textfield}
-   :direction-hint {:field-id "exit-direction-hint" :label "exit direction hint" :type :textfield}})
+   :direction-hint {:field-id "exit-direction-hint" :label "exit direction hint" :type :textfield}
+   :is-not-visible {:field-id "exit-is-not-visible" :label "exit is not visible" :type :checkbox}})
 
 (def exit-delete-id "delete-exit")
 (def exit-div-id "single-exit")
@@ -433,8 +434,8 @@
       canvas-mousedown)
 
 (make-location {:x 100 :y 100 :id "loc1" :description "description1"
-                :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH"}
-                        {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST"}]
+                :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH" :is-not-visible false}
+                        {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST" :is-not-visible false}]
                 :items [{:id "item id" :name "item name" :description "item description" 
                          :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
                          :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
@@ -443,7 +444,7 @@
                                        {:action :change-item-name :param "unlocked door"}
                                        {:action :make-exit-visible :param "clocktowerdoor"}]}]})
 (make-location {:x 300 :y 200 :id "loc2" :description "description2"
-                :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH"}]
+                :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH" :is-not-visible false}]
                 :items []})
 (make-location {:x 300 :y 300 :id "loc3" :description "description3" :exits [] :items []})
 
@@ -462,7 +463,8 @@
   {:id "default id"
    :label "default label"
    :destination "default destination"
-   :direction-hint "default direction hint"})
+   :direction-hint "default direction hint"
+   :is-not-visible false})
 
 (delegate $body locprops-add-exit-button :click
           (fn [event]
