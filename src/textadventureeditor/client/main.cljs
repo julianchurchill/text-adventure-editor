@@ -12,6 +12,8 @@
                 stroke-style-that-works
                 stroke-width-that-works
                 alpha-that-works]]
+        [textadventureeditor.client.serialiser
+         :only [serialise-locations]]
         [crate.form :only [text-field label check-box]]))
 
 (def $body ($ :body))
@@ -398,6 +400,9 @@
   (set-value loc-id-field-id (:id location))
   (set-value loc-description-field-id (:description location)))
 
+(defn update-serialised-text []
+  (set-value "serialised properties text area" (serialise-locations (vals @locations))))
+
 (defn make-location-current [location]
   (let [currentloc (find-current-location)]
     (when currentloc
@@ -405,7 +410,8 @@
   (change-location-property location :current true)
   (show-location-information location)
   (show-location-sub-properties location exits-sub-property)
-  (show-location-sub-properties location items-sub-property))
+  (show-location-sub-properties location items-sub-property)
+  (update-serialised-text))
 
 (defn make-new-location [x y]
   (make-location-current 
@@ -504,4 +510,5 @@
                                       ((:value-gatherer-func exits-sub-property) exits-sub-property))
             (change-location-property (find-current-location)
                                       (:location-property items-sub-property)
-                                      ((:value-gatherer-func items-sub-property) items-sub-property))))
+                                      ((:value-gatherer-func items-sub-property) items-sub-property))
+            (update-serialised-text)))

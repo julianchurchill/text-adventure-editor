@@ -12694,27 +12694,157 @@ cljs.core.UUID.prototype.cljs$core$IEquiv$_equiv$arity$2 = function(a, b) {
 cljs.core.UUID.prototype.toString = function() {
   return cljs.core.pr_str.call(null, this)
 };
+var clojure = {string:{}};
+clojure.string.seq_reverse = function(a) {
+  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
+};
+clojure.string.reverse = function(a) {
+  return a.split("").reverse().join("")
+};
+clojure.string.replace = function(a, b, c) {
+  if(cljs.core.string_QMARK_.call(null, b)) {
+    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
+  }
+  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
+    return a.replace(RegExp(b.source, "g"), c)
+  }
+  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
+};
+clojure.string.replace_first = function(a, b, c) {
+  return a.replace(b, c)
+};
+clojure.string.join = function() {
+  var a = null, b = function(a) {
+    return cljs.core.apply.call(null, cljs.core.str, a)
+  }, c = function(a, b) {
+    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
+  }, a = function(a, e) {
+    switch(arguments.length) {
+      case 1:
+        return b.call(this, a);
+      case 2:
+        return c.call(this, a, e)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$1 = b;
+  a.cljs$lang$arity$2 = c;
+  return a
+}();
+clojure.string.upper_case = function(a) {
+  return a.toUpperCase()
+};
+clojure.string.lower_case = function(a) {
+  return a.toLowerCase()
+};
+clojure.string.capitalize = function(a) {
+  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
+};
+clojure.string.split = function() {
+  var a = null, b = function(a, b) {
+    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+  }, c = function(a, b, c) {
+    if(1 > c) {
+      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
+    }
+    for(var g = cljs.core.PersistentVector.EMPTY;;) {
+      if(cljs.core._EQ_.call(null, c, 1)) {
+        return cljs.core.conj.call(null, g, a)
+      }
+      var h = cljs.core.re_find.call(null, b, a);
+      if(cljs.core.truth_(h)) {
+        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
+      }else {
+        return cljs.core.conj.call(null, g, a)
+      }
+    }
+  }, a = function(a, e, f) {
+    switch(arguments.length) {
+      case 2:
+        return b.call(this, a, e);
+      case 3:
+        return c.call(this, a, e, f)
+    }
+    throw Error("Invalid arity: " + arguments.length);
+  };
+  a.cljs$lang$arity$2 = b;
+  a.cljs$lang$arity$3 = c;
+  return a
+}();
+clojure.string.split_lines = function(a) {
+  return clojure.string.split.call(null, a, /\n|\r\n/)
+};
+clojure.string.trim = function(a) {
+  return goog.string.trim(a)
+};
+clojure.string.triml = function(a) {
+  return goog.string.trimLeft(a)
+};
+clojure.string.trimr = function(a) {
+  return goog.string.trimRight(a)
+};
+clojure.string.trim_newline = function(a) {
+  for(var b = a.length;;) {
+    if(0 === b) {
+      return""
+    }
+    var c = cljs.core._lookup.call(null, a, b - 1, null);
+    var d = cljs.core._EQ_.call(null, c, "\n"), c = d ? d : cljs.core._EQ_.call(null, c, "\r");
+    if(c) {
+      b -= 1
+    }else {
+      return a.substring(0, b)
+    }
+  }
+};
+clojure.string.blank_QMARK_ = function(a) {
+  return goog.string.isEmptySafe(a)
+};
+clojure.string.escape = function(a, b) {
+  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
+    if(cljs.core._EQ_.call(null, d, e)) {
+      return c.toString()
+    }
+    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
+    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
+    e += 1
+  }
+};
 var textadventureeditor = {client:{}};
-textadventureeditor.client.monetfixes = {};
-textadventureeditor.client.monetfixes.font_style_that_works = function(a, b) {
-  a.font = b;
-  return a
+textadventureeditor.client.serialiser = {};
+textadventureeditor.client.serialiser.serialise_collection = function(a, b) {
+  return cljs.core.apply.call(null, cljs.core.str, cljs.core.doall.call(null, cljs.core.map.call(null, function(a) {
+    return b.call(null, a)
+  }, a)))
 };
-textadventureeditor.client.monetfixes.fill_style_that_works = function(a, b) {
-  a.fillStyle = b;
-  return a
+textadventureeditor.client.serialiser.serialise_item_action = function(a) {
+  return[cljs.core.str("item use action:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'action")).call(null, a)), cljs.core.str(":"), cljs.core.str((new cljs.core.Keyword("\ufdd0'param")).call(null, a)), cljs.core.str("\n")].join("")
 };
-textadventureeditor.client.monetfixes.stroke_style_that_works = function(a, b) {
-  a.strokeStyle = b;
-  return a
+textadventureeditor.client.serialiser.serialise_item_actions = function(a) {
+  return textadventureeditor.client.serialiser.serialise_collection.call(null, a, textadventureeditor.client.serialiser.serialise_item_action)
 };
-textadventureeditor.client.monetfixes.stroke_width_that_works = function(a, b) {
-  a.lineWidth = b;
-  return a
+textadventureeditor.client.serialiser.serialise_item = function(a) {
+  return[cljs.core.str("ITEM\n"), cljs.core.str("item name:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'name")).call(null, a)), cljs.core.str("\n"), cljs.core.str("item description:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'description")).call(null, a)), cljs.core.str("\n"), cljs.core.str("item id:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'id")).call(null, a)), cljs.core.str("\n"), cljs.core.str("item countable noun prefix:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'countable-noun-prefix")).call(null, 
+  a)), cljs.core.str("\n"), cljs.core.str(cljs.core.not.call(null, clojure.string.blank_QMARK_.call(null, (new cljs.core.Keyword("\ufdd0'mid-sentence-cased-name")).call(null, a))) ? [cljs.core.str("item mid sentence-cased-name:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'mid-sentence-cased-name")).call(null, a)), cljs.core.str("\n")].join("") : null), cljs.core.str(cljs.core.truth_((new cljs.core.Keyword("\ufdd0'is-untakeable")).call(null, a)) ? "" + cljs.core.str("item is untakeable:\n") : null), 
+  cljs.core.str(cljs.core.not.call(null, clojure.string.blank_QMARK_.call(null, (new cljs.core.Keyword("\ufdd0'can-be-used-with")).call(null, a))) ? [cljs.core.str("item can be used with:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'can-be-used-with")).call(null, a)), cljs.core.str("\n")].join("") : null), cljs.core.str(cljs.core.not.call(null, clojure.string.blank_QMARK_.call(null, (new cljs.core.Keyword("\ufdd0'successful-use-message")).call(null, a))) ? [cljs.core.str("item successful use message:"), 
+  cljs.core.str((new cljs.core.Keyword("\ufdd0'successful-use-message")).call(null, a)), cljs.core.str("\n")].join("") : null), cljs.core.str(cljs.core.truth_((new cljs.core.Keyword("\ufdd0'use-is-not-repeatable")).call(null, a)) ? "" + cljs.core.str("item is not repeatable:\n") : null), cljs.core.str(textadventureeditor.client.serialiser.serialise_item_actions.call(null, (new cljs.core.Keyword("\ufdd0'use-actions")).call(null, a)))].join("")
 };
-textadventureeditor.client.monetfixes.alpha_that_works = function(a, b) {
-  a.globalAlpha = b;
-  return a
+textadventureeditor.client.serialiser.serialise_items = function(a) {
+  return textadventureeditor.client.serialiser.serialise_collection.call(null, a, textadventureeditor.client.serialiser.serialise_item)
+};
+textadventureeditor.client.serialiser.serialise_exit = function(a) {
+  return[cljs.core.str("EXIT\n"), cljs.core.str("exit label:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'label")).call(null, a)), cljs.core.str("\n"), cljs.core.str("exit destination:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'destination")).call(null, a)), cljs.core.str("\n"), cljs.core.str("exit direction hint:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'direction-hint")).call(null, a)), cljs.core.str("\n"), cljs.core.str("exit id:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'id")).call(null, 
+  a)), cljs.core.str("\n")].join("")
+};
+textadventureeditor.client.serialiser.serialise_exits = function(a) {
+  return textadventureeditor.client.serialiser.serialise_collection.call(null, a, textadventureeditor.client.serialiser.serialise_exit)
+};
+textadventureeditor.client.serialiser.serialise_location = function(a) {
+  return[cljs.core.str("LOCATION\n"), cljs.core.str("location id:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'id")).call(null, a)), cljs.core.str("\n"), cljs.core.str("location description:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'description")).call(null, a)), cljs.core.str("\n"), cljs.core.str(textadventureeditor.client.serialiser.serialise_exits.call(null, (new cljs.core.Keyword("\ufdd0'exits")).call(null, a))), cljs.core.str(textadventureeditor.client.serialiser.serialise_items.call(null, 
+  (new cljs.core.Keyword("\ufdd0'items")).call(null, a)))].join("")
+};
+textadventureeditor.client.serialiser.serialise_locations = function(a) {
+  return textadventureeditor.client.serialiser.serialise_collection.call(null, a, textadventureeditor.client.serialiser.serialise_location)
 };
 goog.userAgent = {};
 goog.userAgent.ASSUME_IE = !1;
@@ -14847,7 +14977,7 @@ monet.geometry.in_bounds_QMARK_ = function(a, b, c) {
   var e = (new cljs.core.Keyword("\ufdd0'x")).call(null, a) < b, b = e ? b < (new cljs.core.Keyword("\ufdd0'x")).call(null, d) : e;
   return cljs.core.truth_(b) ? (b = (new cljs.core.Keyword("\ufdd0'y")).call(null, a) < c) ? c < (new cljs.core.Keyword("\ufdd0'y")).call(null, d) : b : b
 };
-var clojure = {set:{}};
+clojure.set = {};
 clojure.set.bubble_max_key = function(a, b) {
   var c = cljs.core.apply.call(null, cljs.core.max_key, a, b);
   return cljs.core.cons.call(null, c, cljs.core.remove.call(null, function(a) {
@@ -15518,122 +15648,6 @@ crate.binding.bound = function() {
   b.cljs$lang$arity$variadic = a;
   return b
 }();
-clojure.string = {};
-clojure.string.seq_reverse = function(a) {
-  return cljs.core.reduce.call(null, cljs.core.conj, cljs.core.List.EMPTY, a)
-};
-clojure.string.reverse = function(a) {
-  return a.split("").reverse().join("")
-};
-clojure.string.replace = function(a, b, c) {
-  if(cljs.core.string_QMARK_.call(null, b)) {
-    return a.replace(RegExp(goog.string.regExpEscape(b), "g"), c)
-  }
-  if(cljs.core.truth_(b.hasOwnProperty("source"))) {
-    return a.replace(RegExp(b.source, "g"), c)
-  }
-  throw[cljs.core.str("Invalid match arg: "), cljs.core.str(b)].join("");
-};
-clojure.string.replace_first = function(a, b, c) {
-  return a.replace(b, c)
-};
-clojure.string.join = function() {
-  var a = null, b = function(a) {
-    return cljs.core.apply.call(null, cljs.core.str, a)
-  }, c = function(a, b) {
-    return cljs.core.apply.call(null, cljs.core.str, cljs.core.interpose.call(null, a, b))
-  }, a = function(a, e) {
-    switch(arguments.length) {
-      case 1:
-        return b.call(this, a);
-      case 2:
-        return c.call(this, a, e)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$1 = b;
-  a.cljs$lang$arity$2 = c;
-  return a
-}();
-clojure.string.upper_case = function(a) {
-  return a.toUpperCase()
-};
-clojure.string.lower_case = function(a) {
-  return a.toLowerCase()
-};
-clojure.string.capitalize = function(a) {
-  return 2 > cljs.core.count.call(null, a) ? clojure.string.upper_case.call(null, a) : [cljs.core.str(clojure.string.upper_case.call(null, cljs.core.subs.call(null, a, 0, 1))), cljs.core.str(clojure.string.lower_case.call(null, cljs.core.subs.call(null, a, 1)))].join("")
-};
-clojure.string.split = function() {
-  var a = null, b = function(a, b) {
-    return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-  }, c = function(a, b, c) {
-    if(1 > c) {
-      return cljs.core.vec.call(null, ("" + cljs.core.str(a)).split(b))
-    }
-    for(var g = cljs.core.PersistentVector.EMPTY;;) {
-      if(cljs.core._EQ_.call(null, c, 1)) {
-        return cljs.core.conj.call(null, g, a)
-      }
-      var h = cljs.core.re_find.call(null, b, a);
-      if(cljs.core.truth_(h)) {
-        var i = h, h = a.indexOf(i), i = a.substring(h + cljs.core.count.call(null, i)), c = c - 1, g = cljs.core.conj.call(null, g, a.substring(0, h)), a = i
-      }else {
-        return cljs.core.conj.call(null, g, a)
-      }
-    }
-  }, a = function(a, e, f) {
-    switch(arguments.length) {
-      case 2:
-        return b.call(this, a, e);
-      case 3:
-        return c.call(this, a, e, f)
-    }
-    throw Error("Invalid arity: " + arguments.length);
-  };
-  a.cljs$lang$arity$2 = b;
-  a.cljs$lang$arity$3 = c;
-  return a
-}();
-clojure.string.split_lines = function(a) {
-  return clojure.string.split.call(null, a, /\n|\r\n/)
-};
-clojure.string.trim = function(a) {
-  return goog.string.trim(a)
-};
-clojure.string.triml = function(a) {
-  return goog.string.trimLeft(a)
-};
-clojure.string.trimr = function(a) {
-  return goog.string.trimRight(a)
-};
-clojure.string.trim_newline = function(a) {
-  for(var b = a.length;;) {
-    if(0 === b) {
-      return""
-    }
-    var c = cljs.core._lookup.call(null, a, b - 1, null);
-    var d = cljs.core._EQ_.call(null, c, "\n"), c = d ? d : cljs.core._EQ_.call(null, c, "\r");
-    if(c) {
-      b -= 1
-    }else {
-      return a.substring(0, b)
-    }
-  }
-};
-clojure.string.blank_QMARK_ = function(a) {
-  return goog.string.isEmptySafe(a)
-};
-clojure.string.escape = function(a, b) {
-  for(var c = new goog.string.StringBuffer, d = a.length, e = 0;;) {
-    if(cljs.core._EQ_.call(null, d, e)) {
-      return c.toString()
-    }
-    var f = a.charAt(e), g = cljs.core._lookup.call(null, b, f, null);
-    cljs.core.truth_(g) ? c.append("" + cljs.core.str(g)) : c.append(f);
-    e += 1
-  }
-};
 crate.compiler = {};
 crate.compiler.xmlns = cljs.core.ObjMap.fromObject(["\ufdd0'xhtml", "\ufdd0'svg"], {"\ufdd0'xhtml":"http://www.w3.org/1999/xhtml", "\ufdd0'svg":"http://www.w3.org/2000/svg"});
 crate.compiler.group_id = cljs.core.atom.call(null, 0);
@@ -16201,6 +16215,27 @@ monet.canvas.restart = function(a) {
   cljs.core.reset_BANG_.call(null, (new cljs.core.Keyword("\ufdd0'active")).call(null, a), !0);
   monet.canvas.update_loop.call(null, a);
   return monet.canvas.draw_loop.call(null, a)
+};
+textadventureeditor.client.monetfixes = {};
+textadventureeditor.client.monetfixes.font_style_that_works = function(a, b) {
+  a.font = b;
+  return a
+};
+textadventureeditor.client.monetfixes.fill_style_that_works = function(a, b) {
+  a.fillStyle = b;
+  return a
+};
+textadventureeditor.client.monetfixes.stroke_style_that_works = function(a, b) {
+  a.strokeStyle = b;
+  return a
+};
+textadventureeditor.client.monetfixes.stroke_width_that_works = function(a, b) {
+  a.lineWidth = b;
+  return a
+};
+textadventureeditor.client.monetfixes.alpha_that_works = function(a, b) {
+  a.globalAlpha = b;
+  return a
 };
 crate.form = {};
 crate.form._STAR_group_STAR_ = cljs.core.PersistentVector.EMPTY;
@@ -17488,36 +17523,36 @@ jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'focu
 jayq.core.bind.call(null, jayq.core.$.call(null, "\ufdd0'#canvas"), "\ufdd0'blur", function() {
   return this.focused = !1
 });
-var group__2982__auto___3792 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2985__auto___3795 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.make_text_field = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'value", null), b = cljs.core._lookup.call(null, b, "\ufdd0'name", null), a = crate.core.html.call(null, crate.form.text_field.call(null, b, a));
-  a.setAttribute("crateGroup", group__2982__auto___3792);
+  a.setAttribute("crateGroup", group__2985__auto___3795);
   return a
 };
-textadventureeditor.client.main.make_text_field.prototype._crateGroup = group__2982__auto___3792;
-var group__2982__auto___3796 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+textadventureeditor.client.main.make_text_field.prototype._crateGroup = group__2985__auto___3795;
+var group__2985__auto___3799 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.make_check_box_field = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'value", null), c = cljs.core._lookup.call(null, b, "\ufdd0'checked", null), b = cljs.core._lookup.call(null, b, "\ufdd0'name", null), a = crate.core.html.call(null, crate.form.check_box.call(null, b, c, a));
-  a.setAttribute("crateGroup", group__2982__auto___3796);
+  a.setAttribute("crateGroup", group__2985__auto___3799);
   return a
 };
-textadventureeditor.client.main.make_check_box_field.prototype._crateGroup = group__2982__auto___3796;
-var group__2982__auto___3800 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+textadventureeditor.client.main.make_check_box_field.prototype._crateGroup = group__2985__auto___3799;
+var group__2985__auto___3803 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.make_div = function(a) {
   a = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a;
   a = cljs.core._lookup.call(null, a, "\ufdd0'id", null);
   a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'div", cljs.core.ObjMap.fromObject(["\ufdd0'id"], {"\ufdd0'id":a})], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3800);
+  a.setAttribute("crateGroup", group__2985__auto___3803);
   return a
 };
-textadventureeditor.client.main.make_div.prototype._crateGroup = group__2982__auto___3800;
-var group__2982__auto___3804 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+textadventureeditor.client.main.make_div.prototype._crateGroup = group__2985__auto___3803;
+var group__2985__auto___3807 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.make_label = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'value", null), b = cljs.core._lookup.call(null, b, "\ufdd0'name", null), a = crate.core.html.call(null, crate.form.label.call(null, b, a));
-  a.setAttribute("crateGroup", group__2982__auto___3804);
+  a.setAttribute("crateGroup", group__2985__auto___3807);
   return a
 };
-textadventureeditor.client.main.make_label.prototype._crateGroup = group__2982__auto___3804;
+textadventureeditor.client.main.make_label.prototype._crateGroup = group__2985__auto___3807;
 textadventureeditor.client.main.extract_field_and_label = function(a, b, c, d) {
   jayq.core.append.call(null, c, textadventureeditor.client.main.make_label.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'name", "\ufdd0'value"], {"\ufdd0'name":[cljs.core.str((new cljs.core.Keyword("\ufdd0'field-id")).call(null, a)), cljs.core.str("-label"), cljs.core.str(d)].join(""), "\ufdd0'value":(new cljs.core.Keyword("\ufdd0'label")).call(null, a)})));
   var d = [cljs.core.str((new cljs.core.Keyword("\ufdd0'field-id")).call(null, a)), cljs.core.str(d)].join(""), e = (new cljs.core.Keyword("\ufdd0'type")).call(null, a);
@@ -17636,14 +17671,14 @@ textadventureeditor.client.main.exit_delete_id = "delete-exit";
 textadventureeditor.client.main.exit_div_id = "single-exit";
 textadventureeditor.client.main.next_available_exit_index = cljs.core.atom.call(null, 0);
 textadventureeditor.client.main.exit_indices_for_current_location = cljs.core.atom.call(null, cljs.core.PersistentVector.EMPTY);
-var group__2982__auto___3821 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2985__auto___3824 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.delete_exit_props_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'id", null), c = cljs.core._lookup.call(null, b, "\ufdd0'param", null), d = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.delete-exit-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", 
   "\ufdd0'data-param", "\ufdd0'id"], {"\ufdd0'href":"#", "\ufdd0'data-action":d, "\ufdd0'data-param":c, "\ufdd0'id":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3821);
+  a.setAttribute("crateGroup", group__2985__auto___3824);
   return a
 };
-textadventureeditor.client.main.delete_exit_props_button.prototype._crateGroup = group__2982__auto___3821;
+textadventureeditor.client.main.delete_exit_props_button.prototype._crateGroup = group__2985__auto___3824;
 textadventureeditor.client.main.$exit_div = function(a) {
   return jayq.core.$.call(null, [cljs.core.str("#"), cljs.core.str(textadventureeditor.client.main.exit_div_id), cljs.core.str(a)].join(""))
 };
@@ -17690,14 +17725,14 @@ textadventureeditor.client.main.item_delete_id = "delete-item";
 textadventureeditor.client.main.item_div_id = "single-item";
 textadventureeditor.client.main.next_available_item_index = cljs.core.atom.call(null, 0);
 textadventureeditor.client.main.item_indices_for_current_location = cljs.core.atom.call(null, cljs.core.PersistentVector.EMPTY);
-var group__2982__auto___3826 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2985__auto___3829 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.delete_item_props_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'id", null), c = cljs.core._lookup.call(null, b, "\ufdd0'param", null), d = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.delete-item-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", 
   "\ufdd0'data-param", "\ufdd0'id"], {"\ufdd0'href":"#", "\ufdd0'data-action":d, "\ufdd0'data-param":c, "\ufdd0'id":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3826);
+  a.setAttribute("crateGroup", group__2985__auto___3829);
   return a
 };
-textadventureeditor.client.main.delete_item_props_button.prototype._crateGroup = group__2982__auto___3826;
+textadventureeditor.client.main.delete_item_props_button.prototype._crateGroup = group__2985__auto___3829;
 textadventureeditor.client.main.$item_div = function(a) {
   return jayq.core.$.call(null, [cljs.core.str("#"), cljs.core.str(textadventureeditor.client.main.item_div_id), cljs.core.str(a)].join(""))
 };
@@ -17746,13 +17781,17 @@ textadventureeditor.client.main.show_location_information = function(a) {
   textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_id_field_id, (new cljs.core.Keyword("\ufdd0'id")).call(null, a));
   return textadventureeditor.client.main.set_value.call(null, textadventureeditor.client.main.loc_description_field_id, (new cljs.core.Keyword("\ufdd0'description")).call(null, a))
 };
+textadventureeditor.client.main.update_serialised_text = function() {
+  return textadventureeditor.client.main.set_value.call(null, "serialised properties text area", textadventureeditor.client.serialiser.serialise_locations.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))))
+};
 textadventureeditor.client.main.make_location_current = function(a) {
   var b = textadventureeditor.client.main.find_current_location.call(null);
   cljs.core.truth_(b) && textadventureeditor.client.main.change_location_property.call(null, b, "\ufdd0'current", !1);
   textadventureeditor.client.main.change_location_property.call(null, a, "\ufdd0'current", !0);
   textadventureeditor.client.main.show_location_information.call(null, a);
   textadventureeditor.client.main.show_location_sub_properties.call(null, a, textadventureeditor.client.main.exits_sub_property);
-  return textadventureeditor.client.main.show_location_sub_properties.call(null, a, textadventureeditor.client.main.items_sub_property)
+  textadventureeditor.client.main.show_location_sub_properties.call(null, a, textadventureeditor.client.main.items_sub_property);
+  return textadventureeditor.client.main.update_serialised_text.call(null)
 };
 textadventureeditor.client.main.make_new_location = function(a, b) {
   return textadventureeditor.client.main.make_location_current.call(null, textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":a, "\ufdd0'y":b, "\ufdd0'id":"new id", "\ufdd0'description":"new description", "\ufdd0'exits":cljs.core.PersistentVector.EMPTY, "\ufdd0'items":cljs.core.PersistentVector.EMPTY})))
@@ -17776,14 +17815,14 @@ textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromOb
 textadventureeditor.client.main.make_location.call(null, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'id \ufdd0'description \ufdd0'exits \ufdd0'items".split(" "), {"\ufdd0'x":300, "\ufdd0'y":300, "\ufdd0'id":"loc3", "\ufdd0'description":"description3", "\ufdd0'exits":cljs.core.PersistentVector.EMPTY, "\ufdd0'items":cljs.core.PersistentVector.EMPTY}));
 textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))));
 textadventureeditor.client.main.$location_props = jayq.core.$.call(null, "\ufdd0'#location-properties");
-var group__2982__auto___3836 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2985__auto___3839 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_add_exit_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.add-exit-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, 
   "\ufdd0'data-param":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3836);
+  a.setAttribute("crateGroup", group__2985__auto___3839);
   return a
 };
-textadventureeditor.client.main.locprops_add_exit_button.prototype._crateGroup = group__2982__auto___3836;
+textadventureeditor.client.main.locprops_add_exit_button.prototype._crateGroup = group__2985__auto___3839;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_add_exit_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"add exit", "\ufdd0'action":"add-exit", "\ufdd0'param":""})));
 textadventureeditor.client.main.default_exit = function() {
   return cljs.core.ObjMap.fromObject(["\ufdd0'id", "\ufdd0'label", "\ufdd0'destination", "\ufdd0'direction-hint"], {"\ufdd0'id":"default id", "\ufdd0'label":"default label", "\ufdd0'destination":"default destination", "\ufdd0'direction-hint":"default direction hint"})
@@ -17792,14 +17831,14 @@ jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventu
   a.preventDefault();
   return textadventureeditor.client.main.add_all_property_fields.call(null, textadventureeditor.client.main.exits_sub_property, textadventureeditor.client.main.default_exit.call(null))
 });
-var group__2982__auto___3840 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2985__auto___3843 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_add_item_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.add-item-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, 
   "\ufdd0'data-param":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3840);
+  a.setAttribute("crateGroup", group__2985__auto___3843);
   return a
 };
-textadventureeditor.client.main.locprops_add_item_button.prototype._crateGroup = group__2982__auto___3840;
+textadventureeditor.client.main.locprops_add_item_button.prototype._crateGroup = group__2985__auto___3843;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_add_item_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"add item", "\ufdd0'action":"add-item", "\ufdd0'param":""})));
 textadventureeditor.client.main.default_item = function() {
   return cljs.core.ObjMap.fromObject("\ufdd0'countable-noun-prefix \ufdd0'mid-sentence-cased-name \ufdd0'can-be-used-with \ufdd0'name \ufdd0'use-actions \ufdd0'successful-use-message \ufdd0'use-is-not-repeatable \ufdd0'id \ufdd0'description \ufdd0'is-untakeable".split(" "), {"\ufdd0'countable-noun-prefix":"a", "\ufdd0'mid-sentence-cased-name":"item name cased name", "\ufdd0'can-be-used-with":"nothing", "\ufdd0'name":"item name", "\ufdd0'use-actions":cljs.core.PersistentVector.EMPTY, "\ufdd0'successful-use-message":"success!", 
@@ -17809,19 +17848,20 @@ jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventu
   a.preventDefault();
   return textadventureeditor.client.main.add_all_property_fields.call(null, textadventureeditor.client.main.items_sub_property, textadventureeditor.client.main.default_item.call(null))
 });
-var group__2982__auto___3844 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
+var group__2985__auto___3847 = cljs.core.swap_BANG_.call(null, crate.core.group_id, cljs.core.inc);
 textadventureeditor.client.main.locprops_save_button = function(a) {
   var b = cljs.core.seq_QMARK_.call(null, a) ? cljs.core.apply.call(null, cljs.core.hash_map, a) : a, a = cljs.core._lookup.call(null, b, "\ufdd0'param", null), c = cljs.core._lookup.call(null, b, "\ufdd0'action", null), b = cljs.core._lookup.call(null, b, "\ufdd0'label", null), a = crate.core.html.call(null, cljs.core.PersistentVector.fromArray(["\ufdd0'a.button.save-button", cljs.core.ObjMap.fromObject(["\ufdd0'href", "\ufdd0'data-action", "\ufdd0'data-param"], {"\ufdd0'href":"#", "\ufdd0'data-action":c, 
   "\ufdd0'data-param":a}), b], !0));
-  a.setAttribute("crateGroup", group__2982__auto___3844);
+  a.setAttribute("crateGroup", group__2985__auto___3847);
   return a
 };
-textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__2982__auto___3844;
+textadventureeditor.client.main.locprops_save_button.prototype._crateGroup = group__2985__auto___3847;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.locprops_save_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"save", "\ufdd0'action":"save-location", "\ufdd0'param":""})));
 jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.locprops_save_button, "\ufdd0'click", function(a) {
   a.preventDefault();
   textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), "\ufdd0'id", textadventureeditor.client.main.get_value.call(null, textadventureeditor.client.main.loc_id_field_id));
   textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), "\ufdd0'description", textadventureeditor.client.main.get_value.call(null, textadventureeditor.client.main.loc_description_field_id));
   textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), (new cljs.core.Keyword("\ufdd0'location-property")).call(null, textadventureeditor.client.main.exits_sub_property), (new cljs.core.Keyword("\ufdd0'value-gatherer-func")).call(null, textadventureeditor.client.main.exits_sub_property).call(null, textadventureeditor.client.main.exits_sub_property));
-  return textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), (new cljs.core.Keyword("\ufdd0'location-property")).call(null, textadventureeditor.client.main.items_sub_property), (new cljs.core.Keyword("\ufdd0'value-gatherer-func")).call(null, textadventureeditor.client.main.items_sub_property).call(null, textadventureeditor.client.main.items_sub_property))
+  textadventureeditor.client.main.change_location_property.call(null, textadventureeditor.client.main.find_current_location.call(null), (new cljs.core.Keyword("\ufdd0'location-property")).call(null, textadventureeditor.client.main.items_sub_property), (new cljs.core.Keyword("\ufdd0'value-gatherer-func")).call(null, textadventureeditor.client.main.items_sub_property).call(null, textadventureeditor.client.main.items_sub_property));
+  return textadventureeditor.client.main.update_serialised_text.call(null)
 });

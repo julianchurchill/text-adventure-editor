@@ -1,8 +1,13 @@
 (ns textadventureeditor.views.welcome
   (:require [textadventureeditor.views.common :as common])
   (:use [noir.core :only [defpage defpartial]]
-        [hiccup.form :only [text-field label]]
+        [hiccup.form :only [text-field text-area label]]
         [hiccup.page :only [html5]]))
+
+(defpartial serialised-properties []
+  [:div#serialised-properties
+   (label "serialised properties label" "serialised properties")
+   (text-area "serialised properties text area" "")])
 
 (defpartial location-properties []
   [:div#location-properties
@@ -19,6 +24,7 @@
 
 (defpartial properties []
   [:div#editor
+   (serialised-properties)
    [:div#properties
     (location-properties)
     (exit-properties)

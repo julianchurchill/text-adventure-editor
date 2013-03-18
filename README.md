@@ -19,11 +19,12 @@ Useful links
 todo
 ====
 
+- [FEATURE] Hidable text area to show serialised text that is readable by the text adventure game
+- [FEATURE] Exit properties is missing a check box for visibility
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 - [FEATURE] Items have 'delete' button for each item action
-- [FEATURE] Export button to save model to text file in format that is readable by the text adventure game
 - [FEATURE] Import button to load a model in a text file
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
