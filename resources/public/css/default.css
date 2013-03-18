@@ -28,3 +28,19 @@ a { text-decoration:none; }
   margin-top: 1px;
   border: 1px solid blue;
 }
+
+#canvas-and-serialisation label {
+  display: inline;
+  background: #732440;
+  color: #ffffff;
+  font-size: 18px;
+  vertical-align: top;
+}
+
+#canvas-and-serialisation textarea {
+  background: #999999;
+  color: #ffffff;
+  height: 400px;
+  width: 400px;
+  vertical-align: top;
+}

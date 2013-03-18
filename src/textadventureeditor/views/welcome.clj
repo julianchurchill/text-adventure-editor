@@ -5,9 +5,8 @@
         [hiccup.page :only [html5]]))
 
 (defpartial serialised-properties []
-  [:div#serialised-properties
    (label "serialised properties label" "serialised properties")
-   (text-area "serialised properties text area" "")])
+   (text-area "serialised properties text area" ""))
 
 (defpartial location-properties []
   [:div#location-properties
@@ -24,12 +23,13 @@
 
 (defpartial properties []
   [:div#editor
-   (serialised-properties)
    [:div#properties
     (location-properties)
     (exit-properties)
     (item-properties)]
-   [:canvas#canvas {:width 800 :height 650 :tabindex 1}]])
+   [:div#canvas-and-serialisation
+    [:canvas#canvas {:width 800 :height 650 :tabindex 1}]
+    (serialised-properties)]])
 
 (defpage "/" []
          (common/layout
