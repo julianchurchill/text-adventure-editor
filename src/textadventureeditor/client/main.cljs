@@ -2,7 +2,9 @@
   (:require [monet.canvas :as canvas]
             [monet.geometry :as geo]
             [goog.dom :as dom]
-            [crate.core :as crate])
+            [crate.core :as crate]
+            [fetch.remotes :as remotes])
+  (:require-macros [fetch.macros :as fm])
   (:use-macros [cljs.core :only [this-as]]
                [crate.def-macros :only [defpartial]])
   (:use [jayq.core :only [$ bind append remove delegate data children]]
@@ -514,3 +516,18 @@
                                       (:location-property items-sub-property)
                                       ((:value-gatherer-func items-sub-property) items-sub-property))
             (update-serialised-text)))
+
+
+(defpartial import-button [{:keys [label action param]}]
+  [:a.button.import-button {:href "#" :data-action action :data-param param} label])
+
+(append $location-props (import-button {:label "import"
+                                        :action ""
+                                        :param ""}))
+
+(delegate $body import-button :click
+          (fn [e]
+            (.preventDefault e)
+            (fm/letrem [locations (deserialise-locations 
+                                   (get-value "serialised properties text area"))]
+                       (js/alert locations))))

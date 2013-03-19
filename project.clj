@@ -4,6 +4,7 @@
                  [noir "1.3.0-beta3"]
                  [crate "0.2.4"]
                  [monet "0.1.0-SNAPSHOT"]
+                 [fetch "0.1.0-alpha2"]
                  [jayq "2.3.0"]]
 
   ;; Add lein-cljsbuild plugin

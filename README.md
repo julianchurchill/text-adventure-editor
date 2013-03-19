@@ -19,11 +19,11 @@ Useful links
 todo
 ====
 
+- [FEATURE] Import button to load a model in a text file
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 - [FEATURE] Items have 'delete' button for each item action
-- [FEATURE] Import button to load a model in a text file
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.

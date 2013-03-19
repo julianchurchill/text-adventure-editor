@@ -19,6 +19,8 @@ a { text-decoration:none; }
 .button.delete-item-button { background:#996666; }
 .button.delete-exit-button { background:#996666; }
 
+.button.import-button { background:#669999; }
+
 #exit-properties DIV {
   margin-top: 1px;
   border: 1px solid red;

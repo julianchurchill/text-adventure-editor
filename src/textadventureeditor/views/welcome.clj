@@ -1,6 +1,7 @@
 (ns textadventureeditor.views.welcome
   (:require [textadventureeditor.views.common :as common])
   (:use [noir.core :only [defpage defpartial]]
+        [noir.fetch.remotes :only [defremote]]
         [hiccup.form :only [text-field text-area label]]
         [hiccup.page :only [html5]]))
 
@@ -35,3 +36,6 @@
          (common/layout
            [:p "Welcome to text-adventure-editor"]
           (properties)))
+
+(defremote deserialise-locations [text]
+  text)
