@@ -436,8 +436,8 @@
       canvas-mousedown)
 
 (make-location {:x 100 :y 100 :id "loc1" :description "description1"
-                :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "NORTH" :is-not-visible false}
-                        {:id "exit2" :label "east" :destination "loc2" :direction-hint "EAST" :is-not-visible false}]
+                :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "North" :is-not-visible false}
+                        {:id "exit2" :label "east" :destination "loc2" :direction-hint "East" :is-not-visible false}]
                 :items [{:id "item id" :name "item name" :description "item description" 
                          :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
                          :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
@@ -446,7 +446,7 @@
                                        {:action :change-item-name :param "unlocked door"}
                                        {:action :make-exit-visible :param "clocktowerdoor"}]}]})
 (make-location {:x 300 :y 200 :id "loc2" :description "description2"
-                :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "SOUTH" :is-not-visible false}]
+                :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "South" :is-not-visible false}]
                 :items []})
 (make-location {:x 300 :y 300 :id "loc3" :description "description3" :exits [] :items []})
 

@@ -25,6 +25,13 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
+  - [BUG] Exit.DirectionHint deserialisation is not working
+  - [BUG] Item.midSentenceCasedName() deserialisation is not working
+  - Add model.locations() to text-adventure so we can extract all the deserialised locations
+  - Add Item.actions() to text-adventure so we can extract all the deserialised item actions
+  - Add Item.canBeUsedWithItems() to text-adventure so we can extract all the deserialised items
+  - Add Item.useIsNotRepeatable() to text-adventure so we can extract all the deserialised items
+  - Assign a suitable x,y to each location - lay out in a simple grid to start off with
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
@@ -32,6 +39,7 @@ todo
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
   - Font should be large, centred and a contrasting colour.
+- [FEATURE] Inventory items, entry, export, import
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 - [FEATURE] Loading a model from a text file lays out locations so they can all be seen - perhaps enforce a grid
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
