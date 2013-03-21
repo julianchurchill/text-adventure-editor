@@ -1,5 +1,6 @@
 (ns textadventureeditor.views.welcome
-  (:require [textadventureeditor.views.common :as common])
+  (:require [textadventureeditor.views.common :as common]
+            [textadventureeditor.views.deserialiser :as deserialiser])
   (:use [noir.core :only [defpage defpartial]]
         [noir.fetch.remotes :only [defremote]]
         [hiccup.form :only [text-field text-area label]]
@@ -38,4 +39,4 @@
           (properties)))
 
 (defremote deserialise-locations [text]
-  text)
+  (deserialiser/deserialise-all-locations text))

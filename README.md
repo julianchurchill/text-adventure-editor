@@ -10,6 +10,11 @@ Run 'lein run' to start the app and open http://localhost:8080 in a browser.
 For development make sure you run 'lein cljsbuild auto' to regenerate the javascript when 
 changes are made to any clojurescript code.
 
+Also install a copy of textadventure.businesslogic-1.0.0-SNAPSHOT.jar into a local maven repository with lein localrepo.
+Just run this once you have a copy of the jar available:
+
+ lein localrepo install textadventure.businesslogic-1.0.0-SNAPSHOT.jar textadventure.businesslogic 1.0.0-SNAPSHOT
+
 Useful links
 ============
 

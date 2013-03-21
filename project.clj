@@ -5,10 +5,12 @@
                  [crate "0.2.4"]
                  [monet "0.1.0-SNAPSHOT"]
                  [fetch "0.1.0-alpha2"]
-                 [jayq "2.3.0"]]
+                 [jayq "2.3.0"]
+                 [textadventure.businesslogic "1.0.0-SNAPSHOT"]]
 
   ;; Add lein-cljsbuild plugin
-  :plugins [[lein-cljsbuild "0.3.0"]]
+  :plugins [[lein-cljsbuild "0.3.0"]
+            [lein-localrepo "0.4.1"]]
             
   ;; config. for cljsbuild
   :cljsbuild {:builds
