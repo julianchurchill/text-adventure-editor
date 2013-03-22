@@ -25,7 +25,6 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
-  - [BUG] Exit.DirectionHint deserialisation is not working
   - [BUG] Item.midSentenceCasedName() deserialisation is not working
   - Actually replace the locations atom content in main.cljs
   - Assign a suitable x,y to each location - lay out in a simple grid to start off with

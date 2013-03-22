@@ -37,7 +37,7 @@
    :label (.label exit)
    :destination (.destination exit)
    :is-not-visible (not (.visible exit))
-   :direction-hint (case (.directionHint exit) 
+   :direction-hint (condp = (.directionHint exit)
                      com.chewielouie.textadventure.Exit$DirectionHint/North "North"
                      com.chewielouie.textadventure.Exit$DirectionHint/South "South"
                      com.chewielouie.textadventure.Exit$DirectionHint/East "East"
