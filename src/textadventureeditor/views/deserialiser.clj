@@ -50,7 +50,7 @@
 
 (defn make-location [loc]
   {:id (.id loc)
-   :description (.description loc)
+   :description (.descriptionWithoutItems loc)
    :exits (convert-exits (.exitsIncludingInvisibleOnes loc))
    :items (convert-items (.items loc))})
 
