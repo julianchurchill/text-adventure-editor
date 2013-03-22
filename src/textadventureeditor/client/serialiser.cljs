@@ -17,7 +17,7 @@
        "item id:" (:id item) "\n"
        "item countable noun prefix:" (:countable-noun-prefix item) "\n"
        (if (not (blank? (:mid-sentence-cased-name item)))
-         (str "item mid sentence-cased-name:" (:mid-sentence-cased-name item) "\n"))
+         (str "item mid sentence cased name:" (:mid-sentence-cased-name item) "\n"))
        (if (:is-untakeable item)
          (str "item is untakeable:\n"))
        (if (not (blank? (:can-be-used-with item)))

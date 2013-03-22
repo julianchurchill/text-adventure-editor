@@ -25,7 +25,7 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
-  - [BUG] Item.midSentenceCasedName() deserialisation is not working
+  - [BUG] Java Location class needs descriptionWithoutItems() which should be used in deserialiser.clj::make-location
   - Actually replace the locations atom content in main.cljs
   - Assign a suitable x,y to each location - lay out in a simple grid to start off with
 - [FEATURE] Items have 'add item action' button
