@@ -11,6 +11,12 @@
                                                       PlainTextExitDeserialiser
                                                       PlainTextModelLocationDeserialiser))
 
+(defn make-action [action]
+  {:action (.name action) :param (apply str (.arguments action))})
+
+(defn convert-actions [actions]
+  (doall (map #(make-action %) actions)))
+
 (defn make-item [item]
   {:id (.id item)
    :name (.name item)
@@ -21,9 +27,7 @@
    :can-be-used-with (apply str (.canBeUsedWithItemIDs item))
    :successful-use-message (.usedWithText item)
    :use-is-not-repeatable (.useIsNotRepeatable item)
-   :use-actions [
-;                 {:action :change-item-description :param "It is unlocked."}
-   ]})
+   :use-actions (convert-actions (.actions item))})
 
 (defn convert-items [items]
   (doall (map #(make-item %) items)))

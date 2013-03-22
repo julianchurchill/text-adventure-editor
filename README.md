@@ -25,7 +25,6 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
-  DONE - Add Item.useIsNotRepeatable() to text-adventure so we can extract all the deserialised items
   DONE - Add Item.actions() to text-adventure so we can extract all the deserialised item actions
   - [BUG] Exit.DirectionHint deserialisation is not working
   - [BUG] Item.midSentenceCasedName() deserialisation is not working

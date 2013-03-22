@@ -442,9 +442,9 @@
                          :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
                          :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
                          :use-is-not-repeatable false
-                         :use-actions [{:action :change-item-description :param "It is unlocked."}
-                                       {:action :change-item-name :param "unlocked door"}
-                                       {:action :make-exit-visible :param "clocktowerdoor"}]}]})
+                         :use-actions [{:action "change item description" :param "It is unlocked."}
+                                       {:action "change item name" :param "unlocked door"}
+                                       {:action "make exit visible" :param "clocktowerdoor"}]}]})
 (make-location {:x 300 :y 200 :id "loc2" :description "description2"
                 :exits [{:id "exit1" :label "south" :destination "loc1" :direction-hint "South" :is-not-visible false}]
                 :items []})
