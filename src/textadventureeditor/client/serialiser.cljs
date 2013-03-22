@@ -25,7 +25,7 @@
        (if (not (blank? (:successful-use-message item)))
          (str "item successful use message:" (:successful-use-message item) "\n"))
        (if (:use-is-not-repeatable item)
-         (str "item is not repeatable:\n"))
+         (str "item use is not repeatable:\n"))
        (serialise-item-actions (:use-actions item))
   ))
 

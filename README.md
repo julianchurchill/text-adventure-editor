@@ -25,10 +25,8 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
-  DONE - Add model.locations() to text-adventure so we can extract all the deserialised locations
-  DONE - Add Item.actions() to text-adventure so we can extract all the deserialised item actions
-  DONE - Add Item.canBeUsedWithItemIDs() to text-adventure so we can extract all the deserialised items
   DONE - Add Item.useIsNotRepeatable() to text-adventure so we can extract all the deserialised items
+  DONE - Add Item.actions() to text-adventure so we can extract all the deserialised item actions
   - [BUG] Exit.DirectionHint deserialisation is not working
   - [BUG] Item.midSentenceCasedName() deserialisation is not working
   - Assign a suitable x,y to each location - lay out in a simple grid to start off with

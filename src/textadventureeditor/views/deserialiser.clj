@@ -18,9 +18,9 @@
    :countable-noun-prefix (.countableNounPrefix item)
    :mid-sentence-cased-name (.midSentenceCasedName item)
    :is-untakeable (not (.takeable item))
-   :can-be-used-with "nothing"
+   :can-be-used-with (apply str (.canBeUsedWithItemIDs item))
    :successful-use-message (.usedWithText item)
-   :use-is-not-repeatable false
+   :use-is-not-repeatable (.useIsNotRepeatable item)
    :use-actions [
 ;                 {:action :change-item-description :param "It is unlocked."}
    ]})
@@ -72,5 +72,4 @@
                                                   location-deserialiser
                                                   item-deserialiser
                                                   text)]
-    (convert-locations-to-clojure-map [(.currentLocation model)])))
-;    (convert-locations-to-clojure-map [(.locations model)])))
+    (convert-locations-to-clojure-map (.locations model))))
