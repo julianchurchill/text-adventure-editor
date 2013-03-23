@@ -24,15 +24,15 @@ Useful links
 todo
 ====
 
+PARTIAL - [FEATURE] Locations have x,y saved in serialisation (also add to Java), when loaded in editor the position is restored.
+ This means I can edit the text in the editor and import to move the position of the locations so they look more sensible.
+ This is instead of a 'smart layout' feature.
+- [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 - [FEATURE] Items have 'delete' button for each item action
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
-- [FEATURE] Locations have x,y saved in serialisation (also add to Java), when loaded in editor the position is restored.
- This means I can edit the text in the editor and import to move the position of the locations so they look more sensible.
- This is instead of a 'smart layout' feature.
-- [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
 - [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
 - [FEATURE] Hidden exits are dotted lines

@@ -47,7 +47,9 @@
 (defn serialise-location [location]
   (str "LOCATION\n"
        "location id:" (:id location) "\n"
-       "location description:" (:description location) "\n"
+       "location description:" (clojure.string/trim-newline (:description location)) "\n"
+       "x:" (:x location) "\n"
+       "y:" (:y location) "\n"
        (serialise-exits (:exits location))
        (serialise-items (:items location))))
 

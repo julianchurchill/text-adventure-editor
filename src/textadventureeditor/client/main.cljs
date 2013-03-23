@@ -567,9 +567,12 @@
 
 (defn add-locations-and-layout [new-locations]
   (doall (map-indexed 
-          (fn [idx vals] (make-location 
-                          (conj vals {:x (* (mod idx 10) (grid-x-step))
-                                      :y (* (quot idx 10) (grid-y-step))})))
+          (fn [idx vals]
+            (let [loc-with-x-y (if (contains? vals :x)
+                                 vals
+                                 (conj vals {:x (* (mod idx 10) (grid-x-step))
+                                             :y (* (quot idx 10) (grid-y-step))}))]
+              (make-location loc-with-x-y)))
           new-locations)))
 
 (delegate $body import-button :click

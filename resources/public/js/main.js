@@ -12840,8 +12840,8 @@ textadventureeditor.client.serialiser.serialise_exits = function(a) {
   return textadventureeditor.client.serialiser.serialise_collection.call(null, a, textadventureeditor.client.serialiser.serialise_exit)
 };
 textadventureeditor.client.serialiser.serialise_location = function(a) {
-  return[cljs.core.str("LOCATION\n"), cljs.core.str("location id:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'id")).call(null, a)), cljs.core.str("\n"), cljs.core.str("location description:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'description")).call(null, a)), cljs.core.str("\n"), cljs.core.str(textadventureeditor.client.serialiser.serialise_exits.call(null, (new cljs.core.Keyword("\ufdd0'exits")).call(null, a))), cljs.core.str(textadventureeditor.client.serialiser.serialise_items.call(null, 
-  (new cljs.core.Keyword("\ufdd0'items")).call(null, a)))].join("")
+  return[cljs.core.str("LOCATION\n"), cljs.core.str("location id:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'id")).call(null, a)), cljs.core.str("\n"), cljs.core.str("location description:"), cljs.core.str(clojure.string.trim_newline.call(null, (new cljs.core.Keyword("\ufdd0'description")).call(null, a))), cljs.core.str("\n"), cljs.core.str("x:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'x")).call(null, a)), cljs.core.str("\n"), cljs.core.str("y:"), cljs.core.str((new cljs.core.Keyword("\ufdd0'y")).call(null, 
+  a)), cljs.core.str("\n"), cljs.core.str(textadventureeditor.client.serialiser.serialise_exits.call(null, (new cljs.core.Keyword("\ufdd0'exits")).call(null, a))), cljs.core.str(textadventureeditor.client.serialiser.serialise_items.call(null, (new cljs.core.Keyword("\ufdd0'items")).call(null, a)))].join("")
 };
 textadventureeditor.client.serialiser.serialise_locations = function(a) {
   return textadventureeditor.client.serialiser.serialise_collection.call(null, a, textadventureeditor.client.serialiser.serialise_location)
@@ -20844,7 +20844,8 @@ textadventureeditor.client.main.import_button.prototype._crateGroup = group__298
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.import_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"import", "\ufdd0'action":"", "\ufdd0'param":""})));
 textadventureeditor.client.main.add_locations_and_layout = function(a) {
   return cljs.core.doall.call(null, cljs.core.map_indexed.call(null, function(a, c) {
-    return textadventureeditor.client.main.make_location.call(null, cljs.core.conj.call(null, c, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":cljs.core.mod.call(null, a, 10) * textadventureeditor.client.main.grid_x_step.call(null), "\ufdd0'y":cljs.core.quot.call(null, a, 10) * textadventureeditor.client.main.grid_y_step.call(null)})))
+    var d = cljs.core.contains_QMARK_.call(null, c, "\ufdd0'x") ? c : cljs.core.conj.call(null, c, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":cljs.core.mod.call(null, a, 10) * textadventureeditor.client.main.grid_x_step.call(null), "\ufdd0'y":cljs.core.quot.call(null, a, 10) * textadventureeditor.client.main.grid_y_step.call(null)}));
+    return textadventureeditor.client.main.make_location.call(null, d)
   }, a))
 };
 jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.import_button, "\ufdd0'click", function(a) {
