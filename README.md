@@ -24,8 +24,6 @@ Useful links
 todo
 ====
 
-PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
-  - Font should be large, centred and a contrasting colour.
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
@@ -47,6 +45,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Locations have id in the graphic for quick reference.
 DONE - [FEATURE] Import button to load a model in a text file
 DONE - [FEATURE] Snap to grid on new location creation whether it is by mouse click or import
 DONE - [FEATURE] Exit properties is missing a check box for visibility

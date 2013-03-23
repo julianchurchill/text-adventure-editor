@@ -68,7 +68,8 @@
       (fill-style-that-works "#FFFFFF")
       (font-style-that-works "14px sans-serif")
       (canvas/text {
-                    :x (:x (center-of-location location))
+                    :x (:x location)
+;                    :x (:x (center-of-location location))
 ;                    :x (- (:x (center-of-location location)) (/ (text-width ctx (:id location)) 2))
                     :y (:y (center-of-location location))
                     :text (:id location)})))

@@ -20418,7 +20418,7 @@ textadventureeditor.client.main.loc_stroke_style = function(a) {
   return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? "154" : "175"
 };
 textadventureeditor.client.main.loc_stroke_width = function(a) {
-  return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? 5 : 1
+  return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? 2 : 1
 };
 textadventureeditor.client.main.center_of_location = function(a) {
   return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, a) + (new cljs.core.Keyword("\ufdd0'w")).call(null, a) / 2, "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, a) + (new cljs.core.Keyword("\ufdd0'h")).call(null, a) / 2})
@@ -20428,8 +20428,8 @@ textadventureeditor.client.main.text_width = function(a, b) {
 };
 textadventureeditor.client.main.draw_location = function(a, b) {
   monet.canvas.stroke.call(null, monet.canvas.rect.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, textadventureeditor.client.main.loc_fill_style.call(null, b)), textadventureeditor.client.main.loc_stroke_style.call(null, b)), textadventureeditor.client.main.loc_stroke_width.call(null, b)), b));
-  return monet.canvas.text.call(null, textadventureeditor.client.monetfixes.font_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, "#FFFFFF"), "14px sans-serif"), cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'text"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, textadventureeditor.client.main.center_of_location.call(null, b)), "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, textadventureeditor.client.main.center_of_location.call(null, 
-  b)), "\ufdd0'text":(new cljs.core.Keyword("\ufdd0'id")).call(null, b)}))
+  return monet.canvas.text.call(null, textadventureeditor.client.monetfixes.font_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, "#FFFFFF"), "14px sans-serif"), cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'text"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, b), "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, textadventureeditor.client.main.center_of_location.call(null, b)), "\ufdd0'text":(new cljs.core.Keyword("\ufdd0'id")).call(null, 
+  b)}))
 };
 textadventureeditor.client.main.locations = cljs.core.atom.call(null, cljs.core.ObjMap.EMPTY);
 textadventureeditor.client.main.draw_locations = function(a) {
