@@ -412,9 +412,18 @@
 (def location-width 40)
 (def location-spacing 10)
 
+(defn grid-x-step []
+  (+ location-width (* location-spacing 2)))
+
+(defn grid-y-step []
+  (+ location-height (* location-spacing 2)))
+
+(defn snap-to-grid [x y]
+  { :x (- x (rem x (grid-x-step)))
+    :y (- y (rem y (grid-y-step))) })
+
 (defn adjust-coords-for-location [x y]
-  {:x x :y y})
-;  (snap-to-grid x y))
+  (snap-to-grid x y))
 
 (defn make-location [values]
   (let [adjusted-coords (adjust-coords-for-location (:x values) (:y values))
@@ -422,7 +431,7 @@
         y (:y adjusted-coords)]
     (if-not (@locations [x y])
       (swap! locations assoc [x y]
-             (conj values {:w location-width :h location-height :type :location :current false})))
+             (conj values {:x x :y y :w location-width :h location-height :type :location :current false})))
     (@locations [x y])))
 
 (defn make-new-location [x y]

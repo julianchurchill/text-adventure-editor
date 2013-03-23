@@ -25,7 +25,6 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
-  - Enforce snap to grid on mouse press, avoid overlaying locations
   - Assign a suitable x,y to each location - lay out in a simple grid to start off with
   - Actually replace the locations atom content in main.cljs
 - [FEATURE] Items have 'add item action' button
@@ -49,6 +48,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Snap to grid on new location creation whether it is by mouse click or import
 DONE - [FEATURE] Exit properties is missing a check box for visibility
 DONE - [FEATURE] Text area to show serialised text that is readable by the text adventure game
 DONE - [FEATURE] Item actions get saved when the save button is pressed

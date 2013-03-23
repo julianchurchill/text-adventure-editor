@@ -20733,13 +20733,22 @@ textadventureeditor.client.main.make_location_current = function(a) {
 textadventureeditor.client.main.location_height = 40;
 textadventureeditor.client.main.location_width = 40;
 textadventureeditor.client.main.location_spacing = 10;
+textadventureeditor.client.main.grid_x_step = function() {
+  return textadventureeditor.client.main.location_width + 2 * textadventureeditor.client.main.location_spacing
+};
+textadventureeditor.client.main.grid_y_step = function() {
+  return textadventureeditor.client.main.location_height + 2 * textadventureeditor.client.main.location_spacing
+};
+textadventureeditor.client.main.snap_to_grid = function(a, b) {
+  return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":a - cljs.core.rem.call(null, a, textadventureeditor.client.main.grid_x_step.call(null)), "\ufdd0'y":b - cljs.core.rem.call(null, b, textadventureeditor.client.main.grid_y_step.call(null))})
+};
 textadventureeditor.client.main.adjust_coords_for_location = function(a, b) {
-  return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":a, "\ufdd0'y":b})
+  return textadventureeditor.client.main.snap_to_grid.call(null, a, b)
 };
 textadventureeditor.client.main.make_location = function(a) {
   var b = textadventureeditor.client.main.adjust_coords_for_location.call(null, (new cljs.core.Keyword("\ufdd0'x")).call(null, a), (new cljs.core.Keyword("\ufdd0'y")).call(null, a)), c = (new cljs.core.Keyword("\ufdd0'x")).call(null, b), b = (new cljs.core.Keyword("\ufdd0'y")).call(null, b);
-  cljs.core.not.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([c, b], !0))) && cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([c, b], !0), cljs.core.conj.call(null, a, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'type", "\ufdd0'current"], {"\ufdd0'w":textadventureeditor.client.main.location_width, "\ufdd0'h":textadventureeditor.client.main.location_height, 
-  "\ufdd0'type":"\ufdd0'location", "\ufdd0'current":!1})));
+  cljs.core.not.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([c, b], !0))) && cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, cljs.core.assoc, cljs.core.PersistentVector.fromArray([c, b], !0), cljs.core.conj.call(null, a, cljs.core.ObjMap.fromObject("\ufdd0'x \ufdd0'y \ufdd0'w \ufdd0'h \ufdd0'type \ufdd0'current".split(" "), {"\ufdd0'x":c, "\ufdd0'y":b, "\ufdd0'w":textadventureeditor.client.main.location_width, 
+  "\ufdd0'h":textadventureeditor.client.main.location_height, "\ufdd0'type":"\ufdd0'location", "\ufdd0'current":!1})));
   return cljs.core.deref.call(null, textadventureeditor.client.main.locations).call(null, cljs.core.PersistentVector.fromArray([c, b], !0))
 };
 textadventureeditor.client.main.make_new_location = function(a, b) {
