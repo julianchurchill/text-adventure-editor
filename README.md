@@ -25,9 +25,9 @@ todo
 ====
 
 - [FEATURE] Import button to load a model in a text file
-  - [BUG] Java Location class needs descriptionWithoutItems() which should be used in deserialiser.clj::make-location
-  - Actually replace the locations atom content in main.cljs
+  - Enforce snap to grid on mouse press, avoid overlaying locations
   - Assign a suitable x,y to each location - lay out in a simple grid to start off with
+  - Actually replace the locations atom content in main.cljs
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields

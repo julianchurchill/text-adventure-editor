@@ -34,16 +34,6 @@
                    (canvas/entity {:x 0 :y 0 :w 800 :h 650}
                                   nil ;;update function
                                   draw-editor))
-
-(def locations (atom {}))
-
-(defn make-location [values]
-  (let [x (:x values)
-        y (:y values)]
-    (if-not (@locations [x y])
-      (swap! locations assoc [x y]
-             (conj values {:w 40 :h 40 :type :location :current false})))
-    (@locations [x y])))
   
 (defn loc-fill-style [location]
   (if (:current location)
@@ -75,6 +65,8 @@
       (fill-style-that-works "222")
       (font-size "large")
       (canvas/text {:x (:x location) :y (:y location) :text (:id location)})))
+
+(def locations (atom {}))
 
 (defn draw-locations [ctx me]
   (doseq [l (vals @locations)]
@@ -416,12 +408,43 @@
   (show-location-sub-properties location items-sub-property)
   (update-serialised-text))
 
+(def location-height 40)
+(def location-width 40)
+(def location-spacing 10)
+
+(defn adjust-coords-for-location [x y]
+  {:x x :y y})
+;  (snap-to-grid x y))
+
+(defn make-location [values]
+  (let [adjusted-coords (adjust-coords-for-location (:x values) (:y values))
+        x (:x adjusted-coords)
+        y (:y adjusted-coords)]
+    (if-not (@locations [x y])
+      (swap! locations assoc [x y]
+             (conj values {:w location-width :h location-height :type :location :current false})))
+    (@locations [x y])))
+
 (defn make-new-location [x y]
   (make-location-current 
    (make-location {:x x :y y :id "new id" :description "new description" :exits [] :items []})))
 
+(defn exactly-in-bounds? [rect x y]
+  (geo/in-bounds? rect x y))
+
+(defn in-bounds-within-spacing? [rect x y]
+  (geo/in-bounds? {
+                   :w (+ (:w rect) (* location-spacing 2))
+                   :h (+ (:h rect) (* location-spacing 2))
+                   :x (- (:x rect) location-spacing)
+                   :y (- (:y rect) location-spacing)
+                   }
+                  x y))
+
 (defn location-at [x y]
-  (first (filter #(geo/in-bounds? % x y) (vals @locations))))
+  (first (filter 
+          #(in-bounds-within-spacing? % x y)
+          (vals @locations))))
 
 (defn canvas-mousedown [e]
   (this-as me
@@ -430,7 +453,7 @@
              (let [location (location-at x y)]
                (if location
                  (make-location-current location)
-                 (make-new-location x y))))))
+                (make-new-location x y))))))
 
 (bind ($ :#canvas) :mousedown
       canvas-mousedown)
