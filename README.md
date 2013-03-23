@@ -27,6 +27,7 @@ todo
 PARTIAL - [FEATURE] Locations have x,y saved in serialisation (also add to Java), when loaded in editor the position is restored.
  This means I can edit the text in the editor and import to move the position of the locations so they look more sensible.
  This is instead of a 'smart layout' feature.
+    - Clojure side done - Java side needs doing...
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
