@@ -37,7 +37,7 @@
   
 (defn loc-fill-style [location]
   (if (:current location)
-    "87"
+    "187"
 	  "222"))
 
 (defn loc-stroke-style [location]
@@ -47,12 +47,15 @@
 
 (defn loc-stroke-width [location]
   (if (:current location)
-    5
+    2
   	1))
 
-(defn font-size [ctx size]
-  (set! (.-fontSize ctx) size)
-  ctx)
+(defn center-of-location [location]
+  {:x (+ (:x location) (/ (:w location) 2))
+   :y (+ (:y location) (/ (:h location) 2))})
+
+(defn text-width [ctx text]
+  (.width (.measureText ctx text)))
 
 (defn draw-location [ctx location]
   (-> ctx
@@ -62,9 +65,13 @@
       (canvas/rect location)
       (canvas/stroke))
   (-> ctx
-      (fill-style-that-works "222")
-      (font-size "large")
-      (canvas/text {:x (:x location) :y (:y location) :text (:id location)})))
+      (fill-style-that-works "#FFFFFF")
+      (font-style-that-works "14px sans-serif")
+      (canvas/text {
+                    :x (:x (center-of-location location))
+;                    :x (- (:x (center-of-location location)) (/ (text-width ctx (:id location)) 2))
+                    :y (:y (center-of-location location))
+                    :text (:id location)})))
 
 (def locations (atom {}))
 
