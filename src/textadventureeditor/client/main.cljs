@@ -462,7 +462,7 @@
              (let [location (location-at x y)]
                (if location
                  (make-location-current location)
-                (make-new-location x y))))))
+                 (make-new-location x y))))))
 
 (bind ($ :#canvas) :mousedown
       canvas-mousedown)
@@ -557,9 +557,18 @@
                                         :action ""
                                         :param ""}))
 
+(defn add-locations-and-layout [new-locations]
+  (doall (map-indexed 
+          (fn [idx vals] (make-location 
+                          (conj vals {:x (* (mod idx 10) (grid-x-step))
+                                      :y (* (quot idx 10) (grid-y-step))})))
+          new-locations)))
+
 (delegate $body import-button :click
           (fn [e]
             (.preventDefault e)
-            (fm/letrem [locations (deserialise-locations 
-                                   (get-value "serialised properties text area"))]
-                       (js/alert locations))))
+            (fm/letrem [new-locations (deserialise-locations 
+                                       (get-value "serialised properties text area"))]
+                       (swap! locations (fn [n] {}))
+                       (add-locations-and-layout new-locations)
+                       (make-location-current (first (vals @locations))))))

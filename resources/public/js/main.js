@@ -20839,9 +20839,18 @@ textadventureeditor.client.main.import_button = function(a) {
 };
 textadventureeditor.client.main.import_button.prototype._crateGroup = group__2983__auto___3884;
 jayq.core.append.call(null, textadventureeditor.client.main.$location_props, textadventureeditor.client.main.import_button.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'label", "\ufdd0'action", "\ufdd0'param"], {"\ufdd0'label":"import", "\ufdd0'action":"", "\ufdd0'param":""})));
+textadventureeditor.client.main.add_locations_and_layout = function(a) {
+  return cljs.core.doall.call(null, cljs.core.map_indexed.call(null, function(a, c) {
+    return textadventureeditor.client.main.make_location.call(null, cljs.core.conj.call(null, c, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":cljs.core.mod.call(null, a, 10) * textadventureeditor.client.main.grid_x_step.call(null), "\ufdd0'y":cljs.core.quot.call(null, a, 10) * textadventureeditor.client.main.grid_y_step.call(null)})))
+  }, a))
+};
 jayq.core.delegate.call(null, textadventureeditor.client.main.$body, textadventureeditor.client.main.import_button, "\ufdd0'click", function(a) {
   a.preventDefault();
   return fetch.remotes.remote_callback.call(null, "deserialise-locations", cljs.core.PersistentVector.fromArray([textadventureeditor.client.main.get_value.call(null, "serialised properties text area")], !0), function(a) {
-    return alert(a)
+    cljs.core.swap_BANG_.call(null, textadventureeditor.client.main.locations, function() {
+      return cljs.core.ObjMap.EMPTY
+    });
+    textadventureeditor.client.main.add_locations_and_layout.call(null, a);
+    return textadventureeditor.client.main.make_location_current.call(null, cljs.core.first.call(null, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))))
   })
 });

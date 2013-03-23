@@ -24,23 +24,22 @@ Useful links
 todo
 ====
 
-- [FEATURE] Import button to load a model in a text file
-  - Assign a suitable x,y to each location - lay out in a simple grid to start off with
-  - Actually replace the locations atom content in main.cljs
+PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
+  - Font should be large, centred and a contrasting colour.
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
 - [FEATURE] Items have 'delete' button for each item action
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
-PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
-  - Font should be large, centred and a contrasting colour.
-- [FEATURE] Inventory items, entry, export, import
+- [FEATURE] Locations have x,y saved in serialisation (also add to Java), when loaded in editor the position is restored.
+ This means I can edit the text in the editor and import to move the position of the locations so they look more sensible.
+ This is instead of a 'smart layout' feature.
 - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
-- [FEATURE] Loading a model from a text file lays out locations so they can all be seen - perhaps enforce a grid
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
 - [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
-- [FEATURE] Order of fields is variable - make field maps ordered
 - [FEATURE] Hidden exits are dotted lines
+- [FEATURE] Inventory items, entry, export, import
+- [FEATURE] Order of fields is variable - make field maps ordered
 - [FEATURE] Enter key to save edits
 - [FEATURE] Locations are draggable 
 - [FEATURE] Make pretty!
@@ -48,6 +47,7 @@ PARTIAL - [FEATURE] Locations have id in the graphic for quick reference.
 done
 ====
 
+DONE - [FEATURE] Import button to load a model in a text file
 DONE - [FEATURE] Snap to grid on new location creation whether it is by mouse click or import
 DONE - [FEATURE] Exit properties is missing a check box for visibility
 DONE - [FEATURE] Text area to show serialised text that is readable by the text adventure game
