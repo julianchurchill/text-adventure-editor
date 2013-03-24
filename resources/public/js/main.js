@@ -20411,11 +20411,16 @@ textadventureeditor.client.main.draw_editor = function(a, b) {
   return monet.canvas.stroke.call(null, monet.canvas.rect.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, "143"), "#175"), 2), b))
 };
 monet.canvas.add_entity.call(null, textadventureeditor.client.main.editor, "\ufdd0'editor", monet.canvas.entity.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y", "\ufdd0'w", "\ufdd0'h"], {"\ufdd0'x":0, "\ufdd0'y":0, "\ufdd0'w":800, "\ufdd0'h":650}), null, textadventureeditor.client.main.draw_editor));
+textadventureeditor.client.main.white = "#FFFFFF";
+textadventureeditor.client.main.black = "#000000";
+textadventureeditor.client.main.green = "#008000";
+textadventureeditor.client.main.asparagus = "#87A96B";
+textadventureeditor.client.main.dark_spring_green = "#177245";
 textadventureeditor.client.main.loc_fill_style = function(a) {
-  return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? "187" : "222"
+  return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? textadventureeditor.client.main.green : textadventureeditor.client.main.black
 };
 textadventureeditor.client.main.loc_stroke_style = function(a) {
-  return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? "154" : "175"
+  return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? textadventureeditor.client.main.asparagus : textadventureeditor.client.main.dark_spring_green
 };
 textadventureeditor.client.main.loc_stroke_width = function(a) {
   return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? 2 : 1
@@ -20432,14 +20437,49 @@ textadventureeditor.client.main.find_loc_by_id = function(a) {
     return cljs.core._EQ_.call(null, (new cljs.core.Keyword("\ufdd0'id")).call(null, b), a)
   }, cljs.core.vals.call(null, cljs.core.deref.call(null, textadventureeditor.client.main.locations))))
 };
-textadventureeditor.client.main.white = "#FFFFFF";
 textadventureeditor.client.main.draw_line = function(a, b, c) {
   return monet.canvas.stroke.call(null, monet.canvas.close_path.call(null, monet.canvas.line_to.call(null, monet.canvas.move_to.call(null, monet.canvas.begin_path.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, a, textadventureeditor.client.main.white), 2)), (new cljs.core.Keyword("\ufdd0'x")).call(null, b), (new cljs.core.Keyword("\ufdd0'y")).call(null, b)), (new cljs.core.Keyword("\ufdd0'x")).call(null, 
   c), (new cljs.core.Keyword("\ufdd0'y")).call(null, c))))
 };
+textadventureeditor.client.main.draw_triangle = function(a, b, c, d) {
+  return monet.canvas.stroke.call(null, monet.canvas.fill.call(null, monet.canvas.close_path.call(null, monet.canvas.line_to.call(null, monet.canvas.line_to.call(null, monet.canvas.move_to.call(null, monet.canvas.begin_path.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, textadventureeditor.client.main.white), textadventureeditor.client.main.black), 
+  1)), (new cljs.core.Keyword("\ufdd0'x")).call(null, b), (new cljs.core.Keyword("\ufdd0'y")).call(null, b)), (new cljs.core.Keyword("\ufdd0'x")).call(null, c), (new cljs.core.Keyword("\ufdd0'y")).call(null, c)), (new cljs.core.Keyword("\ufdd0'x")).call(null, d), (new cljs.core.Keyword("\ufdd0'y")).call(null, d)))))
+};
+textadventureeditor.client.main.to_the_right_of_QMARK_ = function(a, b) {
+  return(new cljs.core.Keyword("\ufdd0'x")).call(null, a) > (new cljs.core.Keyword("\ufdd0'x")).call(null, b) + (new cljs.core.Keyword("\ufdd0'w")).call(null, b)
+};
+textadventureeditor.client.main.to_the_left_of_QMARK_ = function(a, b) {
+  return(new cljs.core.Keyword("\ufdd0'x")).call(null, a) < (new cljs.core.Keyword("\ufdd0'x")).call(null, b)
+};
+textadventureeditor.client.main.offset_up_from_center_of_location = function(a) {
+  var b = textadventureeditor.client.main.center_of_location.call(null, a);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, b), "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, b) - (new cljs.core.Keyword("\ufdd0'h")).call(null, a) / 4})
+};
+textadventureeditor.client.main.offset_down_from_center_of_location = function(a) {
+  var b = textadventureeditor.client.main.center_of_location.call(null, a);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, b), "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, b) + (new cljs.core.Keyword("\ufdd0'h")).call(null, a) / 4})
+};
+textadventureeditor.client.main.offset_left_from_center_of_location = function(a) {
+  var b = textadventureeditor.client.main.center_of_location.call(null, a);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, b) - (new cljs.core.Keyword("\ufdd0'h")).call(null, a) / 4, "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, b)})
+};
+textadventureeditor.client.main.offset_right_from_center_of_location = function(a) {
+  var b = textadventureeditor.client.main.center_of_location.call(null, a);
+  return cljs.core.ObjMap.fromObject(["\ufdd0'x", "\ufdd0'y"], {"\ufdd0'x":(new cljs.core.Keyword("\ufdd0'x")).call(null, b) + (new cljs.core.Keyword("\ufdd0'h")).call(null, a) / 4, "\ufdd0'y":(new cljs.core.Keyword("\ufdd0'y")).call(null, b)})
+};
+textadventureeditor.client.main.find_arrow_base_first_point = function(a, b) {
+  return cljs.core.truth_(textadventureeditor.client.main.to_the_right_of_QMARK_.call(null, b, a)) ? textadventureeditor.client.main.offset_up_from_center_of_location.call(null, a) : cljs.core.truth_(textadventureeditor.client.main.to_the_left_of_QMARK_.call(null, b, a)) ? textadventureeditor.client.main.offset_up_from_center_of_location.call(null, a) : textadventureeditor.client.main.offset_left_from_center_of_location.call(null, a)
+};
+textadventureeditor.client.main.find_arrow_base_second_point = function(a, b) {
+  return cljs.core.truth_(textadventureeditor.client.main.to_the_right_of_QMARK_.call(null, b, a)) ? textadventureeditor.client.main.offset_down_from_center_of_location.call(null, a) : cljs.core.truth_(textadventureeditor.client.main.to_the_left_of_QMARK_.call(null, b, a)) ? textadventureeditor.client.main.offset_down_from_center_of_location.call(null, a) : textadventureeditor.client.main.offset_right_from_center_of_location.call(null, a)
+};
+textadventureeditor.client.main.draw_arrow = function(a, b, c) {
+  var d = textadventureeditor.client.main.find_arrow_base_first_point.call(null, c, b), c = textadventureeditor.client.main.find_arrow_base_second_point.call(null, c, b);
+  return textadventureeditor.client.main.draw_triangle.call(null, a, d, c, b)
+};
 textadventureeditor.client.main.draw_exit_arrow = function(a, b, c) {
-  var b = textadventureeditor.client.main.find_loc_by_id.call(null, (new cljs.core.Keyword("\ufdd0'destination")).call(null, b)), c = textadventureeditor.client.main.center_of_location.call(null, c), d = !cljs.core._EQ_.call(null, b, null) ? textadventureeditor.client.main.center_of_location.call(null, b) : null;
-  return cljs.core._EQ_.call(null, b, null) ? null : textadventureeditor.client.main.draw_line.call(null, a, c, d)
+  var b = textadventureeditor.client.main.find_loc_by_id.call(null, (new cljs.core.Keyword("\ufdd0'destination")).call(null, b)), d = !cljs.core._EQ_.call(null, b, null) ? textadventureeditor.client.main.center_of_location.call(null, b) : null;
+  return cljs.core._EQ_.call(null, b, null) ? null : textadventureeditor.client.main.draw_arrow.call(null, a, d, c)
 };
 textadventureeditor.client.main.draw_exit_arrows = function(a, b) {
   return cljs.core.doall.call(null, cljs.core.map.call(null, function(c) {

@@ -24,8 +24,6 @@ Useful links
 todo
 ====
 
-PARTIAL - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
-     - Needs direction indicator at one end of the arrow line
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
@@ -33,7 +31,7 @@ PARTIAL - [FEATURE] Exits are drawn as a line with arrow heads from one location
 - [FEATURE] Delete button to remove location from the model (plus confirm dialog)
 - [FEATURE] Exit direction hint is restricted to N,S,E,W as a drop-down list
 - [FEATURE] Exit destinations are restricted to the available location ids as a drop-down list
-- [FEATURE] Hidden exits are dotted lines
+- [FEATURE] Hidden exits have greyed out connectors between locations
 - [FEATURE] Inventory items, entry, export, import
 - [FEATURE] Order of fields is variable - make field maps ordered
 - [FEATURE] Enter key to save edits
@@ -43,6 +41,7 @@ PARTIAL - [FEATURE] Exits are drawn as a line with arrow heads from one location
 done
 ====
 
+DONE - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
 DONE - [FEATURE] Locations have x,y saved in serialisation (also add to Java), when loaded in editor the position is restored.
 DONE - [FEATURE] Locations have id in the graphic for quick reference.
 DONE - [FEATURE] Import button to load a model in a text file

@@ -34,16 +34,23 @@
                    (canvas/entity {:x 0 :y 0 :w 800 :h 650}
                                   nil ;;update function
                                   draw-editor))
+
+; Colour names from http://www.workwithcolor.com
+(def white "#FFFFFF")
+(def black "#000000")
+(def green "#008000")
+(def asparagus "#87A96B")
+(def dark-spring-green "#177245")
   
 (defn loc-fill-style [location]
   (if (:current location)
-    "187"
-	  "222"))
+    green
+	  black))
 
 (defn loc-stroke-style [location]
   (if (:current location)
-    "154"
-	  "175"))
+    asparagus
+	  dark-spring-green))
 
 (defn loc-stroke-width [location]
   (if (:current location)
@@ -62,25 +69,74 @@
 (defn find-loc-by-id [id]
   (first (filter #(= (:id %) id) (vals @locations))))
 
-(def white "#FFFFFF")
-
-(defn draw-line [ctx orig dest]
+(defn draw-line [ctx start end]
   (-> ctx
       (stroke-style-that-works white)
       (stroke-width-that-works 2)
       (canvas/begin-path)
-      (canvas/move-to (:x orig) (:y orig))
-      (canvas/line-to (:x dest) (:y dest))
+      (canvas/move-to (:x start) (:y start))
+      (canvas/line-to (:x end) (:y end))
       (canvas/close-path)
       (canvas/stroke)))
 
+(defn draw-triangle [ctx first-point second-point end]
+  (-> ctx
+      (fill-style-that-works white)
+      (stroke-style-that-works black)
+      (stroke-width-that-works 1)
+      (canvas/begin-path)
+      (canvas/move-to (:x first-point) (:y first-point))
+      (canvas/line-to (:x second-point) (:y second-point))
+      (canvas/line-to (:x end) (:y end))
+      (canvas/close-path)
+      (canvas/fill)
+      (canvas/stroke)))
+
+(defn to-the-right-of? [a b]
+  (> (:x a) (+ (:x b) (:w b))))
+
+(defn to-the-left-of? [a b]
+  (< (:x a) (:x b)))
+
+(defn offset-up-from-center-of-location [loc]
+  (let [center (center-of-location loc)]
+    {:x (:x center) :y (- (:y center) (/ (:h loc) 4))}))
+
+(defn offset-down-from-center-of-location [loc]
+  (let [center (center-of-location loc)]
+    {:x (:x center) :y (+ (:y center) (/ (:h loc) 4))}))
+
+(defn offset-left-from-center-of-location [loc]
+  (let [center (center-of-location loc)]
+    {:x (- (:x center) (/ (:h loc) 4)) :y (:y center)}))
+
+(defn offset-right-from-center-of-location [loc]
+  (let [center (center-of-location loc)]
+    {:x (+ (:x center) (/ (:h loc) 4)) :y (:y center)}))
+
+(defn find-arrow-base-first-point [loc end]
+  (cond
+   (to-the-right-of? end loc) (offset-up-from-center-of-location loc)
+   (to-the-left-of? end loc)  (offset-up-from-center-of-location loc)
+   :else                      (offset-left-from-center-of-location loc)))
+
+(defn find-arrow-base-second-point [loc end]
+  (cond
+   (to-the-right-of? end loc) (offset-down-from-center-of-location loc)
+   (to-the-left-of? end loc)  (offset-down-from-center-of-location loc)
+   :else                      (offset-right-from-center-of-location loc)))
+
+(defn draw-arrow [ctx end originating-location]
+  (let [first-point (find-arrow-base-first-point originating-location end)
+        second-point (find-arrow-base-second-point originating-location end)]
+    (draw-triangle ctx first-point second-point end)))
+
 (defn draw-exit-arrow [ctx exit originating-location]
   (let [dest-loc (find-loc-by-id (:destination exit))
-        center-orig (center-of-location originating-location)
         center-dest (if (not (= dest-loc nil))
                       (center-of-location dest-loc))]
     (if (not (= dest-loc nil))
-      (draw-line ctx center-orig center-dest))))
+      (draw-arrow ctx center-dest originating-location))))
 
 (defn draw-exit-arrows [ctx location]
   (doall (map #(draw-exit-arrow ctx % location) (:exits location))))
