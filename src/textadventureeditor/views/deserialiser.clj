@@ -49,7 +49,9 @@
   (doall (map #(make-exit %) exits)))
 
 (defn make-location [loc]
-  {:id (.id loc)
+  {:x (.x loc)
+   :y (.y loc)
+   :id (.id loc)
    :description (.descriptionWithoutItems loc)
    :exits (convert-exits (.exitsIncludingInvisibleOnes loc))
    :items (convert-items (.items loc))})
