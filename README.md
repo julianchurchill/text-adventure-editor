@@ -24,7 +24,8 @@ Useful links
 todo
 ====
 
-- [FEATURE] Exits are drawn as a line with arrow heads from one location to another
+PARTIAL - [FEATURE] Exits are drawn as a line with arrow heads from one location to another
+     - Needs direction indicator at one end of the arrow line
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields

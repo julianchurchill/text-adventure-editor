@@ -57,15 +57,45 @@
 (defn text-width [ctx text]
   (.width (.measureText ctx text)))
 
-(defn draw-location [ctx location]
+(def locations (atom {}))
+
+(defn find-loc-by-id [id]
+  (first (filter #(= (:id %) id) (vals @locations))))
+
+(def white "#FFFFFF")
+
+(defn draw-line [ctx orig dest]
+  (-> ctx
+      (stroke-style-that-works white)
+      (stroke-width-that-works 2)
+      (canvas/begin-path)
+      (canvas/move-to (:x orig) (:y orig))
+      (canvas/line-to (:x dest) (:y dest))
+      (canvas/close-path)
+      (canvas/stroke)))
+
+(defn draw-exit-arrow [ctx exit originating-location]
+  (let [dest-loc (find-loc-by-id (:destination exit))
+        center-orig (center-of-location originating-location)
+        center-dest (if (not (= dest-loc nil))
+                      (center-of-location dest-loc))]
+    (if (not (= dest-loc nil))
+      (draw-line ctx center-orig center-dest))))
+
+(defn draw-exit-arrows [ctx location]
+  (doall (map #(draw-exit-arrow ctx % location) (:exits location))))
+
+(defn draw-location-box [ctx location]
   (-> ctx
       (fill-style-that-works (loc-fill-style location))
       (stroke-style-that-works (loc-stroke-style location))
       (stroke-width-that-works (loc-stroke-width location))
       (canvas/rect location)
-      (canvas/stroke))
+      (canvas/stroke)))
+
+(defn draw-location-text [ctx location]
   (-> ctx
-      (fill-style-that-works "#FFFFFF")
+      (fill-style-that-works white)
       (font-style-that-works "14px sans-serif")
       (canvas/text {
                     :x (:x location)
@@ -74,9 +104,14 @@
                     :y (:y (center-of-location location))
                     :text (:id location)})))
 
-(def locations (atom {}))
+(defn draw-location [ctx location]
+;  (draw-exit-arrows ctx location)
+  (draw-location-box ctx location)
+  (draw-location-text ctx location))
 
 (defn draw-locations [ctx me]
+  (doseq [l (vals @locations)]
+    (draw-exit-arrows ctx l))
   (doseq [l (vals @locations)]
     (draw-location ctx l)))
 
@@ -499,8 +534,7 @@
       canvas-mousedown)
 
 (make-location {:x 100 :y 100 :id "loc1" :description "description1"
-                :exits [{:id "exit1" :label "north" :destination "loc1" :direction-hint "North" :is-not-visible false}
-                        {:id "exit2" :label "east" :destination "loc2" :direction-hint "East" :is-not-visible false}]
+                :exits [{:id "exit2" :label "east" :destination "loc2" :direction-hint "East" :is-not-visible false}]
                 :items [{:id "item id" :name "item name" :description "item description" 
                          :countable-noun-prefix "a" :mid-sentence-cased-name "item name cased name"
                          :is-untakeable false :can-be-used-with "nothing" :successful-use-message "success!"
