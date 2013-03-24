@@ -389,17 +389,34 @@
 ;; Locations ;;
 ;;;;;;;;;;;;;;;
 
+(def loc-x-field-id "location x")
+(def loc-y-field-id "location y")
 (def loc-id-field-id "location id")
 (def loc-description-field-id "location description")
 
 (defn find-current-location []
   (first (filter #(:current %) (vals @locations))))
 
+(defn change-location-x [location new-x]
+  (swap! locations dissoc [(:x location) (:y location)])
+  (swap! locations assoc [new-x (:y location)]
+         (assoc location :x new-x)))
+
+(defn change-location-y [location new-y]
+  (swap! locations dissoc [(:x location) (:y location)])
+  (swap! locations assoc [(:x location) new-y]
+         (assoc location :y new-y)))
+
 (defn change-location-property [location param value]
-  (swap! locations assoc [(:x location) (:y location)] 
-         (assoc location param value)))
+  (condp = param
+    :x (change-location-x location value)
+    :y (change-location-y location value)
+    (swap! locations assoc [(:x location) (:y location)] 
+           (assoc location param value))))
 
 (defn show-location-information [location]
+  (set-value loc-x-field-id (:x location))
+  (set-value loc-y-field-id (:y location))
   (set-value loc-id-field-id (:id location))
   (set-value loc-description-field-id (:description location)))
 
@@ -426,9 +443,15 @@
 (defn grid-y-step []
   (+ location-height (* location-spacing 2)))
 
+(defn snap-x-to-grid [x]
+  (- x (rem x (grid-x-step))))
+
+(defn snap-y-to-grid [y]
+  (- y (rem y (grid-y-step))))
+
 (defn snap-to-grid [x y]
-  { :x (- x (rem x (grid-x-step)))
-    :y (- y (rem y (grid-y-step))) })
+  { :x (snap-x-to-grid x)
+    :y (snap-y-to-grid y) })
 
 (defn adjust-coords-for-location [x y]
   (snap-to-grid x y))
@@ -547,6 +570,8 @@
 (delegate $body locprops-save-button :click
           (fn [event]
             (.preventDefault event)
+            (change-location-property (find-current-location) :x (snap-x-to-grid (get-value loc-x-field-id)))
+            (change-location-property (find-current-location) :y (snap-y-to-grid (get-value loc-y-field-id)))
             (change-location-property (find-current-location) :id (get-value loc-id-field-id))
             (change-location-property (find-current-location) :description (get-value loc-description-field-id))
             (change-location-property (find-current-location) 
@@ -555,8 +580,7 @@
             (change-location-property (find-current-location)
                                       (:location-property items-sub-property)
                                       ((:value-gatherer-func items-sub-property) items-sub-property))
-            (update-serialised-text)))
-
+            (make-location-current (find-current-location))))
 
 (defpartial import-button [{:keys [label action param]}]
   [:a.button.import-button {:href "#" :data-action action :data-param param} label])
@@ -583,3 +607,4 @@
                        (swap! locations (fn [n] {}))
                        (add-locations-and-layout new-locations)
                        (make-location-current (first (vals @locations))))))
+

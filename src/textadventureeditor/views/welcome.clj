@@ -12,6 +12,10 @@
 
 (defpartial location-properties []
   [:div#location-properties
+   (label "location-x-label" "x")
+   (text-field "location x" "0")
+   (label "location-y-label" "y")
+   (text-field "location y" "0")
    (label "location-id-label" "location id")
    (text-field "location id" "no id")
    (label "location-description-label" "location description")
