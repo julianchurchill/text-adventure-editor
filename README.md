@@ -24,6 +24,7 @@ Useful links
 todo
 ====
 
+- [BUG] Model content text after extraction from editor and use in game does not change name of locked door when used with key
 - [FEATURE] Items have 'add item action' button
 [REFACTOR] - Factor out append of delete button from add-extra-fields-for-item 
  and from add-extra-fields-for-exit and put it in add-all-property-fields or add-property-fields
