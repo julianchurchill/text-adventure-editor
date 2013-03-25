@@ -41,6 +41,7 @@
 (def green "#008000")
 (def asparagus "#87A96B")
 (def dark-spring-green "#177245")
+(def sinopia "#CB410B")
   
 (defn loc-fill-style [location]
   (if (:current location)
@@ -81,7 +82,7 @@
 
 (defn draw-triangle [ctx first-point second-point end]
   (-> ctx
-      (fill-style-that-works white)
+      (fill-style-that-works sinopia)
       (stroke-style-that-works black)
       (stroke-width-that-works 1)
       (canvas/begin-path)
@@ -161,7 +162,6 @@
                     :text (:id location)})))
 
 (defn draw-location [ctx location]
-;  (draw-exit-arrows ctx location)
   (draw-location-box ctx location)
   (draw-location-text ctx location))
 

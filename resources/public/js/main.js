@@ -20416,6 +20416,7 @@ textadventureeditor.client.main.black = "#000000";
 textadventureeditor.client.main.green = "#008000";
 textadventureeditor.client.main.asparagus = "#87A96B";
 textadventureeditor.client.main.dark_spring_green = "#177245";
+textadventureeditor.client.main.sinopia = "#CB410B";
 textadventureeditor.client.main.loc_fill_style = function(a) {
   return cljs.core.truth_((new cljs.core.Keyword("\ufdd0'current")).call(null, a)) ? textadventureeditor.client.main.green : textadventureeditor.client.main.black
 };
@@ -20442,7 +20443,7 @@ textadventureeditor.client.main.draw_line = function(a, b, c) {
   c), (new cljs.core.Keyword("\ufdd0'y")).call(null, c))))
 };
 textadventureeditor.client.main.draw_triangle = function(a, b, c, d) {
-  return monet.canvas.stroke.call(null, monet.canvas.fill.call(null, monet.canvas.close_path.call(null, monet.canvas.line_to.call(null, monet.canvas.line_to.call(null, monet.canvas.move_to.call(null, monet.canvas.begin_path.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, textadventureeditor.client.main.white), textadventureeditor.client.main.black), 
+  return monet.canvas.stroke.call(null, monet.canvas.fill.call(null, monet.canvas.close_path.call(null, monet.canvas.line_to.call(null, monet.canvas.line_to.call(null, monet.canvas.move_to.call(null, monet.canvas.begin_path.call(null, textadventureeditor.client.monetfixes.stroke_width_that_works.call(null, textadventureeditor.client.monetfixes.stroke_style_that_works.call(null, textadventureeditor.client.monetfixes.fill_style_that_works.call(null, a, textadventureeditor.client.main.sinopia), textadventureeditor.client.main.black), 
   1)), (new cljs.core.Keyword("\ufdd0'x")).call(null, b), (new cljs.core.Keyword("\ufdd0'y")).call(null, b)), (new cljs.core.Keyword("\ufdd0'x")).call(null, c), (new cljs.core.Keyword("\ufdd0'y")).call(null, c)), (new cljs.core.Keyword("\ufdd0'x")).call(null, d), (new cljs.core.Keyword("\ufdd0'y")).call(null, d)))))
 };
 textadventureeditor.client.main.to_the_right_of_QMARK_ = function(a, b) {
